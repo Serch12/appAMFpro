@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "375782356345",
+    "firebase_url": "https://flutter-amfpro-default-rtdb.firebaseio.com",
+    "project_id": "flutter-amfpro",
+    "storage_bucket": "flutter-amfpro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375782356345:android:0ff809c2d2a66ed2996ba8",
+        "android_client_info": {
+          "package_name": "com.example.splash_animated"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375782356345-a5uq921o2sqb5702lhiajitc18lgiso4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC99FUV-wmE-kA_JxgrwubUojCyNf0KsqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375782356345-a5uq921o2sqb5702lhiajitc18lgiso4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
