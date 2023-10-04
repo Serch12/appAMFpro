@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
           'verification_code_screen': (_) =>
               const VerificationCodeScreen(value: [], codigo: 0),
           'login': (_) => LoginScreen(),
+          'biometricos': (_) => LoginBiometricsScreen(),
           'home': (_) => HomeScreen(),
           'homeroute': (_) => HomeRouteScreen(),
           'register': (_) => RegisterScreen(),

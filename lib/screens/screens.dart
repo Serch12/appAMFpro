@@ -1,5 +1,7 @@
 // import 'package:splash_animated/screens/verification_code_password_screen.dart';
 
+export 'package:splash_animated/screens/login_biometrics_screen.dart';
+
 export 'package:splash_animated/screens/new_password_screen.dart';
 
 export 'package:splash_animated/screens/registro_afiliado_screen.dart';

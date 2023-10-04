@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:splash_animated/providers/twitter_provider.dart';
+// import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +12,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(context);
-    final twitterProvider = Provider.of<TwitterProvider>(context);
+    // final twitterProvider = Provider.of<TwitterProvider>(context);
     final authService = Provider.of<AuthService>(context, listen: false);
-    final mapeoFinal = twitterProvider.listadoPublicaciones;
+    // final mapeoFinal = twitterProvider.listadoPublicaciones;
 
     return Scaffold(
       body: RefreshIndicator(
@@ -27,11 +27,11 @@ class HomeScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           children: [
-            for (int i = 0; i < mapeoFinal.length; i++)
-              CustomCardNoticia(publicacion: mapeoFinal[i]),
-            SizedBox(
-              height: 10,
-            ),
+            // for (int i = 0; i < mapeoFinal.length; i++)
+            //   CustomCardNoticia(publicacion: mapeoFinal[i]),
+            // SizedBox(
+            //   height: 10,
+            // ),
           ],
         ),
       ),

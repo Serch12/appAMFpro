@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:splash_animated/screens/screens.dart';
 
 void main() => runApp(const AnimatedScreen());
@@ -21,7 +22,7 @@ class _AnimatedScreenState extends State<AnimatedScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 100),
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.5).animate(
@@ -33,10 +34,15 @@ class _AnimatedScreenState extends State<AnimatedScreen>
 
     _animationController.repeat(reverse: true);
 
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 6500), () {
       // _animationController.stop();
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => InicioNuiScreen()));
+          context,
+          PageTransition(
+              type: PageTransitionType
+                  .rightToLeft, // Tipo de transición (en este caso, desvanecimiento)
+              child: InicioNuiScreen(),
+              isIos: true));
     });
   }
 
@@ -58,18 +64,18 @@ class _AnimatedScreenState extends State<AnimatedScreen>
       home: Scaffold(
         backgroundColor: Colors.black, // Establecer el fondo negro
         body: Center(
-          child: AnimatedBuilder(
-            animation: _scaleAnimation,
-            builder: (context, child) {
-              return Transform.scale(
-                scale: _scaleAnimation.value,
-                child: Container(
-                  width: 200, // Establecer el ancho deseado
-                  height: 200, // Establecer la altura deseada
-                  child: Image(image: AssetImage('assets/logoblanco.png')),
-                ),
-              );
-            },
+          child: Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 60.0), // Ajustar el espacio superior según sea necesario
+              child: Container(
+                width: 250, // Establecer el ancho deseado
+                height: 250, // Establecer la altura deseada
+                child:
+                    Image.asset('assets/logo-amf.gif'), // Cambiar a Image.asset
+              ),
+            ),
           ),
         ),
       ),

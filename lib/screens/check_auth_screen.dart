@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:splash_animated/services/services.dart';
@@ -26,11 +27,19 @@ class CheckAuthScreen extends StatelessWidget {
                 // Navigator.of(context).pushReplacementNamed('login');
               });
             } else {
+              // Future.microtask(() {
+              //   Navigator.pushReplacement(
+              //       context,
+              //       PageRouteBuilder(
+              //           pageBuilder: (_, __, ___) => HomeRouteScreen(),
+              //           transitionDuration: Duration(seconds: 0)));
+              //   // Navigator.of(context).pushReplacementNamed('login');
+              // });
               Future.microtask(() {
                 Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => HomeRouteScreen(),
+                        pageBuilder: (_, __, ___) => LoginBiometricsScreen(),
                         transitionDuration: Duration(seconds: 0)));
                 // Navigator.of(context).pushReplacementNamed('login');
               });

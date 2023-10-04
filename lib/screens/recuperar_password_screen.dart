@@ -176,146 +176,157 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                child: ClipPath(
-                  clipper: OvalBottomBorderClipper(),
-                  child: Container(
-                    height: 40,
-                    width: 430,
-                    color: Color(0xFF211A46),
-                    child: Center(),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 40),
-                child: Center(
-                  child: Icon(
-                    Icons.lock_outline,
-                    color: Colors.black,
-                    size: 80.0,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                width: 320,
-                child: Center(
-                  child: Text(
-                      'Ingresa tu correo electrónico,te enviaremos un código de recuperación a la brevedad.',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                          fontSize: 14, color: Color(0xFF060606))),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                child: Form(
-                  key: _formKey,
-                  child: Container(
-                    width: 344,
-                    child: Column(
-                      children: [
-                        Material(
-                          elevation: 7.0,
-                          color: Colors.transparent,
-                          shadowColor: Color.fromARGB(255, 193, 192, 192)
-                              .withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(16),
-                          child: TextFormField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                              labelText: 'CORREO ELECTRÓNICO*',
-                              labelStyle: GoogleFonts.roboto(
-                                  fontSize: 14, color: Color(0xFF060606)),
-                              border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 16.0, horizontal: 12.0),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty || !value.contains('@')) {
-                                return 'Ingresa un correo electrónico válido';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 25),
-                        ElevatedButton(
-                            onPressed: isLoading ? null : _recuperarContrasena,
-                            child: isLoading
-                                ? SizedBox(
-                                    width: 20.0,
-                                    height: 20.0,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 3.0,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.white),
-                                    ),
-                                  ) // Indicador de carga
-                                : Text(
-                                    'Recuperar contraseña',
-                                    style: GoogleFonts.roboto(
-                                      color: Colors.white,
-                                      fontSize: 15.0,
-                                    ),
-                                    softWrap: false,
-                                  ),
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 100.00, vertical: 15.00),
-                                backgroundColor: Color(0xFF4FC028),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  side: BorderSide(color: Colors.green),
-                                )))
-                      ],
+        body: FractionallySizedBox(
+          widthFactor: 1.0,
+          heightFactor: 1.0,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  child: ClipPath(
+                    clipper: OvalBottomBorderClipper(),
+                    child: Container(
+                      height: 40,
+                      width: 430,
+                      color: Color(0xFF211A46),
+                      child: Center(),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 310),
-              Container(
-                width: 320,
-                child: Center(
-                  child: TextButton(
-                    onPressed: () =>
-                        Navigator.pushReplacementNamed(context, 'login'),
-                    style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(
-                            Colors.green.withOpacity(0.1)),
-                        shape: MaterialStateProperty.all(StadiumBorder())),
-                    child: Text('Regresa al inicio',
-                        style: GoogleFonts.roboto(
-                            fontSize: 16, color: Color(0xFF060606))),
+                Container(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Center(
+                    child: Icon(
+                      Icons.lock_outline,
+                      color: Colors.black,
+                      size: 80.0,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  width: 320,
+                  child: Center(
+                    child: Text(
+                        'Ingresa tu correo electrónico,te enviaremos un código de recuperación a la brevedad.',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.roboto(
+                            fontSize: 14, color: Color(0xFF060606))),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.07,
+                        // vertical: MediaQuery.of(context).size.height * 0.25,
+                      ),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Material(
+                              elevation: 7.0,
+                              color: Colors.transparent,
+                              shadowColor: Color.fromARGB(255, 193, 192, 192)
+                                  .withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(16),
+                              child: TextFormField(
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  labelText: 'CORREO ELECTRÓNICO*',
+                                  labelStyle: GoogleFonts.roboto(
+                                      fontSize: 14, color: Color(0xFF060606)),
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 16.0, horizontal: 12.0),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty || !value.contains('@')) {
+                                    return 'Ingresa un correo electrónico válido';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 25),
+                            ElevatedButton(
+                                onPressed:
+                                    isLoading ? null : _recuperarContrasena,
+                                child: isLoading
+                                    ? SizedBox(
+                                        width: 20.0,
+                                        height: 20.0,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 3.0,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Colors.white),
+                                        ),
+                                      ) // Indicador de carga
+                                    : Text(
+                                        'Recuperar contraseña',
+                                        style: GoogleFonts.roboto(
+                                          color: Colors.white,
+                                          fontSize: 15.0,
+                                        ),
+                                        softWrap: false,
+                                      ),
+                                style: TextButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 100.00, vertical: 15.00),
+                                    backgroundColor: Color(0xFF4FC028),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      side: BorderSide(color: Colors.green),
+                                    )))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+                Container(
+                  // width: 320,
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () =>
+                          Navigator.pushReplacementNamed(context, 'login'),
+                      style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                              Colors.green.withOpacity(0.1)),
+                          shape: MaterialStateProperty.all(StadiumBorder())),
+                      child: Text('Regresa al inicio',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16, color: Color(0xFF060606))),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }

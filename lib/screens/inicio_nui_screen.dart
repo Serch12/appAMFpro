@@ -115,262 +115,276 @@ class _contenidoState extends State<contenido> {
     }
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/back.jpg'), // Ruta de la imagen
-            fit: BoxFit.cover,
-            alignment: Alignment(
-                -1, 1.0), // Opcional: ajusta la imagen al tamaño del contenedor
+      body: FractionallySizedBox(
+        widthFactor: 1.0,
+        heightFactor: 1.0,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/back.jpg'), // Ruta de la imagen
+              fit: BoxFit.cover,
+              alignment: Alignment(-1,
+                  1.0), // Opcional: ajusta la imagen al tamaño del contenedor
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 260),
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // const SizedBox(height: 10),
-                const Image(
-                  image: AssetImage('assets/logoblanco.png'),
-                  width: 73,
-                  height: 93,
-                ),
-                const SizedBox(height: 30),
-                const SizedBox(
-                    child: Text('BIENVENIDO',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontFamily: 'RobotoMono',
-                            fontWeight: FontWeight.bold))),
-                const SizedBox(height: 30),
-                const SizedBox(
-                    // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
-                    child: Text(
-                  'SELECCIONA LA CANTIDAD DE DÍGITOS DE TU NUI.',
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                )),
-                const SizedBox(height: 15),
-                Container(
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Colors.transparent), // Bordes verdes
-                    borderRadius: BorderRadius.circular(
-                        8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
-                    color: Colors.transparent,
-                    // Fondo transparente
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+                vertical: MediaQuery.of(context).size.height * 0.25,
+              ),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // const SizedBox(height: 10),
+                  const Image(
+                    image: AssetImage('assets/logoblanco.png'),
+                    width: 73,
+                    height: 93,
                   ),
-                  width: 240,
-                  height: 60,
-                  child: DropdownButtonFormField<int>(
-                    style: TextStyle(color: Colors.white),
-                    value: selectedLength,
-                    items: [
-                      DropdownMenuItem(
-                        value: 5,
-                        child: Text('5 Dígitos',
-                            style: TextStyle(color: getItemTextColor(5))),
-                      ),
-                      DropdownMenuItem(
-                        value: 6,
-                        child: Text('6 Dígitos',
-                            style: TextStyle(color: getItemTextColor(6))),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      // myProviderDigitos.sendData(value!);
-                      // print(value);
-                      setState(() {
-                        selectedLength = value!;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        // Establecer el borde como un OutlineInputBorder
-                        borderSide:
-                            BorderSide(color: Color(0xFF4FC028)), // Borde verde
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        // Establecer el borde habilitado
-                        borderSide:
-                            BorderSide(color: Color(0xFF4FC028)), // Borde verde
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        // Establecer el borde enfocado
-                        borderSide:
-                            BorderSide(color: Color(0xFF4FC028)), // Borde verde
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                  // const SizedBox(height: 30),
+                  // const SizedBox(
+                  //     child: Text('BIENVENIDO',
+                  //         style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontSize: 40,
+                  //             fontFamily: 'RobotoMono',
+                  //             fontWeight: FontWeight.bold))),
+                  const SizedBox(height: 30),
+                  const SizedBox(
+                      // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
+                      child: Text(
+                    'SELECCIONA LA CANTIDAD DE DÍGITOS DE TU NUI.',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  )),
+                  const SizedBox(height: 15),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.transparent), // Bordes verdes
+                      borderRadius: BorderRadius.circular(
+                          8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                      color: Colors.transparent,
+                      // Fondo transparente
+                    ),
+                    width: 240,
+                    height: 60,
+                    child: DropdownButtonFormField<int>(
+                      style: TextStyle(color: Colors.white),
+                      value: selectedLength,
+                      items: [
+                        DropdownMenuItem(
+                          value: 5,
+                          child: Text('5 Dígitos',
+                              style: TextStyle(color: getItemTextColor(5))),
+                        ),
+                        DropdownMenuItem(
+                          value: 6,
+                          child: Text('6 Dígitos',
+                              style: TextStyle(color: getItemTextColor(6))),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        // myProviderDigitos.sendData(value!);
+                        // print(value);
+                        setState(() {
+                          selectedLength = value!;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          // Establecer el borde como un OutlineInputBorder
+                          borderSide: BorderSide(
+                              color: Color(0xFF4FC028)), // Borde verde
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          // Establecer el borde habilitado
+                          borderSide: BorderSide(
+                              color: Color(0xFF4FC028)), // Borde verde
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          // Establecer el borde enfocado
+                          borderSide: BorderSide(
+                              color: Color(0xFF4FC028)), // Borde verde
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 25),
-                const SizedBox(
-                    // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
-                    child: Text(
-                  'INGRESA TU NUI PARA INGRESAR',
-                  style: TextStyle(fontSize: 14, color: Colors.white),
-                )),
-                const SizedBox(height: 20),
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    child: PinCodeTextField(
-                      keyboardType: TextInputType.number,
-                      appContext: context,
-                      controller: pinController,
-                      length: selectedLength,
-                      cursorHeight: 19,
-                      enableActiveFill: true,
-                      textStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.white),
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.box,
-                        inactiveColor:
-                            Color(0xFF4FC028), //color del borde inactivo
-                        selectedColor: Color(
-                            0xFF4FC028), //color de border de casilla seleccionada
-                        activeFillColor:
-                            Colors.transparent, // color de casilla llena
-                        selectedFillColor:
-                            Color(0xFF4FC028), //color de casilla seleccionada
-                        inactiveFillColor:
-                            Colors.white, //color de casilla sin seleccionar
+                  const SizedBox(height: 25),
+                  const SizedBox(
+                      // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
+                      child: Text(
+                    'INGRESA TU NUI PARA INGRESAR',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  )),
+                  const SizedBox(height: 20),
+                  Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      child: PinCodeTextField(
+                        keyboardType: TextInputType.number,
+                        appContext: context,
+                        controller: pinController,
+                        length: selectedLength,
+                        cursorHeight: 19,
+                        enableActiveFill: true,
+                        textStyle: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.box,
+                          inactiveColor:
+                              Color(0xFF4FC028), //color del borde inactivo
+                          selectedColor: Color(
+                              0xFF4FC028), //color de border de casilla seleccionada
+                          activeFillColor:
+                              Colors.transparent, // color de casilla llena
+                          selectedFillColor:
+                              Color(0xFF4FC028), //color de casilla seleccionada
+                          inactiveFillColor:
+                              Colors.white, //color de casilla sin seleccionar
 
-                        borderWidth: 1,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      onChanged: ((value) async {
-                        if (value.length == selectedLength) {
-                          await myProvider.sendData(value, ver, jugador);
-                          setState(() {});
-                          if (myProvider2._vizualiza == false) {
-                            showDialog(
-                                context: context,
-                                barrierDismissible:
-                                    false, // No permite cerrar la alerta al tocar fuera de ella
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: Row(
-                                      children: [
-                                        Icon(Icons.cancel,
-                                            color: Colors
-                                                .red), // Icono a la izquierda del texto
-                                        SizedBox(
-                                            width:
-                                                10.0), // Espacio entre el icono y el texto
-                                        Flexible(
-                                          child: Text(
-                                            'NUI no registrado en AMFpro.',
-                                            style: TextStyle(
-                                                color: Color(0xFF1AD598)),
-                                            overflow: TextOverflow.visible,
-                                            softWrap:
-                                                false, // Permite que el texto se desborde
+                          borderWidth: 1,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        onChanged: ((value) async {
+                          if (value.length == selectedLength) {
+                            await myProvider.sendData(value, ver, jugador);
+                            setState(() {});
+                            if (myProvider2._vizualiza == false) {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible:
+                                      false, // No permite cerrar la alerta al tocar fuera de ella
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Row(
+                                        children: [
+                                          Icon(Icons.cancel,
+                                              color: Colors
+                                                  .red), // Icono a la izquierda del texto
+                                          SizedBox(
+                                              width:
+                                                  10.0), // Espacio entre el icono y el texto
+                                          Flexible(
+                                            child: Text(
+                                              'NUI no registrado en AMFpro.',
+                                              style: TextStyle(
+                                                  color: Color(0xFF1AD598)),
+                                              overflow: TextOverflow.visible,
+                                              softWrap:
+                                                  false, // Permite que el texto se desborde
+                                            ),
                                           ),
-                                        ),
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // Cerrar la alerta al presionar el botón
-                                              pinController.text = "";
-                                            },
-                                            child: Icon(
-                                              Icons.clear,
-                                              color: Colors.black,
-                                            )),
-                                      ],
-                                    ),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Cerrar la alerta al presionar el botón
+                                                pinController.text = "";
+                                              },
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      ),
 
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        15.0,
-                                        10.0,
-                                        0.0,
-                                        0.0), // Ajustar el padding del contenido
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          10.0), // Ajustar el radio del borde
-                                    ),
-                                    actions: [],
-                                  );
-                                });
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          15.0,
+                                          10.0,
+                                          0.0,
+                                          0.0), // Ajustar el padding del contenido
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Ajustar el radio del borde
+                                      ),
+                                      actions: [],
+                                    );
+                                  });
+                            }
                           }
-                        }
-                      }),
-                    )),
-                // const SizedBox(height: 15),
-                Visibility(
-                  visible: myProvider2._vizualiza,
-                  child: TextButton(
-                    onPressed: isLoading ? null : _enviaCodigoVerificacion,
-                    child: isLoading
-                        ? SizedBox(
-                            width: 20.0,
-                            height: 20.0,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3.0,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                        }),
+                      )),
+                  // const SizedBox(height: 15),
+                  Visibility(
+                    visible: myProvider2._vizualiza,
+                    child: TextButton(
+                      onPressed: isLoading ? null : _enviaCodigoVerificacion,
+                      child: isLoading
+                          ? SizedBox(
+                              width: 20.0,
+                              height: 20.0,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.0,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            )
+                          : Text(
+                              'ENVIAR CÓDIGO DE VERIFICACIÓN',
+                              style: TextStyle(
+                                color:
+                                    Colors.white, // Color del texto del botón
+                                fontSize:
+                                    15.0, // Tamaño de fuente del texto del botón
+                                overflow: TextOverflow
+                                    .visible, // Permite que el texto se desborde
+                              ),
+                              softWrap:
+                                  false, // Evitar que el texto se divida en varias líneas
                             ),
-                          )
-                        : Text(
-                            'ENVIAR CÓDIGO DE VERIFICACIÓN',
-                            style: TextStyle(
-                              color: Colors.white, // Color del texto del botón
-                              fontSize:
-                                  15.0, // Tamaño de fuente del texto del botón
-                              overflow: TextOverflow
-                                  .visible, // Permite que el texto se desborde
-                            ),
-                            softWrap:
-                                false, // Evitar que el texto se divida en varias líneas
-                          ),
-                    // child: const Text('Enviar código de verificacón.',
-                    //     style: TextStyle(color: Colors.green, fontSize: 14)),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 55.00, vertical: 15.00),
-                      backgroundColor: Color(0xFF4FC028),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        side: BorderSide(color: Colors.green),
+                      // child: const Text('Enviar código de verificacón.',
+                      //     style: TextStyle(color: Colors.green, fontSize: 14)),
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.09,
+                          vertical: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        backgroundColor: Color(0xFF4FC028),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: BorderSide(color: Colors.green),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Visibility(
-                  visible: !myProvider2._vizualiza,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'registro_afiliado');
-                    },
-                    child: Text(
-                      'Regístrate',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+                  Visibility(
+                    visible: !myProvider2._vizualiza,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'registro_afiliado');
+                      },
+                      child: Text(
+                        'Regístrate',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 140.00, vertical: 15.00),
-                      backgroundColor: Color(0xFF4FC028),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        side: BorderSide(color: Colors.green),
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.3,
+                          vertical: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        backgroundColor: Color(0xFF4FC028),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side: BorderSide(color: Colors.green),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
