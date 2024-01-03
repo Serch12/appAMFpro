@@ -21,11 +21,16 @@ class AuthService extends ChangeNotifier {
         this._baseUrl, '/v1/accounts:signUp', {'key': this._firebaseToken});
     final resp = await http.post(url, body: json.encode(authData));
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
-    print(decodedResp);
+    final Map<String, dynamic> userData = {
+      'token': decodedResp['idToken'],
+      'correo': decodedResp['email'], // Reemplaza con el nombre de usuario real
+    };
+    final String userDataString = json.encode(userData);
+    // return 'Error de login';
     if (decodedResp.containsKey('idToken')) {
       // token hay que guardarlo en un lugar seguro
       // return decodedResp['idToken'];
-      await storage.write(key: 'token', value: decodedResp['idToken']);
+      await storage.write(key: 'user_data', value: userDataString);
       return null;
     } else {
       return decodedResp['error']['message'];
@@ -43,12 +48,16 @@ class AuthService extends ChangeNotifier {
         {'key': this._firebaseToken});
     final resp = await http.post(url, body: json.encode(authData));
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
-    // print(decodedResp);
+    final Map<String, dynamic> userData = {
+      'token': decodedResp['idToken'],
+      'correo': decodedResp['email'], // Reemplaza con el nombre de usuario real
+    };
+    final String userDataString = json.encode(userData);
     // return 'Error de login';
     if (decodedResp.containsKey('idToken')) {
       // token hay que guardarlo en un lugar seguro
       // return decodedResp['idToken'];
-      await storage.write(key: 'token', value: decodedResp['idToken']);
+      await storage.write(key: 'user_data', value: userDataString);
       return null;
     } else {
       return decodedResp['error']['message'];
@@ -56,11 +65,11 @@ class AuthService extends ChangeNotifier {
   }
 
   Future logout() async {
-    await storage.delete(key: 'token');
+    await storage.delete(key: 'user_data');
     return;
   }
 
   Future<String> autenticacion() async {
-    return await storage.read(key: 'token') ?? '';
+    return await storage.read(key: 'user_data') ?? '';
   }
 }

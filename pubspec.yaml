@@ -51,6 +51,8 @@ dependencies:
   firebase_core: ^2.14.0
   page_transition: ^2.0.2
   local_auth: ^2.1.6
+  image_picker: 
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

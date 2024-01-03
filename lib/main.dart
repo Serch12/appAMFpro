@@ -9,11 +9,15 @@ import 'package:splash_animated/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -57,8 +61,15 @@ class MyApp extends StatelessWidget {
           'registro_afiliado': (_) => RegistroAfiliadoScreen(),
           'recuperar_password': (_) => recuperarPasswordScreen(),
           'new_password': (_) => newPasswordScreen(),
+          'lista_solicitudes': (_) => ListaSolicitudesScreen(),
+          'lista_contratos': (_) => ListaContratosScreen(),
+          'contrato': (_) => ContratoScreen(),
+          'informacion_solicitud': (_) => Solicitudes2Screen(value: []),
           'verification_code_password': (_) =>
-              VerificationCodePasswordScreen(codigo: 0, correo: '')
+              VerificationCodePasswordScreen(codigo: 0, correo: ''),
+          'audiencia': (_) => AudienciaScreen(audiencia: {}),
+          'terminos': (_) => TerminosScreen(termino: {}),
+          'pagos': (_) => PagosScreen(pagos: {}),
           // 'register' : (_) => const RegisterScreen()
         },
         // theme: AppTheme.lightTheme,

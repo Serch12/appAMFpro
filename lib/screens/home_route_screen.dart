@@ -31,19 +31,28 @@ class _HomeRouteScreenState extends State<HomeRouteScreen> {
     final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.green.shade700,
-          title: Image.asset(
-            'assets/logo3.png',
-            width: 80,
-            height: 50,
+          backgroundColor: Color(0xFF211A46),
+          // title: Image.asset(
+          //   'assets/logo3.png',
+          //   width: 80,
+          //   height: 50,
+          // ),
+          title: Center(
+            child: Text(
+              '',
+              style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
+            ),
           ),
           actions: [
-            IconButton(
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
                 onPressed: () {
-                  authService.logout();
-                  Navigator.pushReplacementNamed(context, 'login');
+                  Navigator.pushReplacementNamed(context, 'homeroute');
                 },
-                icon: Icon(Icons.login_outlined)),
+                icon: Image.asset('assets/logoblanco.png'),
+              ),
+            ),
           ]),
       body: Routes(index: index),
       bottomNavigationBar: myButtonMain,

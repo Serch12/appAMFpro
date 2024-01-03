@@ -110,7 +110,7 @@ class _contenidoState extends State<contenido> {
                   const SizedBox(
                       // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
                       child: Text(
-                    'PARA CONTINUAR CON EL REGISTRO INGRESA EL CÓDIGO ENVIADO A TU CORREO',
+                    'PARA CONTINUAR INGRESA EL CÓDIGO ENVIADO A TU CORREO',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white,

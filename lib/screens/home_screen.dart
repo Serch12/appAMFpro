@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 // import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/services/services.dart';
@@ -15,7 +17,23 @@ class HomeScreen extends StatelessWidget {
     // final twitterProvider = Provider.of<TwitterProvider>(context);
     final authService = Provider.of<AuthService>(context, listen: false);
     // final mapeoFinal = twitterProvider.listadoPublicaciones;
+    final Future<String> userDataFuture = authService.autenticacion();
+    userDataFuture.then((userDataString) {
+      if (userDataString != null) {
+        final Map<String, dynamic> userData = json.decode(userDataString);
+        print(userData);
+        final String? username = userData['correo'];
 
+        if (username != null) {
+          // Puedes acceder a 'username' aquí
+          print('Nombre de usuario: $username');
+        } else {
+          print('No se encontró el campo "email" en userData.');
+        }
+      } else {
+        print('El valor de userDataString es nulo.');
+      }
+    });
     return Scaffold(
       body: RefreshIndicator(
         edgeOffset: 20,

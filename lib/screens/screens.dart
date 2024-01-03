@@ -18,3 +18,8 @@ export 'package:splash_animated/screens/animated_screen.dart';
 export 'package:splash_animated/screens/basic_desing.dart';
 export 'package:splash_animated/screens/inicio_nui_screen.dart';
 export 'package:splash_animated/screens/recuperar_password_screen.dart';
+export 'package:splash_animated/screens/lista_solicitudes_screen.dart';
+export 'package:splash_animated/screens/audiencia_screen.dart';
+export 'package:splash_animated/screens/terminos_screen.dart';
+export 'package:splash_animated/screens/pagos_screen.dart';
+export 'package:splash_animated/screens/lista_contratos_screen.dart';
