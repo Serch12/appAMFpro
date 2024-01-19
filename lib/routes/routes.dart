@@ -11,8 +11,8 @@ class Routes extends StatelessWidget {
       const HomeScreen(),
       const SolicitudesScreen(),
       const ProfileScreen(),
-      const Solicitudes2Screen(),
-      const ContratoScreen()
+      // const Solicitudes2Screen(),
+      // const ContratoScreen()
     ];
     return myList[index];
   }

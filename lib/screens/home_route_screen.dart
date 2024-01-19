@@ -37,6 +37,7 @@ class _HomeRouteScreenState extends State<HomeRouteScreen> {
           //   width: 80,
           //   height: 50,
           // ),
+          automaticallyImplyLeading: false,
           title: Center(
             child: Text(
               '',

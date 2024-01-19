@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:accordion/accordion.dart';
 import '../services/auth_service.dart';
 import 'screens.dart';
 import 'package:http/http.dart' as http;
@@ -23,6 +23,15 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
   String? nombre;
   String? apellidoPaterno;
   String? apellidoMaterno;
+  static const headerStyle = TextStyle(
+      color: Color(0xffffffff),
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      fontFamily: 'Roboto');
+  static const contentStyle = TextStyle(
+      color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.normal);
+  static const loremIpsum =
+      '''Lorem ipsum is typically a corrupted version of 'De finibus bonorum et malorum', a 1st century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.''';
 
   @override
   void initState() {
@@ -115,25 +124,176 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
             if (snapshot.connectionState == ConnectionState.done) {
               return SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(15),
                   child: Column(
                     children: [
-                      for (final item in lista)
-                        Card(
-                          elevation: 5.0,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8.0),
-                          child: ListTile(
-                            title: Text(item['club']),
-                            subtitle: Text(
-                                'Fecha de Inicio: ${item["fecha_inicio"]}'),
-                            // Agrega más detalles según sea necesario
-                            onTap: () {
-                              // Acciones al seleccionar un contrato
-                              // Puedes abrir una pantalla de detalles o realizar otras acciones
-                            },
-                          ),
-                        )
+                      Accordion(
+                        children: [
+                          for (final item in lista)
+                            AccordionSection(
+                              // isOpen: true,
+                              contentVerticalPadding: 10,
+                              headerPadding: EdgeInsets.all(22),
+                              headerBackgroundColor: Color(0xFF6EBC44),
+                              header: Text(item['club'], style: headerStyle),
+                              headerBorderRadius: 20,
+                              // contentBackgroundColor: Colors.lightBlue,
+                              contentBorderColor: Colors.transparent,
+                              // contentBorderWidth: 10,
+                              contentBackgroundColor: Colors.transparent,
+                              content: Card(
+                                elevation: 3.0,
+                                // margin: EdgeInsets.symmetric(
+                                //     horizontal: 16.0, vertical: 8.0),
+                                child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .start, // Alinea los elementos a los extremos
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.asset('assets/image9.png',
+                                              width: 22, height: 22),
+                                          SizedBox(
+                                              width:
+                                                  30.0), // Espacio entre el ícono y el texto
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Fecha de Inicio:',
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(0xff020202),
+                                                    fontSize: 18),
+                                              ),
+                                              Text(
+                                                item['fecha_inicio'],
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    color: Color(0xff384455),
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Image.asset('assets/image6.png',
+                                              width: 22, height: 22),
+                                          SizedBox(
+                                              width:
+                                                  30.0), // Espacio entre el ícono y el texto
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Fecha de Vencimiento:',
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(0xff020202),
+                                                    fontSize: 18),
+                                              ),
+                                              Text(
+                                                item['fecha_vencimiento'],
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    color: Color(0xff384455),
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Image.asset('assets/image7.png',
+                                              width: 22, height: 22),
+                                          SizedBox(
+                                              width:
+                                                  30.0), // Espacio entre el ícono y el texto
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'División:',
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(0xff020202),
+                                                    fontSize: 18),
+                                              ),
+                                              Text(
+                                                item['division'],
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    color: Color(0xff384455),
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Image.asset('assets/image8.png',
+                                              width: 22, height: 22),
+                                          SizedBox(
+                                              width:
+                                                  30.0), // Espacio entre el ícono y el texto
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Club:',
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(0xff020202),
+                                                    fontSize: 18),
+                                              ),
+                                              Text(
+                                                item['club'],
+                                                style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    color: Color(0xff384455),
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              rightIcon: Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.white,
+                                size: 35,
+                              ),
+                            ),
+
+                          // Agrega más elementos según sea necesario
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -157,6 +317,7 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
               MaterialPageRoute(builder: (context) => const ContratoScreen()));
         },
         child: Icon(Icons.add),
+        backgroundColor: Color(0xFF211A46),
       ),
     );
   }

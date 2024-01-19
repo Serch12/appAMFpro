@@ -53,6 +53,8 @@ dependencies:
   local_auth: ^2.1.6
   image_picker: 
   permission_handler: ^10.2.0
+  card_swiper : ^3.0.0
+  flutter_widget_from_html: ^0.14.11
 
 dev_dependencies:
   flutter_test:

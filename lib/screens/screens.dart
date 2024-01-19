@@ -1,9 +1,7 @@
 // import 'package:splash_animated/screens/verification_code_password_screen.dart';
 
 export 'package:splash_animated/screens/login_biometrics_screen.dart';
-
 export 'package:splash_animated/screens/new_password_screen.dart';
-
 export 'package:splash_animated/screens/registro_afiliado_screen.dart';
 export 'package:splash_animated/screens/contrato_screen.dart';
 export 'package:splash_animated/screens/solicitudes_2_screen.dart';
@@ -23,3 +21,4 @@ export 'package:splash_animated/screens/audiencia_screen.dart';
 export 'package:splash_animated/screens/terminos_screen.dart';
 export 'package:splash_animated/screens/pagos_screen.dart';
 export 'package:splash_animated/screens/lista_contratos_screen.dart';
+export 'package:splash_animated/screens/detalle_post_screen.dart';

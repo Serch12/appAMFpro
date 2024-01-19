@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
           'audiencia': (_) => AudienciaScreen(audiencia: {}),
           'terminos': (_) => TerminosScreen(termino: {}),
           'pagos': (_) => PagosScreen(pagos: {}),
+          'detalle_post': (_) => detallePostScreen(value: {}),
           // 'register' : (_) => const RegisterScreen()
         },
         // theme: AppTheme.lightTheme,
