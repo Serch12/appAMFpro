@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:splash_animated/services/services.dart';
 import 'package:intl/intl.dart';
@@ -251,7 +250,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   InputDecoration buildInputDecoration(String labelText) {
     return InputDecoration(
       labelText: labelText,
-      labelStyle: GoogleFonts.roboto(fontSize: 14, color: Color(0xFF060606)),
+      labelStyle: TextStyle(
+          fontFamily: 'Roboto', fontSize: 14, color: Color(0xFF060606)),
       border: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.transparent),
         borderRadius: BorderRadius.circular(15.0),
@@ -411,17 +411,20 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               DropdownMenuItem(
                                 value: 'SELECCIONAR',
                                 child: Text('SELECCIONAR',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                               DropdownMenuItem(
                                 value: 'Masculino',
                                 child: Text('Masculino',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                               DropdownMenuItem(
                                 value: 'Femenino',
                                 child: Text('Femenino',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                             ],
                             onChanged: (value) {
@@ -435,7 +438,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                             decoration: InputDecoration(
                               labelText: 'SEXO*',
                               errorText: _errorMessage2,
-                              labelStyle: GoogleFonts.roboto(fontSize: 14),
+                              labelStyle:
+                                  TextStyle(fontFamily: 'Roboto', fontSize: 14),
                               border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),
@@ -504,7 +508,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           decoration: buildBoxDecoration(),
                           child: CheckboxListTile(
                             title: Text('¿MEXICANO?',
-                                style: GoogleFonts.roboto(fontSize: 14)),
+                                style: TextStyle(
+                                    fontFamily: 'Roboto', fontSize: 14)),
                             value: _esMexicano,
                             activeColor: Color(0xFF211A46),
                             onChanged: (value) {
@@ -569,13 +574,16 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                 children: [
                                   Text(
                                     'FECHA DE NACIMIENTO*:',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 14, color: Color(0xFF060606)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 14,
+                                        color: Color(0xFF060606)),
                                   ),
                                   Text(
                                     DateFormat('dd-MM-yyyy')
                                         .format(_fechaNacimiento),
-                                    style: GoogleFonts.roboto(fontSize: 14),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -613,7 +621,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                             decoration: InputDecoration(
                               labelText: 'DIVISIÓN*',
                               errorText: _errorMessage3,
-                              labelStyle: GoogleFonts.roboto(fontSize: 14),
+                              labelStyle:
+                                  TextStyle(fontFamily: 'Roboto', fontSize: 14),
                               border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),
@@ -653,8 +662,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                 .map((String value) => DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value,
-                                          style:
-                                              GoogleFonts.roboto(fontSize: 14)),
+                                          style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 14)),
                                     ))
                                 .toList(),
                             onChanged: (value) async {
@@ -695,7 +705,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                             decoration: InputDecoration(
                               labelText: 'EQUIPO*',
                               errorText: _errorMessage4,
-                              labelStyle: GoogleFonts.roboto(fontSize: 14),
+                              labelStyle:
+                                  TextStyle(fontFamily: 'Roboto', fontSize: 14),
                               border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),
@@ -720,8 +731,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                 .map((String value) => DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value,
-                                          style:
-                                              GoogleFonts.roboto(fontSize: 14)),
+                                          style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 14)),
                                     ))
                                 .toList(),
                             onChanged: (value) {
@@ -747,27 +759,32 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               DropdownMenuItem(
                                 value: 'SELECCIONAR',
                                 child: Text('SELECCIONAR',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                               DropdownMenuItem(
                                 value: 'Portero',
                                 child: Text('Portero',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                               DropdownMenuItem(
                                 value: 'Defensa',
                                 child: Text('Defensa',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                               DropdownMenuItem(
                                 value: 'Medio',
                                 child: Text('Medio',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               ),
                               DropdownMenuItem(
                                 value: 'Delantero',
                                 child: Text('Delantero',
-                                    style: GoogleFonts.roboto(fontSize: 14)),
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto', fontSize: 14)),
                               )
                             ],
                             onChanged: (value) {
@@ -781,7 +798,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                             decoration: InputDecoration(
                               labelText: 'POSICIÓN*',
                               errorText: _errorMessage,
-                              labelStyle: GoogleFonts.roboto(fontSize: 14),
+                              labelStyle:
+                                  TextStyle(fontFamily: 'Roboto', fontSize: 14),
                               border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),
@@ -900,11 +918,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           // ),
                           child: Text(
                             'REGISTRATE',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white, // Color del texto del botón
-                              fontSize:
-                                  15.0, // Tamaño de fuente del texto del botón
-                            ),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                color: Colors.white),
                             softWrap:
                                 false, // Evitar que el texto se divida en varias líneas
                           ),

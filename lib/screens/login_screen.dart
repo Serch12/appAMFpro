@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:splash_animated/providers/login_form_provider.dart';
 import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/ui/input_decoration.dart';
@@ -108,8 +107,10 @@ class _LoginFormState extends State<_LoginForm> {
                       hintText: 'example@gmail.com',
                       labelText: 'CORREO ELECTRÓNICO',
                       // prefixIcon: Icons.email_outlined,
-                      labelStyle: GoogleFonts.roboto(
-                          fontSize: 14, color: Color(0xFF979797)),
+                      labelStyle: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          color: Color(0xFF979797)),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                         borderRadius: BorderRadius.circular(15.0),
@@ -171,8 +172,10 @@ class _LoginFormState extends State<_LoginForm> {
                     decoration: InputDecoration(
                       hintText: '******',
                       labelText: 'CONTRASEÑA',
-                      labelStyle: GoogleFonts.roboto(
-                          fontSize: 14, color: Color(0xFF979797)),
+                      labelStyle: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          color: Color(0xFF979797)),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                         borderRadius: BorderRadius.circular(15.0),

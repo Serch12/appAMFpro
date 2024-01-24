@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -126,8 +125,10 @@ class _contenidoState2 extends State<contenido2> {
                   child: Text(
                       'Ingresa código de recuperación que se envio a ${widget.correo}',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                          fontSize: 14, color: Color(0xFF060606))),
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          color: Color(0xFF060606))),
                 ),
               ),
               SizedBox(
@@ -237,8 +238,10 @@ class _contenidoState2 extends State<contenido2> {
                             Colors.green.withOpacity(0.1)),
                         shape: MaterialStateProperty.all(StadiumBorder())),
                     child: Text('Regresa al inicio',
-                        style: GoogleFonts.roboto(
-                            fontSize: 16, color: Color(0xFF060606))),
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            color: Color(0xFF060606))),
                   ),
                 ),
               ),

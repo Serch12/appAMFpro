@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:splash_animated/providers/login_form_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/login_screen.dart';
@@ -147,8 +146,10 @@ class _newPasswordScreenState extends State<newPasswordScreen> {
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               labelText: 'NUEVA CONTRASEÑA*',
-                              labelStyle: GoogleFonts.roboto(
-                                  fontSize: 14, color: Color(0xFF060606)),
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 14,
+                                  color: Color(0xFF060606)),
                               border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),
@@ -207,8 +208,10 @@ class _newPasswordScreenState extends State<newPasswordScreen> {
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               labelText: 'CONFIMACIÓN DE CONTRASEÑA*',
-                              labelStyle: GoogleFonts.roboto(
-                                  fontSize: 14, color: Color(0xFF060606)),
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 14,
+                                  color: Color(0xFF060606)),
                               border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.transparent),
@@ -289,10 +292,10 @@ class _newPasswordScreenState extends State<newPasswordScreen> {
                           ) // Indicador de carga
                         : Text(
                             'Recuperar contraseña',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontSize: 15.0,
-                            ),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                color: Colors.white),
                             softWrap: false,
                           ),
                     style: TextButton.styleFrom(
@@ -316,8 +319,10 @@ class _newPasswordScreenState extends State<newPasswordScreen> {
                             Colors.green.withOpacity(0.1)),
                         shape: MaterialStateProperty.all(StadiumBorder())),
                     child: Text('Regresa al inicio',
-                        style: GoogleFonts.roboto(
-                            fontSize: 16, color: Color(0xFF060606))),
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16,
+                            color: Color(0xFF060606))),
                   ),
                 ),
               ),

@@ -113,14 +113,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _mostrarModal(BuildContext context, String imagen) {
     showModalBottomSheet(
+      isDismissible: false,
+      useRootNavigator: true,
       context: context,
       builder: (BuildContext context) {
         return Container(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.network(
-                  'https://test-intranet.amfpro.mx/ArchivosSistema/Afiliados/$nui/$imagen'),
+              Container(
+                height: 250,
+                padding: EdgeInsets.all(3),
+                child: Image.network(
+                  'https://test-intranet.amfpro.mx/ArchivosSistema/Afiliados/$nui/$imagen',
+                  fit: BoxFit.contain,
+                ),
+              ),
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
@@ -562,10 +570,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 children: [
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      setState(() {
-                                                        boton1Activado = true;
-                                                        boton2Activado = false;
-                                                      });
+                                                      // setState(() {
+                                                      //   boton1Activado = true;
+                                                      //   boton2Activado = false;
+                                                      // });
                                                       _mostrarModal(context,
                                                           '${pdf}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
                                                     },
@@ -595,10 +603,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ),
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      setState(() {
-                                                        boton1Activado = false;
-                                                        boton2Activado = true;
-                                                      });
+                                                      // setState(() {
+                                                      //   boton1Activado = false;
+                                                      //   boton2Activado = true;
+                                                      // });
                                                       _mostrarModal(context,
                                                           '${pdf2}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
                                                     },

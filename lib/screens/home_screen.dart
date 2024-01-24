@@ -125,10 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: Text(
-                    'Lorem ipsum dolor',
+                    'OBJETIVO',
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      // fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                       fontSize: 24,
                       color: Color(0xFF424753),
                     ),
@@ -137,13 +137,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis nisi elit. Sed ut auctor nulla. Suspendisse potenti. Aenean in elementum quam, a tincidunt libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin volutpat sodales diam vitae suscipit. Sed pulvinar ipsum metus, sagittis ultrices leo pretium ut. Maecenas mattis, nibh sit amet lobortis luctus, felis metus aliquam eli',
+                    'Representar y proteger los intereses de las y los Futbolistas profesionales afiliados a la Federación Mexicana de Futbol (FMF) de la Liga MX, Liga MX Femenil, Liga Expansión MX, Liga Premier y Liga TDP, así como Sub 17 y Sub 20, ante los órganos de dirección, de administración, de auditoría, de evaluación de resultados y de justicia deportiva y/o demás órganos competentes y/o comisiones de dicha Asociación Deportiva Nacional, y someterles todos los asuntos relacionados con la actividad de las y los Jugadores profesionales. Asimismo, representar y proteger dichos intereses ante afiliados directos y derivados de la FMF y ante las entidades, autoridades y organismos nacionales e internacionales relacionados con el desarrollo y consolidación del futbol profesional. A través de las acciones presentadas, la AMFpro busca fortalecer su dignidad, honorabilidad, integridad, salud, seguridad y libertad, al promover, fomentar y estimular su profesionalización y desarrollo integral.',
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       // fontWeight: FontWeight.bold,
                       fontSize: 14,
                       color: Color(0xFF9A9A9A),
                     ),
+                    textAlign: TextAlign.justify,
                   ),
                 )
               ],

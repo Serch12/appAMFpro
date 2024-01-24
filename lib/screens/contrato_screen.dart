@@ -659,7 +659,25 @@ class _ContratoScreenState extends State<ContratoScreen> {
                               _imagen64 = base64.encode(bytes);
                             }
                           },
-                          child: Text('Carga imagen'),
+                          child: Text('Carga imagen desde galería'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? _archivo = await picker.pickImage(
+                                source: ImageSource.camera);
+                            if (_archivo != null) {
+                              setState(() {
+                                _path = _archivo.path;
+                              });
+
+                              // encoding 64
+                              List<int> bytes =
+                                  await File(_path!).readAsBytesSync();
+                              _imagen64 = base64.encode(bytes);
+                            }
+                          },
+                          child: Text('Carga imagen desde camara'),
                         ),
                       ],
                     ),

@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:splash_animated/screens/verification_code_password_screen.dart';
@@ -212,8 +211,10 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                     child: Text(
                         'Ingresa tu correo electrónico,te enviaremos un código de recuperación a la brevedad.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.roboto(
-                            fontSize: 14, color: Color(0xFF060606))),
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            color: Color(0xFF060606))),
                   ),
                 ),
                 SizedBox(
@@ -241,8 +242,10 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   labelText: 'CORREO ELECTRÓNICO*',
-                                  labelStyle: GoogleFonts.roboto(
-                                      fontSize: 14, color: Color(0xFF060606)),
+                                  labelStyle: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 14,
+                                      color: Color(0xFF060606)),
                                   border: OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Colors.transparent),
@@ -288,10 +291,10 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                                       ) // Indicador de carga
                                     : Text(
                                         'Recuperar contraseña',
-                                        style: GoogleFonts.roboto(
-                                          color: Colors.white,
-                                          fontSize: 15.0,
-                                        ),
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 15,
+                                            color: Colors.white),
                                         softWrap: false,
                                       ),
                                 style: TextButton.styleFrom(
@@ -320,8 +323,10 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                               Colors.green.withOpacity(0.1)),
                           shape: MaterialStateProperty.all(StadiumBorder())),
                       child: Text('Regresa al inicio',
-                          style: GoogleFonts.roboto(
-                              fontSize: 16, color: Color(0xFF060606))),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 15,
+                              color: Color(0xFF060606))),
                     ),
                   ),
                 ),

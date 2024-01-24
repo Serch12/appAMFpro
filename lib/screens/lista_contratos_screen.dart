@@ -88,6 +88,40 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
     print(lista);
   }
 
+  void _mostrarModal(BuildContext context, String imagen) {
+    showModalBottomSheet(
+      isDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(15),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  child: Image.network(
+                    'https://test-intranet.amfpro.mx/ArchivosSistema/ContratosJugadores/$imagen',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Container(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cerrar'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -279,7 +313,45 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
                                             ],
                                           ),
                                         ],
-                                      )
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.90,
+                                        child: MaterialButton(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          disabledColor: Colors.grey,
+                                          elevation: 0,
+                                          color: Colors.black,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.09,
+                                              vertical: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.018,
+                                            ),
+                                            child: Text(
+                                              'Ver contrato',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          //si loginform no ejecuta arroha null de lo contrario entra a la ejecucion
+                                          onPressed: () async {
+                                            _mostrarModal(context,
+                                                item['archivo_contrato']);
+                                          },
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
