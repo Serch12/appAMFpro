@@ -98,6 +98,16 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                 style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
               ),
             ),
+            leading: IconButton(
+              onPressed: () {
+                // Acción al presionar el botón de retroceso
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white, // Color blanco para el icono
+              ),
+            ),
             actions: [
               Padding(
                 padding: EdgeInsets.only(right: 20.0),

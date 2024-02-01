@@ -138,6 +138,16 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
               style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
             ),
           ),
+          leading: IconButton(
+            onPressed: () {
+              // Acción al presionar el botón de retroceso
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white, // Color blanco para el icono
+            ),
+          ),
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -161,6 +171,13 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
                   padding: EdgeInsets.all(15),
                   child: Column(
                     children: [
+                      Text(
+                        'Listado de contratos',
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
                       Accordion(
                         children: [
                           for (final item in lista)
@@ -388,7 +405,10 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const ContratoScreen()));
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         backgroundColor: Color(0xFF211A46),
       ),
     );
