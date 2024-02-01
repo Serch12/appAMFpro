@@ -871,7 +871,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       25.0,
                                                                   vertical:
@@ -1203,9 +1203,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // Agregar otro fondo encima del segundo fondo
                     Positioned(
                       top: 90,
-                      left: 120,
-                      right: 120,
-                      bottom: 470,
+                      left: MediaQuery.of(context).size.width * 0.30,
+                      right: MediaQuery.of(context).size.width * 0.30,
+                      bottom:
+                          MediaQuery.of(context).size.height * 0.55, // bottom
                       child: Container(
                         width: screenWidth,
                         height: screenHeight,
