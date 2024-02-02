@@ -6,7 +6,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
    <application
-        android:label="splash_animated"
+        android:label="AMFPro"
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/icononegro">
