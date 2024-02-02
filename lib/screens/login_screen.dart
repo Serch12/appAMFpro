@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
             // Imagen de fondo que abarca toda la pantalla
             Image.asset(
               'assets/back.jpg',
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
             Center(
               child: Column(

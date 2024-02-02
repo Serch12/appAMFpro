@@ -49,7 +49,7 @@ class LoginBiometricsScreen extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/back.jpg'), // Ruta de la imagen
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               alignment: Alignment(-1,
                   1.0), // Opcional: ajusta la imagen al tamaño del contenedor
             ),
@@ -86,7 +86,13 @@ class LoginBiometricsScreen extends StatelessWidget {
                   //             color: Colors.green))),
                   const SizedBox(height: 30),
                   ElevatedButton(
-                    child: Text('Ingresar con huella o rostro'),
+                    child: Text(
+                      'Ingresar con huella o rostro',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold),
+                    ),
                     onPressed: () {
                       _authenticate(
                           context); // Llamar a la función de navegación

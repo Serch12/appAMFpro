@@ -290,7 +290,17 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        toolbarHeight: 80.0,
+        leading: IconButton(
+          onPressed: () {
+            // Acción al presionar el botón de retroceso
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white, // Color blanco para el icono
+          ),
+        ),
+        toolbarHeight: 90.0,
         centerTitle: true,
         flexibleSpace: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -503,8 +513,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                         ),
                         const SizedBox(height: 15),
                         Container(
-                          width: 500, // Ancho deseado
-                          height: 52, // Alto deseado
+                          width: MediaQuery.of(context).size.width *
+                              0.9, // El 80% del ancho de la pantalla
+                          height: MediaQuery.of(context).size.height *
+                              0.05, // El 5% de la altura de la pantalla
                           decoration: buildBoxDecoration(),
                           child: CheckboxListTile(
                             title: Text('¿MEXICANO?',
@@ -566,8 +578,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               decoration: buildBoxDecoration(),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 12),
-                              width: 500,
-                              height: 52,
+                              width: MediaQuery.of(context).size.width *
+                                  0.9, // El 80% del ancho de la pantalla
+                              height: MediaQuery.of(context).size.height *
+                                  0.05, // El 5% de la altura de la pantalla
                               // margin: EdgeInsets.symmetric(vertical: 16.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -930,7 +944,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.symmetric(
                               horizontal:
-                                  MediaQuery.of(context).size.width * 0.34,
+                                  MediaQuery.of(context).size.width * 0.40,
                               vertical:
                                   MediaQuery.of(context).size.height * 0.02,
                             ),
