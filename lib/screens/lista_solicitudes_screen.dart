@@ -339,8 +339,12 @@ class _TablaListadoState extends State<TablaListado> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 4.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width *
+                          0.05, // 5% del ancho de la pantalla
+                      vertical: MediaQuery.of(context).size.height *
+                          0.01, // 1% del alto de la pantalla
+                    ),
                     decoration: BoxDecoration(
                       color: item['estatus'] == 0
                           ? Color(0x80ff6d00)

@@ -197,8 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     // Fondo encima del fondo principal con bordes redondeados
                     Positioned(
-                      top:
-                          120, // Ajusta la posición vertical del fondo de encima
+                      top: MediaQuery.of(context).size.width * 0.25,
                       child: DefaultTabController(
                         length: tabs.length, // Número de pestañas
                         child: Container(
@@ -215,8 +214,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: [
                               Container(
-                                height:
-                                    200, // Ajusta la altura del contenedor superior a 200 píxeles
+                                height: MediaQuery.of(context).size.height *
+                                    0.15, // Ajusta la altura del contenedor superior a 200 píxeles
                                 decoration: const BoxDecoration(
                                   color: Colors
                                       .white, // Color del contenedor superior
@@ -298,614 +297,580 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Expanded(
                                 child: TabBarView(
                                   children: [
-                                    Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Column(
-                                          children: [
-                                            Table(
-                                              columnWidths: {
-                                                0: FlexColumnWidth(1.0),
-                                                1: FlexColumnWidth(1.0),
-                                              },
-                                              children: [
-                                                TableRow(
-                                                  children: [
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              'Fecha de nacimiento:',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${nacimiento ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  decoration: BoxDecoration(
-                                                      color: Color.fromRGBO(
-                                                          33,
-                                                          26,
-                                                          70,
-                                                          0.04)), // Fila blanca
-                                                  children: [
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text('CURP:',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${curp ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  children: [
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text('Sexo:',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${sexo ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  decoration: const BoxDecoration(
-                                                      color: Color.fromRGBO(
-                                                          33,
-                                                          26,
-                                                          70,
-                                                          0.04)), // Fila blanca
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                              'Último grado de estudios:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${escolaridad ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                              'Nacionalidad:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${nacionalidad ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            // Agrega más elementos aquí
-                                            const SizedBox(
-                                                height:
-                                                    20), // Agrega un espacio entre la tabla y el siguiente elemento
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.all(2.0),
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFF6EBC44),
-                                                borderRadius:
-                                                    BorderRadius.circular(40.0),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        children: [
+                                          Table(
+                                            columnWidths: {
+                                              0: FlexColumnWidth(1.0),
+                                              1: FlexColumnWidth(1.0),
+                                            },
+                                            children: [
+                                              TableRow(
                                                 children: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      // setState(() {
-                                                      //   boton1Activado = true;
-                                                      //   boton2Activado = false;
-                                                      // });
-                                                      _mostrarModal(context,
-                                                          '${pdf}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: boton1Activado
-                                                          ? Colors.white
-                                                          : Color(0xFF6EBC44),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                25.0), // Ajusta el radio según tus necesidades
-                                                      ),
-                                                      minimumSize: const Size(
-                                                          190,
-                                                          50), // Ajusta el tamaño mínimo del botón
-                                                    ),
-                                                    child: Text(
-                                                      'Anverso',
-                                                      style: TextStyle(
-                                                        color: boton1Activado
-                                                            ? Color(0xFF6EBC44)
-                                                            : Colors.white,
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            'Fecha de nacimiento:',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
                                                       ),
                                                     ),
                                                   ),
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      // setState(() {
-                                                      //   boton1Activado = false;
-                                                      //   boton2Activado = true;
-                                                      // });
-                                                      _mostrarModal(context,
-                                                          '${pdf2}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      primary: boton2Activado
-                                                          ? Colors.white
-                                                          : Color(0xFF6EBC44),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                25.0), // Ajusta el radio según tus necesidades
-                                                      ),
-                                                      minimumSize: Size(190,
-                                                          50), // Ajusta el tamaño mínimo del botón
-                                                    ),
-                                                    child: Text(
-                                                      'Reverso',
-                                                      style: TextStyle(
-                                                        color: boton2Activado
-                                                            ? Color(0xFF6EBC44)
-                                                            : Colors.white,
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${nacimiento ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
                                                       ),
                                                     ),
-                                                  ),
+                                                  )
                                                 ],
                                               ),
+                                              TableRow(
+                                                decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        33,
+                                                        26,
+                                                        70,
+                                                        0.04)), // Fila blanca
+                                                children: [
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text('CURP:',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${curp ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text('Sexo:',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${sexo ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        33,
+                                                        26,
+                                                        70,
+                                                        0.04)), // Fila blanca
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                            'Último grado de estudios:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${escolaridad ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                            'Nacionalidad:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${nacionalidad ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          // Agrega más elementos aquí
+                                          const SizedBox(
+                                              height:
+                                                  20), // Agrega un espacio entre la tabla y el siguiente elemento
+                                          Container(
+                                            padding: const EdgeInsets.all(2.0),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF6EBC44),
+                                              borderRadius:
+                                                  BorderRadius.circular(40.0),
                                             ),
-                                            // Agrega más elementos aquí
-                                            SizedBox(
-                                                height:
-                                                    20), // Agrega un espacio entre la tabla y el siguiente elemento
-                                            Table(
-                                              columnWidths: const {
-                                                0: FlexColumnWidth(1.0),
-                                                1: FlexColumnWidth(1.0),
-                                              },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                TableRow(
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                              'División:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    // setState(() {
+                                                    //   boton1Activado = true;
+                                                    //   boton2Activado = false;
+                                                    // });
+                                                    _mostrarModal(context,
+                                                        '${pdf}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    primary: boton1Activado
+                                                        ? Colors.white
+                                                        : Color(0xFF6EBC44),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.0), // Ajusta el radio según tus necesidades
                                                     ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${division ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                    minimumSize: const Size(150,
+                                                        50), // Ajusta el tamaño mínimo del botón
+                                                  ),
+                                                  child: Text(
+                                                    'Anverso',
+                                                    style: TextStyle(
+                                                      color: boton1Activado
+                                                          ? Color(0xFF6EBC44)
+                                                          : Colors.white,
+                                                    ),
+                                                  ),
                                                 ),
-                                                TableRow(
-                                                  decoration: const BoxDecoration(
-                                                      color: Color.fromRGBO(
-                                                          33,
-                                                          26,
-                                                          70,
-                                                          0.04)), // Fila blanca
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text('Equipo:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    // setState(() {
+                                                    //   boton1Activado = false;
+                                                    //   boton2Activado = true;
+                                                    // });
+                                                    _mostrarModal(context,
+                                                        '${pdf2}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    primary: boton2Activado
+                                                        ? Colors.white
+                                                        : Color(0xFF6EBC44),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.0), // Ajusta el radio según tus necesidades
                                                     ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${club ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                              'Posición en cancha:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
+                                                    minimumSize: Size(150,
+                                                        50), // Ajusta el tamaño mínimo del botón
+                                                  ),
+                                                  child: Text(
+                                                    'Reverso',
+                                                    style: TextStyle(
+                                                      color: boton2Activado
+                                                          ? Color(0xFF6EBC44)
+                                                          : Colors.white,
                                                     ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${posicion ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  decoration: const BoxDecoration(
-                                                      color: Color.fromRGBO(
-                                                          33,
-                                                          26,
-                                                          70,
-                                                          0.04)), // Fila blanca
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                              'Apodo deportivo:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              '${apodo ?? ''}',
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                TableRow(
-                                                  children: [
-                                                    const TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                              'Estatus:',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontFamily:
-                                                                      'Roboto')),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    TableCell(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      25.0,
-                                                                  vertical:
-                                                                      4.0),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: estatus ==
-                                                                    'Activo'
-                                                                ? Color(
-                                                                    0xFF6EBC44) // Color verde si estatus es 'Activo'
-                                                                : Colors
-                                                                    .red, // Color rojo en caso contrario
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0),
-                                                          ),
-                                                          child: Text(
-                                                            '${estatus}',
-                                                            style:
-                                                                const TextStyle(
-                                                              color: Colors
-                                                                  .white, // Color del texto blanco
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          // Agrega más elementos aquí
+                                          SizedBox(
+                                              height:
+                                                  20), // Agrega un espacio entre la tabla y el siguiente elemento
+                                          Table(
+                                            columnWidths: const {
+                                              0: FlexColumnWidth(1.0),
+                                              1: FlexColumnWidth(1.0),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text('División:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${division ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        33,
+                                                        26,
+                                                        70,
+                                                        0.04)), // Fila blanca
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text('Equipo:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${club ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                            'Posición en cancha:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${posicion ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        33,
+                                                        26,
+                                                        70,
+                                                        0.04)), // Fila blanca
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                            'Apodo deportivo:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            '${apodo ?? ''}',
+                                                            style: const TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              TableRow(
+                                                children: [
+                                                  const TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text('Estatus:',
+                                                            style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    'Roboto')),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal:
+                                                                    25.0,
+                                                                vertical: 4.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: estatus ==
+                                                                  'Activo'
+                                                              ? Color(
+                                                                  0xFF6EBC44) // Color verde si estatus es 'Activo'
+                                                              : Colors
+                                                                  .red, // Color rojo en caso contrario
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                        ),
+                                                        child: Text(
+                                                          '${estatus}',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors
+                                                                .white, // Color del texto blanco
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
 

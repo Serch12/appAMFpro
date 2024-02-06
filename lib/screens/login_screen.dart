@@ -22,32 +22,34 @@ class LoginScreen extends StatelessWidget {
               fit: BoxFit.fill,
             ),
             Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Imagen centrada encima de la imagen de fondo
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 50),
-                    child: Image.asset(
-                      'assets/logoblanco.png',
-                      width: 73,
-                      height: 93,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Imagen centrada encima de la imagen de fondo
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Image.asset(
+                        'assets/logoblanco.png',
+                        width: 73,
+                        height: 93,
+                      ),
                     ),
-                  ),
-                  // const SizedBox(height: 20),
-                  // Texto debajo de la imagen centrada
-                  const Text(
-                    'Ingresar',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontFamily: 'RobotoMono',
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 30),
-                  ChangeNotifierProvider(
-                      create: (_) => LoginFormProvider(), child: _LoginForm())
-                ],
+                    // const SizedBox(height: 20),
+                    // Texto debajo de la imagen centrada
+                    const Text(
+                      'Ingresar',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontFamily: 'RobotoMono',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 30),
+                    ChangeNotifierProvider(
+                        create: (_) => LoginFormProvider(), child: _LoginForm())
+                  ],
+                ),
               ),
             ),
           ],

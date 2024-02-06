@@ -344,107 +344,129 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                             const SizedBox(height: 10),
                                             controversia.isEmpty
                                                 ? Text('')
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    AudienciaScreen(
-                                                                        audiencia:
-                                                                            audiencia)),
-                                                          );
-                                                        },
-                                                        child:
-                                                            Text('Audiencia'),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: Color(
-                                                              0XFF6EBC44), // Color de fondo verde
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0), // Bordes redondeados
+                                                : Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Container(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Flexible(
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          AudienciaScreen(
+                                                                              audiencia: audiencia)),
+                                                                );
+                                                              },
+                                                              child: Text(
+                                                                'Audiencia',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: Color(
+                                                                    0XFF6EBC44),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20.0),
+                                                                ),
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            20),
+                                                              ),
+                                                            ),
                                                           ),
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      32), // Espaciado interno solo horizontal
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          width:
-                                                              16), // Espacio entre botones
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    TerminosScreen(
-                                                                        termino:
-                                                                            termino)),
-                                                          );
-                                                        },
-                                                        child: Text('Términos'),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: Color(
-                                                              0XFF6EBC44), // Color de fondo verde
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0), // Bordes redondeados
+                                                          SizedBox(width: 16),
+                                                          Flexible(
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          TerminosScreen(
+                                                                              termino: termino)),
+                                                                );
+                                                              },
+                                                              child: Text(
+                                                                'Términos',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: Color(
+                                                                    0XFF6EBC44),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20.0),
+                                                                ),
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            20),
+                                                              ),
+                                                            ),
                                                           ),
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      32), // Espaciado interno solo horizontal
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                          width:
-                                                              16), // Espacio entre botones
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    PagosScreen(
-                                                                        pagos:
-                                                                            pagos)),
-                                                          );
-                                                        },
-                                                        child: Text('Pagos'),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          primary: Color(
-                                                              0XFF6EBC44), // Color de fondo verde
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.0), // Bordes redondeados
+                                                          SizedBox(width: 16),
+                                                          Flexible(
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          PagosScreen(
+                                                                              pagos: pagos)),
+                                                                );
+                                                              },
+                                                              child:
+                                                                  Text('Pagos'),
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                primary: Color(
+                                                                    0XFF6EBC44),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20.0),
+                                                                ),
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            32),
+                                                              ),
+                                                            ),
                                                           ),
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      32), // Espaciado interno solo horizontal
-                                                        ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  )
+                                                    ),
+                                                  ),
                                           ],
                                         ),
                                       ),
