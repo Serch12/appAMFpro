@@ -111,32 +111,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  void _mostrarModal(BuildContext context, String imagen) {
-    showModalBottomSheet(
-      isDismissible: false,
-      useRootNavigator: true,
+  void _mostrarAlertDialog(BuildContext context, String imagen) {
+    showDialog(
       context: context,
+      barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: 250,
-                padding: EdgeInsets.all(3),
-                child: Image.network(
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          backgroundColor: Color(0xFF6EBC44)
+              .withOpacity(0.4), // Define el color de fondo con transparencia
+          content: Container(
+            width: MediaQuery.of(context).size.width *
+                0.8, // Utiliza el 80% del ancho del dispositivo
+            height: MediaQuery.of(context).size.height *
+                0.5, // Utiliza el 80% del ancho del dispositivo
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.network(
                   'https://test-intranet.amfpro.mx/ArchivosSistema/Afiliados/$nui/$imagen',
-                  fit: BoxFit.contain,
+                  fit: BoxFit.contain, // Ajusta la imagen dentro del contenedor
+                  width: MediaQuery.of(context).size.width *
+                      0.6, // Tamaño máximo de la imagen
+                  height: MediaQuery.of(context).size.height * 0.4,
                 ),
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Cerrar'),
-              ),
-            ],
+                // SizedBox(height: 20),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pop(); // Cerrar el diálogo
+                //   },
+                //   child: Text('Cerrar'),
+                //   style: ElevatedButton.styleFrom(
+                //     primary: Colors.white,
+                //     onPrimary: Colors.green,
+                //   ),
+                // ),
+              ],
+            ),
           ),
         );
       },
@@ -558,8 +572,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     //   boton1Activado = true;
                                                     //   boton2Activado = false;
                                                     // });
-                                                    _mostrarModal(context,
-                                                        '${pdf}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
+                                                    _mostrarAlertDialog(
+                                                        context, '${pdf}');
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
@@ -590,8 +604,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     //   boton1Activado = false;
                                                     //   boton2Activado = true;
                                                     // });
-                                                    _mostrarModal(context,
-                                                        '${pdf2}'); // Cambia 'reverso.jpg' al nombre de tu imagen para el botón 2
+                                                    _mostrarAlertDialog(
+                                                        context, '${pdf2}');
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(

@@ -631,60 +631,101 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                 },
                               ),
                             ),
+                            SizedBox(
+                              height: 10,
+                            ),
                           ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        (_path == null)
-                            ? Container()
-                            : Image.file(
-                                File(_path!),
-                                width: 200,
-                                height: 200,
-                              ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final ImagePicker picker = ImagePicker();
-                            final XFile? _archivo = await picker.pickImage(
-                                source: ImageSource.gallery);
-                            if (_archivo != null) {
-                              setState(() {
-                                _path = _archivo.path;
-                              });
-
-                              // encoding 64
-                              List<int> bytes =
-                                  await File(_path!).readAsBytesSync();
-                              _imagen64 = base64.encode(bytes);
-                            }
-                          },
-                          child: Text('Carga imagen desde galería'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            final ImagePicker picker = ImagePicker();
-                            final XFile? _archivo = await picker.pickImage(
-                                source: ImageSource.camera);
-                            if (_archivo != null) {
-                              setState(() {
-                                _path = _archivo.path;
-                              });
-
-                              // encoding 64
-                              List<int> bytes =
-                                  await File(_path!).readAsBytesSync();
-                              _imagen64 = base64.encode(bytes);
-                            }
-                          },
-                          child: Text('Carga imagen desde camara'),
                         ),
                       ],
                     ),
                   ),
                 )),
+            (_path == null)
+                ? Container()
+                : Image.file(
+                    File(_path!),
+                    width: 200,
+                    height: 200,
+                  ),
+            Text(
+              'Carga tu imagen',
+              style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold),
+            ),
             SizedBox(
-              height: 20,
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xFF6EBC44), // Color de fondo verde
+                      shape: BoxShape
+                          .rectangle, // Forma del contenedor como un círculo
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: IconButton(
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? _archivo = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (_archivo != null) {
+                        setState(() {
+                          _path = _archivo.path;
+                        });
+
+                        // encoding 64
+                        List<int> bytes = await File(_path!).readAsBytesSync();
+                        _imagen64 = base64.encode(bytes);
+                      }
+                    },
+                    icon: Image.asset(
+                      'assets/gallery.png', // Ruta de tu imagen
+                    ), // Icono que deseas mostrar
+                    iconSize: 50, // Tamaño del icono
+                    splashRadius: 20, // Radio del efecto splash
+                    tooltip:
+                        'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                  ),
+                ),
+                SizedBox(width: 50), // Espacio entre los contenedores
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xFFCFC8C8), // Color de fondo verde
+                      shape: BoxShape
+                          .rectangle, // Forma del contenedor como un círculo
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: IconButton(
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? _archivo =
+                          await picker.pickImage(source: ImageSource.camera);
+                      if (_archivo != null) {
+                        setState(() {
+                          _path = _archivo.path;
+                        });
+
+                        // encoding 64
+                        List<int> bytes = await File(_path!).readAsBytesSync();
+                        _imagen64 = base64.encode(bytes);
+                      }
+                    },
+                    icon: Image.asset(
+                      'assets/camara.png', // Ruta de tu imagen
+                    ), // Icono que deseas mostrar
+                    iconSize: 50, // Tamaño del icono
+                    splashRadius: 20, // Radio del efecto splash
+                    tooltip:
+                        'Cargar imagen desde cámara', // Texto que aparece al mantener presionado
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.90,

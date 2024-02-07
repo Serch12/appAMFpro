@@ -89,31 +89,43 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
   }
 
   void _mostrarModal(BuildContext context, String imagen) {
-    showModalBottomSheet(
-      isDismissible: true,
+    showDialog(
       context: context,
+      barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(15),
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          backgroundColor: Color(0xFFD9D9D9)
+              .withOpacity(0.47), // Define el color de fondo con transparencia
+          content: Container(
+            width: MediaQuery.of(context).size.width *
+                0.8, // Utiliza el 80% del ancho del dispositivo
+            height: MediaQuery.of(context).size.height *
+                0.6, // Utiliza el 80% del ancho del dispositivo
+            alignment: Alignment.center,
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  child: Image.network(
-                    'https://test-intranet.amfpro.mx/ArchivosSistema/ContratosJugadores/$imagen',
-                    fit: BoxFit.contain,
-                  ),
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.network(
+                  'https://test-intranet.amfpro.mx/ArchivosSistema/ContratosJugadores/$imagen',
+                  fit: BoxFit.contain, // Ajusta la imagen dentro del contenedor
+                  width: MediaQuery.of(context).size.width *
+                      0.8, // Tamaño máximo de la imagen
+                  height: MediaQuery.of(context).size.height * 0.6,
                 ),
-                SizedBox(height: 16.0),
-                Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Cerrar'),
-                  ),
-                ),
+                // SizedBox(height: 20),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pop(); // Cerrar el diálogo
+                //   },
+                //   child: Text('Cerrar'),
+                //   style: ElevatedButton.styleFrom(
+                //     primary: Colors.white,
+                //     onPrimary: Colors.green,
+                //   ),
+                // ),
               ],
             ),
           ),
