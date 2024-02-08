@@ -672,18 +672,23 @@ class _ContratoScreenState extends State<ContratoScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: IconButton(
                     onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-                      final XFile? _archivo = await picker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (_archivo != null) {
-                        setState(() {
-                          _path = _archivo.path;
-                        });
+                      try {
+                        final ImagePicker picker = ImagePicker();
+                        final XFile? _archivo = await picker.pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (_archivo != null) {
+                          setState(() {
+                            _path = _archivo.path;
+                          });
 
-                        // encoding 64
-                        List<int> bytes = await File(_path!).readAsBytesSync();
-                        _imagen64 = base64.encode(bytes);
+                          // encoding 64
+                          List<int> bytes =
+                              await File(_path!).readAsBytesSync();
+                          _imagen64 = base64.encode(bytes);
+                        }
+                      } catch (e) {
+                        print('Error al cargar imagen desde la galerìa: $e');
                       }
                     },
                     icon: Image.asset(
