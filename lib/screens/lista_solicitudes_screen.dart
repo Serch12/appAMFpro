@@ -339,9 +339,10 @@ class _TablaListadoState extends State<TablaListado> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
+                    margin: EdgeInsets.all(3),
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width *
-                          0.05, // 5% del ancho de la pantalla
+                          0.03, // 5% del ancho de la pantalla
                       vertical: MediaQuery.of(context).size.height *
                           0.01, // 1% del alto de la pantalla
                     ),

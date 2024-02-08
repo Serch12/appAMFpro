@@ -310,7 +310,7 @@ class _ContratoScreenState extends State<ContratoScreen> {
                   ),
                   elevation: 10,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(14.0),
                     child: Column(
                       children: [
                         SizedBox(
@@ -352,7 +352,10 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                 ),
                                 Container(
                                   // Alto deseado
-
+                                  width: MediaQuery.of(context).size.width *
+                                      0.9, // El 80% del ancho de la pantalla
+                                  height: MediaQuery.of(context).size.height *
+                                      0.05, // El 5% de la altura de la pantalla
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.0),
                                     color: Colors.white,
@@ -365,8 +368,7 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   ),
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 12),
-                                  width: 500,
-                                  height: 52,
+
                                   // margin: EdgeInsets.symmetric(vertical: 16.0),
                                   child: Row(
                                     mainAxisAlignment:
@@ -425,6 +427,10 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   height: 15,
                                 ),
                                 Container(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.9, // El 80% del ancho de la pantalla
+                                  height: MediaQuery.of(context).size.height *
+                                      0.05, // El 5% de la altura de la pantalla
                                   // Alto deseado
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.0),
@@ -436,8 +442,6 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   ),
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 12),
-                                  width: 500,
-                                  height: 52,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,

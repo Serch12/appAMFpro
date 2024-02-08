@@ -175,6 +175,16 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
               style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
             ),
           ),
+          leading: IconButton(
+            onPressed: () {
+              // Acción al presionar el botón de retroceso
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white, // Color blanco para el icono
+            ),
+          ),
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -370,7 +380,14 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                                 'Audiencia',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        14),
+                                                                        14,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontFamily:
+                                                                        'Roboto',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
                                                               ),
                                                               style:
                                                                   ElevatedButton
@@ -408,7 +425,14 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                                 'Términos',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        14),
+                                                                        14,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontFamily:
+                                                                        'Roboto',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
                                                               ),
                                                               style:
                                                                   ElevatedButton
@@ -442,8 +466,17 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                                               pagos: pagos)),
                                                                 );
                                                               },
-                                                              child:
-                                                                  Text('Pagos'),
+                                                              child: Text(
+                                                                'Pagos',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontFamily:
+                                                                        'Roboto',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
                                                               style:
                                                                   ElevatedButton
                                                                       .styleFrom(
