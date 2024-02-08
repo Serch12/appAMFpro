@@ -9,7 +9,7 @@
         android:label="AMFPro"
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"
-        android:icon="@mipmap/icononegro">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name="io.flutter.embedding.android.FlutterFragmentActivity"
             android:exported="true"
