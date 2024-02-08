@@ -67,25 +67,28 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
   void obtenerDatosDeAPI(String userEmail) async {
     final url = Uri.http(_urlBase, '/api/datos-afiliados/correo/$userEmail');
     final respuesta = await http.get(url);
-    setState(() {
-      username = userEmail;
-      jugador = json.decode(respuesta.body);
-      id_afi = jugador['data']['id'];
-      nombre = jugador['data']['nombre'];
-      apellidoPaterno = jugador['data']['apellido_paterno'];
-      apellidoMaterno = jugador['data']['apellido_materno'];
-      obtenerSolicitudesDeAPI(jugador['data']['id']);
-    });
+    if (mounted) {
+      setState(() {
+        username = userEmail;
+        jugador = json.decode(respuesta.body);
+        id_afi = jugador['data']['id'];
+        nombre = jugador['data']['nombre'];
+        apellidoPaterno = jugador['data']['apellido_paterno'];
+        apellidoMaterno = jugador['data']['apellido_materno'];
+        obtenerSolicitudesDeAPI(jugador['data']['id']);
+      });
+    }
   }
 
   void obtenerSolicitudesDeAPI(int id) async {
     id_afi = id;
     final url = Uri.http(_urlBase, '/api/lista_contratos/$id_afi');
     final respuesta2 = await http.get(url);
-    setState(() {
-      lista = List<Map<String, dynamic>>.from(json.decode(respuesta2.body));
-    });
-    print(lista);
+    if (mounted) {
+      setState(() {
+        lista = List<Map<String, dynamic>>.from(json.decode(respuesta2.body));
+      });
+    }
   }
 
   void _mostrarModal(BuildContext context, String imagen) {

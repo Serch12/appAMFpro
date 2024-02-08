@@ -39,17 +39,19 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
     final url =
         Uri.http(_urlBase, '/api/lista_solicitudes/asesoria/$solicitud');
     final respuesta = await http.get(url);
-    setState(() {
-      dynamic decodedResponse = json.decode(respuesta.body);
+    if (mounted) {
+      setState(() {
+        dynamic decodedResponse = json.decode(respuesta.body);
 
-      if (decodedResponse is List && decodedResponse.isNotEmpty) {
-        // Si la respuesta es una lista, toma el primer elemento
-        asesoria = decodedResponse.first;
-      } else {
-        // Si la respuesta es un mapa, simplemente asígnalo
-        asesoria = decodedResponse;
-      }
-    });
+        if (decodedResponse is List && decodedResponse.isNotEmpty) {
+          // Si la respuesta es una lista, toma el primer elemento
+          asesoria = decodedResponse.first;
+        } else {
+          // Si la respuesta es un mapa, simplemente asígnalo
+          asesoria = decodedResponse;
+        }
+      });
+    }
   }
 
   void obtenerDatosDeControversiaAPI() async {
@@ -57,19 +59,21 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
     final url =
         Uri.http(_urlBase, '/api/lista_solicitudes/controversia/$solicitud');
     final respuesta = await http.get(url);
-    setState(() {
-      dynamic decodedResponse = json.decode(respuesta.body);
-      if (decodedResponse.isEmpty) {
-      } else {
-        if (decodedResponse is List) {
-          // Si la respuesta es una lista, toma el primer elemento
-          controversia = decodedResponse.first;
+    if (mounted) {
+      setState(() {
+        dynamic decodedResponse = json.decode(respuesta.body);
+        if (decodedResponse.isEmpty) {
         } else {
-          // Si la respuesta es un mapa, simplemente asígnalo
-          controversia = decodedResponse;
+          if (decodedResponse is List) {
+            // Si la respuesta es una lista, toma el primer elemento
+            controversia = decodedResponse.first;
+          } else {
+            // Si la respuesta es un mapa, simplemente asígnalo
+            controversia = decodedResponse;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   void obtenerDatosDeDocumentacionAPI() async {
@@ -77,20 +81,22 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
     final url =
         Uri.http(_urlBase, '/api/lista_solicitudes/documentacion/$solicitud');
     final respuesta = await http.get(url);
-    setState(() {
-      dynamic decodedResponse = json.decode(respuesta.body);
-      if (decodedResponse.isEmpty) {
-      } else {
-        if (decodedResponse is List) {
-          // Si la respuesta es una lista, toma el primer elemento
-          documentacion = decodedResponse.first;
+    if (mounted) {
+      setState(() {
+        dynamic decodedResponse = json.decode(respuesta.body);
+        if (decodedResponse.isEmpty) {
         } else {
-          // Si la respuesta es un mapa, simplemente asígnalo
-          documentacion = decodedResponse;
+          if (decodedResponse is List) {
+            // Si la respuesta es una lista, toma el primer elemento
+            documentacion = decodedResponse.first;
+          } else {
+            // Si la respuesta es un mapa, simplemente asígnalo
+            documentacion = decodedResponse;
+          }
         }
-      }
-      print('Estos son los documentos: ${documentacion}');
-    });
+        print('Estos son los documentos: ${documentacion}');
+      });
+    }
   }
 
   void obtenerDatosDeControversiaAudienciaAPI() async {
@@ -98,60 +104,66 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
     final url =
         Uri.http(_urlBase, '/api/lista_solicitudes/audiencia/$solicitud');
     final respuesta = await http.get(url);
-    setState(() {
-      dynamic decodedResponse = json.decode(respuesta.body);
-      if (decodedResponse.isEmpty) {
-      } else {
-        if (decodedResponse is List) {
-          // Si la respuesta es una lista, toma el primer elemento
-          audiencia = decodedResponse.first;
+    if (mounted) {
+      setState(() {
+        dynamic decodedResponse = json.decode(respuesta.body);
+        if (decodedResponse.isEmpty) {
         } else {
-          // Si la respuesta es un mapa, simplemente asígnalo
-          audiencia = decodedResponse;
+          if (decodedResponse is List) {
+            // Si la respuesta es una lista, toma el primer elemento
+            audiencia = decodedResponse.first;
+          } else {
+            // Si la respuesta es un mapa, simplemente asígnalo
+            audiencia = decodedResponse;
+          }
         }
-      }
-      print(audiencia);
-    });
+        print(audiencia);
+      });
+    }
   }
 
   void obtenerDatosDeControversiaTerminoAPI() async {
     String solicitud = widget.value['no_solicitud'];
     final url = Uri.http(_urlBase, '/api/lista_solicitudes/termino/$solicitud');
     final respuesta = await http.get(url);
-    setState(() {
-      dynamic decodedResponse = json.decode(respuesta.body);
-      if (decodedResponse.isEmpty) {
-      } else {
-        if (decodedResponse is List) {
-          // Si la respuesta es una lista, toma el primer elemento
-          termino = decodedResponse.first;
+    if (mounted) {
+      setState(() {
+        dynamic decodedResponse = json.decode(respuesta.body);
+        if (decodedResponse.isEmpty) {
         } else {
-          // Si la respuesta es un mapa, simplemente asígnalo
-          termino = decodedResponse;
+          if (decodedResponse is List) {
+            // Si la respuesta es una lista, toma el primer elemento
+            termino = decodedResponse.first;
+          } else {
+            // Si la respuesta es un mapa, simplemente asígnalo
+            termino = decodedResponse;
+          }
         }
-      }
-      print('Estos son los terminos: ${termino}');
-    });
+        print('Estos son los terminos: ${termino}');
+      });
+    }
   }
 
   void obtenerDatosDeControversiaPagosAPI() async {
     String solicitud = widget.value['no_solicitud'];
     final url = Uri.http(_urlBase, '/api/lista_solicitudes/pagos/$solicitud');
     final respuesta = await http.get(url);
-    setState(() {
-      dynamic decodedResponse = json.decode(respuesta.body);
-      if (decodedResponse.isEmpty) {
-      } else {
-        if (decodedResponse is List) {
-          // Si la respuesta es una lista, toma el primer elemento
-          pagos = decodedResponse.first;
+    if (mounted) {
+      setState(() {
+        dynamic decodedResponse = json.decode(respuesta.body);
+        if (decodedResponse.isEmpty) {
         } else {
-          // Si la respuesta es un mapa, simplemente asígnalo
-          pagos = decodedResponse;
+          if (decodedResponse is List) {
+            // Si la respuesta es una lista, toma el primer elemento
+            pagos = decodedResponse.first;
+          } else {
+            // Si la respuesta es un mapa, simplemente asígnalo
+            pagos = decodedResponse;
+          }
         }
-      }
-      print('Estos son los pagos: ${pagos}');
-    });
+        print('Estos son los pagos: ${pagos}');
+      });
+    }
   }
 
   @override

@@ -33,18 +33,23 @@ class _HomeScreenState extends State<HomeScreen> {
   void obtenerDatosDeAPIPublicaciones() async {
     final url = Uri.http(_urlBase, '/api/post/listado');
     final respuesta = await http.get(url);
-    setState(() {
-      lista_publicaciones =
-          List<Map<String, dynamic>>.from(json.decode(respuesta.body));
-    });
+    // Verificar si el widget está montado antes de llamar a setState()
+    if (mounted) {
+      setState(() {
+        lista_publicaciones =
+            List<Map<String, dynamic>>.from(json.decode(respuesta.body));
+      });
+    }
   }
 
   void obtenerDatosDeAPI() async {
     final url = Uri.http(_urlBase, '/api/noticias/comunicados');
     final respuesta2 = await http.get(url);
-    setState(() {
-      lista = List<Map<String, dynamic>>.from(json.decode(respuesta2.body));
-    });
+    if (mounted) {
+      setState(() {
+        lista = List<Map<String, dynamic>>.from(json.decode(respuesta2.body));
+      });
+    }
   }
 
   @override

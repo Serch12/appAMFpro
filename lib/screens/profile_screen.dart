@@ -80,35 +80,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void obtenerDatosDeAPI(String userEmail) async {
     final url = Uri.http(_urlBase, '/api/datos-afiliados/correo/$userEmail');
     final respuesta = await http.get(url);
-    setState(() {
-      username = userEmail;
-      jugador = json.decode(respuesta.body);
-      id = jugador['data']['id'];
-      nombre = jugador['data']['nombre'];
-      apellidoPaterno = jugador['data']['apellido_paterno'];
-      apellidoMaterno = jugador['data']['apellido_materno'];
-      sexo = jugador['data']['sexo'];
-      nui = jugador['data']['nui'];
-      nacimiento = jugador['data']['nacimiento'];
-      curp = jugador['data']['curp'];
-      escolaridad = jugador['data']['escolaridad'];
-      nacionalidad = jugador['data']['nacionalidad'];
-      division = jugador['data']['division'];
-      club = jugador['data']['club'];
-      posicion = jugador['data']['posicion'];
-      apodo = jugador['data']['apodo'];
-      estatus = jugador['data']['estatus'];
-      calle = jugador['data']['calle'];
-      colonia = jugador['data']['colonia'];
-      estado = jugador['data']['estado'];
-      ciudad = jugador['data']['ciudad'];
-      cp = jugador['data']['cp'];
-      celular = jugador['data']['celular'];
-      telCasa = jugador['data']['telCasa'];
-      foto = jugador['data']['foto'];
-      pdf = jugador['data']['pdf'];
-      pdf2 = jugador['data']['pdf2'];
-    });
+    if (mounted) {
+      setState(() {
+        username = userEmail;
+        jugador = json.decode(respuesta.body);
+        id = jugador['data']['id'];
+        nombre = jugador['data']['nombre'];
+        apellidoPaterno = jugador['data']['apellido_paterno'];
+        apellidoMaterno = jugador['data']['apellido_materno'];
+        sexo = jugador['data']['sexo'];
+        nui = jugador['data']['nui'];
+        nacimiento = jugador['data']['nacimiento'];
+        curp = jugador['data']['curp'];
+        escolaridad = jugador['data']['escolaridad'];
+        nacionalidad = jugador['data']['nacionalidad'];
+        division = jugador['data']['division'];
+        club = jugador['data']['club'];
+        posicion = jugador['data']['posicion'];
+        apodo = jugador['data']['apodo'];
+        estatus = jugador['data']['estatus'];
+        calle = jugador['data']['calle'];
+        colonia = jugador['data']['colonia'];
+        estado = jugador['data']['estado'];
+        ciudad = jugador['data']['ciudad'];
+        cp = jugador['data']['cp'];
+        celular = jugador['data']['celular'];
+        telCasa = jugador['data']['telCasa'];
+        foto = jugador['data']['foto'];
+        pdf = jugador['data']['pdf'];
+        pdf2 = jugador['data']['pdf2'];
+      });
+    }
   }
 
   void _mostrarAlertDialog(BuildContext context, String imagen) {
