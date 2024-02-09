@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/solicitudes_2_screen.dart';
-
 import '../services/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gif/flutter_gif.dart';
 
 class ListaSolicitudesScreen extends StatefulWidget {
   const ListaSolicitudesScreen({Key? key}) : super(key: key);
@@ -13,7 +13,8 @@ class ListaSolicitudesScreen extends StatefulWidget {
   State<ListaSolicitudesScreen> createState() => _ListaSolicitudesScreenState();
 }
 
-class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
+class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen>
+    with TickerProviderStateMixin {
   String? username;
   final String _urlBase = 'test-intranet.amfpro.mx';
   dynamic jugador = [];
@@ -22,9 +23,27 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
   String? nombre;
   String? apellidoPaterno;
   String? apellidoMaterno;
+  late FlutterGifController controller2;
+  late FlutterGifController controller5;
 
   @override
   void initState() {
+    controller2 = FlutterGifController(vsync: this);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller2.repeat(
+        min: 0,
+        max: 90,
+        period: const Duration(seconds: 3),
+      );
+    });
+    controller5 = FlutterGifController(vsync: this);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller5.repeat(
+        min: 0,
+        max: 110,
+        period: const Duration(seconds: 4),
+      );
+    });
     super.initState();
     cargarUsername();
   }
@@ -82,8 +101,19 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
   }
 
   @override
+  void dispose() {
+    // Cerrar el AnimationController y cualquier otro objeto Ticker que estés utilizando
+    controller2.dispose();
+    controller5.dispose();
+    // Resto de tu código de liberación...
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
+    // Precarga el GIF de carga al inicio del screen
+    precacheImage(AssetImage('assets/balon-loading.gif'), context);
 
     double screenHeight = MediaQuery.of(context).size.height;
     double appBarHeight = AppBar().preferredSize.height;
@@ -201,25 +231,46 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                                       const SizedBox(height: 20),
                                       Padding(
                                         padding: const EdgeInsets.all(5.0),
-                                        child: Card(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  20.0), // Ajusta el radio según tus preferencias
-                                            ),
-                                            elevation: 10,
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: TablaListado(
-                                                        listado: lista)),
-                                                const SizedBox(
-                                                  height: 20,
-                                                )
-                                              ],
-                                            )),
+                                        child: lista.isEmpty
+                                            ? Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0), // Ajusta el radio según tus preferencias
+                                                ),
+                                                child: Center(
+                                                    child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.6, // Ancho del GIF
+                                                  child: GifImage(
+                                                    controller: controller5,
+                                                    image: const AssetImage(
+                                                        "assets/sininfo.gif"),
+                                                  ),
+                                                )),
+                                              )
+                                            : Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0), // Ajusta el radio según tus preferencias
+                                                ),
+                                                elevation: 10,
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: TablaListado(
+                                                            listado: lista)),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    )
+                                                  ],
+                                                )),
                                       ),
                                     ],
                                   ),
@@ -236,12 +287,15 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
             } else {
               // Muestra un indicador de carga mientras se está cargando
               return Center(
-                child: CircularProgressIndicator(
-                  semanticsLabel: 'Cargando',
-                  backgroundColor: Colors.grey,
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF211A46)),
+                  child: Container(
+                width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
+                height:
+                    MediaQuery.of(context).size.height * 0.3, // Alto del GIF
+                child: GifImage(
+                  controller: controller2,
+                  image: const AssetImage("assets/balon-loading22.gif"),
                 ),
-              );
+              ));
             }
           },
         ));

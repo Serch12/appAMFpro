@@ -6,6 +6,7 @@ import 'package:splash_animated/services/services.dart';
 import 'package:provider/provider.dart';
 import 'package:accordion/accordion.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gif/flutter_gif.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with TickerProviderStateMixin {
   String? username;
   final String _urlBase = 'test-intranet.amfpro.mx';
   dynamic jugador = [];
@@ -45,9 +47,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? pdf2;
   bool boton1Activado = false;
   bool boton2Activado = false;
+  late FlutterGifController controller3;
 
   @override
   void initState() {
+    controller3 = FlutterGifController(vsync: this);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller3.repeat(
+        min: 0,
+        max: 90,
+        period: const Duration(seconds: 3),
+      );
+    });
     super.initState();
     cargarUsername();
   }
@@ -157,6 +168,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // Cerrar el AnimationController y cualquier otro objeto Ticker que estés utilizando
+    controller3.dispose();
+    // Resto de tu código de liberación...
+    super.dispose();
   }
 
   @override
@@ -1215,13 +1234,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               } else {
                 // Muestra un indicador de carga mientras se está cargando
                 return Center(
-                  child: CircularProgressIndicator(
-                    semanticsLabel: 'Cargando',
-                    backgroundColor: Colors.grey,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Color(0xFF211A46)),
+                    child: Container(
+                  width:
+                      MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
+                  height:
+                      MediaQuery.of(context).size.height * 0.3, // Alto del GIF
+                  child: GifImage(
+                    controller: controller3,
+                    image: const AssetImage("assets/balon-loading22.gif"),
                   ),
-                );
+                ));
               }
             }));
   }

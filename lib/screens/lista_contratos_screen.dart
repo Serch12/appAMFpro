@@ -6,6 +6,7 @@ import 'package:accordion/accordion.dart';
 import '../services/auth_service.dart';
 import 'screens.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gif/flutter_gif.dart';
 
 class ListaContratosScreen extends StatefulWidget {
   const ListaContratosScreen({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class ListaContratosScreen extends StatefulWidget {
   State<ListaContratosScreen> createState() => _ListaContratosScreenState();
 }
 
-class _ListaContratosScreenState extends State<ListaContratosScreen> {
+class _ListaContratosScreenState extends State<ListaContratosScreen>
+    with TickerProviderStateMixin {
   String? username;
   final String _urlBase = 'test-intranet.amfpro.mx';
   dynamic jugador = [];
@@ -23,6 +25,8 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
   String? nombre;
   String? apellidoPaterno;
   String? apellidoMaterno;
+  late FlutterGifController controller1, controller4;
+
   static const headerStyle = TextStyle(
       color: Color(0xffffffff),
       fontSize: 18,
@@ -35,6 +39,22 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
 
   @override
   void initState() {
+    controller1 = FlutterGifController(vsync: this);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller1.repeat(
+        min: 0,
+        max: 90,
+        period: const Duration(seconds: 3),
+      );
+    });
+    controller4 = FlutterGifController(vsync: this);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller4.repeat(
+        min: 0,
+        max: 110,
+        period: const Duration(seconds: 4),
+      );
+    });
     super.initState();
     cargarUsername();
   }
@@ -138,6 +158,15 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
   }
 
   @override
+  void dispose() {
+    // Cerrar el AnimationController y cualquier otro objeto Ticker que estés utilizando
+    controller1.dispose();
+    controller4.dispose();
+    // Resto de tu código de liberación...
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -193,211 +222,244 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
-                      Accordion(
-                        children: [
-                          for (final item in lista)
-                            AccordionSection(
-                              // isOpen: true,
-                              contentVerticalPadding: 10,
-                              headerPadding: EdgeInsets.all(22),
-                              headerBackgroundColor: Color(0xFF6EBC44),
-                              header: Text(item['club'], style: headerStyle),
-                              headerBorderRadius: 20,
-                              // contentBackgroundColor: Colors.lightBlue,
-                              contentBorderColor: Colors.transparent,
-                              // contentBorderWidth: 10,
-                              contentBackgroundColor: Colors.transparent,
-                              content: Card(
-                                elevation: 3.0,
-                                // margin: EdgeInsets.symmetric(
-                                //     horizontal: 16.0, vertical: 8.0),
-                                child: Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .start, // Alinea los elementos a los extremos
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Image.asset('assets/image9.png',
-                                              width: 22, height: 22),
-                                          SizedBox(
-                                              width:
-                                                  30.0), // Espacio entre el ícono y el texto
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Fecha de Inicio:',
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xff020202),
-                                                    fontSize: 18),
-                                              ),
-                                              Text(
-                                                item['fecha_inicio'],
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    color: Color(0xff384455),
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Image.asset('assets/image6.png',
-                                              width: 22, height: 22),
-                                          SizedBox(
-                                              width:
-                                                  30.0), // Espacio entre el ícono y el texto
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Fecha de Vencimiento:',
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xff020202),
-                                                    fontSize: 18),
-                                              ),
-                                              Text(
-                                                item['fecha_vencimiento'],
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    color: Color(0xff384455),
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Image.asset('assets/image7.png',
-                                              width: 22, height: 22),
-                                          SizedBox(
-                                              width:
-                                                  30.0), // Espacio entre el ícono y el texto
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'División:',
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xff020202),
-                                                    fontSize: 18),
-                                              ),
-                                              Text(
-                                                item['division'],
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    color: Color(0xff384455),
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Image.asset('assets/image8.png',
-                                              width: 22, height: 22),
-                                          SizedBox(
-                                              width:
-                                                  30.0), // Espacio entre el ícono y el texto
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Club:',
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xff020202),
-                                                    fontSize: 18),
-                                              ),
-                                              Text(
-                                                item['club'],
-                                                style: TextStyle(
-                                                    fontFamily: 'Roboto',
-                                                    color: Color(0xff384455),
-                                                    fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.90,
-                                        child: MaterialButton(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          disabledColor: Colors.grey,
-                                          elevation: 0,
-                                          color: Colors.black,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: MediaQuery.of(context)
+                      lista.isEmpty
+                          ? Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Ajusta el radio según tus preferencias
+                              ),
+                              child: Center(
+                                  child: Container(
+                                width: MediaQuery.of(context).size.width *
+                                    0.6, // Ancho del GIF
+                                child: GifImage(
+                                  controller: controller4,
+                                  image: const AssetImage("assets/sininfo.gif"),
+                                ),
+                              )),
+                            )
+                          : Accordion(
+                              children: [
+                                for (final item in lista)
+                                  AccordionSection(
+                                    // isOpen: true,
+                                    contentVerticalPadding: 10,
+                                    headerPadding: EdgeInsets.all(22),
+                                    headerBackgroundColor: Color(0xFF6EBC44),
+                                    header:
+                                        Text(item['club'], style: headerStyle),
+                                    headerBorderRadius: 20,
+                                    // contentBackgroundColor: Colors.lightBlue,
+                                    contentBorderColor: Colors.transparent,
+                                    // contentBorderWidth: 10,
+                                    contentBackgroundColor: Colors.transparent,
+                                    content: Card(
+                                      elevation: 3.0,
+                                      // margin: EdgeInsets.symmetric(
+                                      //     horizontal: 16.0, vertical: 8.0),
+                                      child: Container(
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .start, // Alinea los elementos a los extremos
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Image.asset('assets/image9.png',
+                                                    width: 22, height: 22),
+                                                SizedBox(
+                                                    width:
+                                                        30.0), // Espacio entre el ícono y el texto
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Fecha de Inicio:',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color(0xff020202),
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      item['fecha_inicio'],
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          color:
+                                                              Color(0xff384455),
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset('assets/image6.png',
+                                                    width: 22, height: 22),
+                                                SizedBox(
+                                                    width:
+                                                        30.0), // Espacio entre el ícono y el texto
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Fecha de Vencimiento:',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color(0xff020202),
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      item['fecha_vencimiento'],
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          color:
+                                                              Color(0xff384455),
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset('assets/image7.png',
+                                                    width: 22, height: 22),
+                                                SizedBox(
+                                                    width:
+                                                        30.0), // Espacio entre el ícono y el texto
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'División:',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color(0xff020202),
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      item['division'],
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          color:
+                                                              Color(0xff384455),
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset('assets/image8.png',
+                                                    width: 22, height: 22),
+                                                SizedBox(
+                                                    width:
+                                                        30.0), // Espacio entre el ícono y el texto
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'Club:',
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color(0xff020202),
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      item['club'],
+                                                      style: TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                          color:
+                                                              Color(0xff384455),
+                                                          fontSize: 16),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.09,
-                                              vertical: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.018,
+                                                  0.90,
+                                              child: MaterialButton(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                disabledColor: Colors.grey,
+                                                elevation: 0,
+                                                color: Colors.black,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.09,
+                                                    vertical:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.018,
+                                                  ),
+                                                  child: Text(
+                                                    'Ver contrato',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                                //si loginform no ejecuta arroha null de lo contrario entra a la ejecucion
+                                                onPressed: () async {
+                                                  _mostrarModal(context,
+                                                      item['archivo_contrato']);
+                                                },
+                                              ),
                                             ),
-                                            child: Text(
-                                              'Ver contrato',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          //si loginform no ejecuta arroha null de lo contrario entra a la ejecucion
-                                          onPressed: () async {
-                                            _mostrarModal(context,
-                                                item['archivo_contrato']);
-                                          },
+                                          ],
                                         ),
                                       ),
-                                    ],
+                                    ),
+                                    rightIcon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
                                   ),
-                                ),
-                              ),
-                              rightIcon: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
 
-                          // Agrega más elementos según sea necesario
-                        ],
-                      )
+                                // Agrega más elementos según sea necesario
+                              ],
+                            )
                     ],
                   ),
                 ),
@@ -405,12 +467,15 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
             } else {
               // Muestra un indicador de carga mientras se está cargando
               return Center(
-                child: CircularProgressIndicator(
-                  semanticsLabel: 'Cargando',
-                  backgroundColor: Colors.grey,
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF211A46)),
+                  child: Container(
+                width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
+                height:
+                    MediaQuery.of(context).size.height * 0.3, // Alto del GIF
+                child: GifImage(
+                  controller: controller1,
+                  image: const AssetImage("assets/balon-loading22.gif"),
                 ),
-              );
+              ));
             }
           }),
       floatingActionButton: FloatingActionButton(
