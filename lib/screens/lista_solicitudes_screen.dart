@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/solicitudes_2_screen.dart';
 import '../services/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_gif/flutter_gif.dart';
 
 class ListaSolicitudesScreen extends StatefulWidget {
   const ListaSolicitudesScreen({Key? key}) : super(key: key);
@@ -13,8 +12,7 @@ class ListaSolicitudesScreen extends StatefulWidget {
   State<ListaSolicitudesScreen> createState() => _ListaSolicitudesScreenState();
 }
 
-class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen>
-    with TickerProviderStateMixin {
+class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
   String? username;
   final String _urlBase = 'test-intranet.amfpro.mx';
   dynamic jugador = [];
@@ -23,27 +21,9 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen>
   String? nombre;
   String? apellidoPaterno;
   String? apellidoMaterno;
-  late FlutterGifController controller2;
-  late FlutterGifController controller5;
 
   @override
   void initState() {
-    controller2 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller2.repeat(
-        min: 0,
-        max: 90,
-        period: const Duration(seconds: 3),
-      );
-    });
-    controller5 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller5.repeat(
-        min: 0,
-        max: 110,
-        period: const Duration(seconds: 4),
-      );
-    });
     super.initState();
     cargarUsername();
   }
@@ -98,15 +78,6 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen>
         lista = List<Map<String, dynamic>>.from(json.decode(respuesta2.body));
       });
     }
-  }
-
-  @override
-  void dispose() {
-    // Cerrar el AnimationController y cualquier otro objeto Ticker que estés utilizando
-    controller2.dispose();
-    controller5.dispose();
-    // Resto de tu código de liberación...
-    super.dispose();
   }
 
   @override
@@ -244,10 +215,11 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen>
                                                           .size
                                                           .width *
                                                       0.6, // Ancho del GIF
-                                                  child: GifImage(
-                                                    controller: controller5,
-                                                    image: const AssetImage(
-                                                        "assets/sininfo.gif"),
+                                                  child: Image.asset(
+                                                    "assets/sininfo.gif",
+                                                    key: UniqueKey(),
+                                                    repeat:
+                                                        ImageRepeat.noRepeat,
                                                   ),
                                                 )),
                                               )
@@ -291,9 +263,10 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen>
                 width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
                 height:
                     MediaQuery.of(context).size.height * 0.3, // Alto del GIF
-                child: GifImage(
-                  controller: controller2,
-                  image: const AssetImage("assets/balon-loading22.gif"),
+                child: Image.asset(
+                  "assets/balon-loading.gif",
+                  key: UniqueKey(),
+                  repeat: ImageRepeat.repeatX,
                 ),
               ));
             }
