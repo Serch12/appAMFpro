@@ -6,7 +6,6 @@ import 'package:accordion/accordion.dart';
 import '../services/auth_service.dart';
 import 'screens.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_gif/flutter_gif.dart';
 
 class ListaContratosScreen extends StatefulWidget {
   const ListaContratosScreen({Key? key}) : super(key: key);
@@ -15,8 +14,7 @@ class ListaContratosScreen extends StatefulWidget {
   State<ListaContratosScreen> createState() => _ListaContratosScreenState();
 }
 
-class _ListaContratosScreenState extends State<ListaContratosScreen>
-    with TickerProviderStateMixin {
+class _ListaContratosScreenState extends State<ListaContratosScreen> {
   String? username;
   final String _urlBase = 'test-intranet.amfpro.mx';
   dynamic jugador = [];
@@ -25,7 +23,6 @@ class _ListaContratosScreenState extends State<ListaContratosScreen>
   String? nombre;
   String? apellidoPaterno;
   String? apellidoMaterno;
-  late FlutterGifController controller1, controller4;
 
   static const headerStyle = TextStyle(
       color: Color(0xffffffff),
@@ -39,22 +36,6 @@ class _ListaContratosScreenState extends State<ListaContratosScreen>
 
   @override
   void initState() {
-    controller1 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller1.repeat(
-        min: 0,
-        max: 90,
-        period: const Duration(seconds: 3),
-      );
-    });
-    controller4 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller4.repeat(
-        min: 0,
-        max: 110,
-        period: const Duration(seconds: 4),
-      );
-    });
     super.initState();
     cargarUsername();
   }
@@ -158,15 +139,6 @@ class _ListaContratosScreenState extends State<ListaContratosScreen>
   }
 
   @override
-  void dispose() {
-    // Cerrar el AnimationController y cualquier otro objeto Ticker que estés utilizando
-    controller1.dispose();
-    controller4.dispose();
-    // Resto de tu código de liberación...
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -232,9 +204,9 @@ class _ListaContratosScreenState extends State<ListaContratosScreen>
                                   child: Container(
                                 width: MediaQuery.of(context).size.width *
                                     0.6, // Ancho del GIF
-                                child: GifImage(
-                                  controller: controller4,
-                                  image: const AssetImage("assets/sininfo.gif"),
+                                child: Image.asset(
+                                  "assets/sininfo.gif",
+                                  key: UniqueKey(),
                                 ),
                               )),
                             )
@@ -471,9 +443,9 @@ class _ListaContratosScreenState extends State<ListaContratosScreen>
                 width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
                 height:
                     MediaQuery.of(context).size.height * 0.3, // Alto del GIF
-                child: GifImage(
-                  controller: controller1,
-                  image: const AssetImage("assets/balon-loading22.gif"),
+                child: Image.asset(
+                  "assets/balon-loading.gif",
+                  key: UniqueKey(),
                 ),
               ));
             }

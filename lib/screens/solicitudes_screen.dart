@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:splash_animated/screens/screens.dart';
 
 import '../widgets/widgets.dart';
-import 'package:flutter_gif/flutter_gif.dart';
 
 class SolicitudesScreen extends StatefulWidget {
   const SolicitudesScreen({super.key});
@@ -11,39 +10,9 @@ class SolicitudesScreen extends StatefulWidget {
   State<SolicitudesScreen> createState() => _SolicitudesScreenState();
 }
 
-class _SolicitudesScreenState extends State<SolicitudesScreen>
-    with TickerProviderStateMixin {
-  late FlutterGifController controller6, controller7;
-
-  @override
-  void initState() {
-    controller6 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller6.repeat(
-        min: 0,
-        max: 99,
-        period: const Duration(seconds: 4),
-      );
-    });
-    controller7 = FlutterGifController(vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      controller7.repeat(
-        min: 0,
-        max: 99,
-        period: const Duration(seconds: 4),
-      );
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // Cerrar el AnimationController y cualquier otro objeto Ticker que estés utilizando
-    controller6.dispose();
-    controller7.dispose();
-    // Resto de tu código de liberación...
-    super.dispose();
-  }
+class _SolicitudesScreenState extends State<SolicitudesScreen> {
+  String controller6 = "assets/Solicitudes-icono-tipo.gif";
+  String controller7 = "assets/Contratos-icono-tipo.gif";
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +27,9 @@ class _SolicitudesScreenState extends State<SolicitudesScreen>
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const ListaSolicitudesScreen()));
               },
-              child: GifImage(
-                controller: controller6,
-                image: AssetImage("assets/Solicitudes-icono-tipo.gif"),
+              child: Image.asset(
+                "assets/Solicitudes-icono-tipo.gif",
+                key: UniqueKey(), // Clave única para el primer GIF
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.width * 0.45,
               ),
@@ -71,15 +40,9 @@ class _SolicitudesScreenState extends State<SolicitudesScreen>
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const ListaContratosScreen()));
               },
-              child:
-                  // Image.asset(
-                  //   'assets/Contratos-icono-tipo.gif', // Ruta del segundo GIF
-                  //   width: MediaQuery.of(context).size.width * 0.45,
-                  //   height: MediaQuery.of(context).size.width * 0.45,
-                  // ),
-                  GifImage(
-                controller: controller7,
-                image: AssetImage("assets/Contratos-icono-tipo.gif"),
+              child: Image.asset(
+                "assets/Contratos-icono-tipo.gif",
+                key: UniqueKey(), // Clave única para el segundo GIF
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.width * 0.45,
               ),
