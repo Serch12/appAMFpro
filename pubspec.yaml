@@ -55,6 +55,8 @@ dependencies:
   card_swiper : ^3.0.0
   flutter_widget_from_html: ^0.14.11
   audio_session: ^0.1.18
+  line_icons: ^2.0.3
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:
