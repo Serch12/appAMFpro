@@ -51,6 +51,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleDevelopmentRegion</key>
+<string>es</string>
+<key>CFBundleLocalizations</key>
+<array>
+    <string>es</string>
+</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

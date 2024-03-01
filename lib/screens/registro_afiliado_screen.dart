@@ -719,18 +719,18 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        elevation: 0, // Establece la elevación del AppBar a cero
+        elevation: 0,
         leading: IconButton(
           onPressed: () {
-            // Acción al presionar el botón de retroceso
             Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.white, // Color blanco para el icono
+            color: Colors.white,
           ),
         ),
-        toolbarHeight: 80.0,
+        toolbarHeight: MediaQuery.of(context).size.height *
+            0.1, // Ajusta el alto del AppBar según el tamaño de la pantalla
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -738,22 +738,25 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xFF6EBC44), // Verde
-                Color(0xFF000000), // Negro
+                Color(0xFF6EBC44),
+                Color(0xFF000000),
               ],
               stops: [0.0, 1.0],
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
                 'Registro de Usuario',
                 textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontSize: 18.0, color: Colors.white, height: 6),
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width *
+                      0.04, // Ajusta el tamaño del texto según el ancho de la pantalla
+                  color: Colors.white,
+                ),
               ),
-            ],
+            ),
           ),
         ),
         actions: [
@@ -763,7 +766,11 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               onPressed: () {
                 // Acción al presionar el IconButton
               },
-              icon: Image.asset('assets/logoblanco.png'),
+              icon: Image.asset(
+                'assets/logoblanco.png',
+                width: MediaQuery.of(context).size.width *
+                    0.1, // Ajusta el ancho de la imagen según el tamaño de la pantalla
+              ),
             ),
           ),
         ],
@@ -1283,11 +1290,17 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 child: Container(
                   // Alto deseado
                   decoration: buildBoxDecoration(),
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width *
+                        0.01, // Ajusta el espacio horizontal según el ancho de la pantalla
+                    vertical: MediaQuery.of(context).size.height *
+                        0.015, // Ajusta el espacio vertical según el alto de la pantalla
+                  ),
+
                   width: MediaQuery.of(context).size.width *
                       0.95, // El 80% del ancho de la pantalla
                   height: MediaQuery.of(context).size.height *
-                      0.055, // El 5% de la altura de la pantalla
+                      0.08, // El 5% de la altura de la pantalla
                   // margin: EdgeInsets.symmetric(vertical: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1296,7 +1309,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                         'FECHA DE NACIMIENTO*:',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: MediaQuery.of(context).size.width * 0.035,
                             color: Color(0xFF060606)),
                       ),
                       Text(
@@ -1353,15 +1366,15 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                       fontSize: MediaQuery.of(context).size.width * 0.04),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(14.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(14.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(14.0),
                   ),
                   filled: true,
                   fillColor: Colors.white,
@@ -1387,7 +1400,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                     value: country,
                     child: Text(
                       country,
-                      style: TextStyle(fontFamily: 'Roboto', fontSize: 14),
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: MediaQuery.of(context).size.width * 0.03),
                     ),
                   );
                 }).toList(),
@@ -1407,21 +1422,21 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                       fontSize: MediaQuery.of(context).size.width * 0.04),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(14.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(14.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(14.0),
                   ),
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.width *
-                        0.035, // Ajusta el espaciado vertical según el ancho del dispositivo
+                    vertical: MediaQuery.of(context).size.height *
+                        0.018, // Ajusta el espaciado vertical según el ancho del dispositivo
                     horizontal: MediaQuery.of(context).size.width *
                         0.03, // Ajusta el espaciado horizontal según el ancho del dispositivo
                   ),
