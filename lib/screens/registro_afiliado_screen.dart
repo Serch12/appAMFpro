@@ -1285,9 +1285,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   decoration: buildBoxDecoration(),
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   width: MediaQuery.of(context).size.width *
-                      0.9, // El 80% del ancho de la pantalla
+                      0.95, // El 80% del ancho de la pantalla
                   height: MediaQuery.of(context).size.height *
-                      0.05, // El 5% de la altura de la pantalla
+                      0.055, // El 5% de la altura de la pantalla
                   // margin: EdgeInsets.symmetric(vertical: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -1301,7 +1301,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                       ),
                       Text(
                         DateFormat('dd-MM-yyyy').format(_fechaNacimiento),
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14),
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize:
+                                MediaQuery.of(context).size.width * 0.035),
                       ),
                     ],
                   ),
@@ -1345,7 +1348,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 decoration: InputDecoration(
                   labelText: 'SEXO*',
                   errorText: _errorMessage,
-                  labelStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14),
+                  labelStyle: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: MediaQuery.of(context).size.width * 0.04),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(15.0),
@@ -1360,8 +1365,12 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width *
+                        0.035, // Ajusta el espaciado vertical según el ancho del dispositivo
+                    horizontal: MediaQuery.of(context).size.width *
+                        0.03, // Ajusta el espaciado horizontal según el ancho del dispositivo
+                  ),
                 ),
               ),
             ),
@@ -1393,7 +1402,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 decoration: InputDecoration(
                   labelText: 'PAÍS',
                   errorText: _errorMessage2,
-                  labelStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14),
+                  labelStyle: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: MediaQuery.of(context).size.width * 0.04),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(15.0),
@@ -1408,8 +1419,12 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.width *
+                        0.035, // Ajusta el espaciado vertical según el ancho del dispositivo
+                    horizontal: MediaQuery.of(context).size.width *
+                        0.03, // Ajusta el espaciado horizontal según el ancho del dispositivo
+                  ),
                 ),
               ),
             ),

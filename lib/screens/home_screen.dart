@@ -80,30 +80,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xFF211A46),
-          // title: Image.asset(
-          //   'assets/logo3.png',
-          //   width: 80,
-          //   height: 50,
-          // ),
-          automaticallyImplyLeading: false,
-          title: Center(
-            child: Text(
-              '',
-              style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
-            ),
+        backgroundColor: Color(0xFF211A46),
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Text(
+            '',
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: MediaQuery.of(context).size.width * 0.04),
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'homeroute');
-                },
-                icon: Image.asset('assets/logoblanco.png'),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(
+                right: MediaQuery.of(context).size.width * 0.03),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, 'homeroute');
+              },
+              icon: Image.asset(
+                'assets/logoblanco.png',
+                width: MediaQuery.of(context).size.width * 0.08,
               ),
             ),
-          ]),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
           child: Column(
         children: [
@@ -279,7 +281,8 @@ class CustomPagination extends StatelessWidget {
             height: 20,
           ),
           Container(
-            // margin: EdgeInsets.all(),
+            // Utiliza MediaQuery para obtener el ancho del dispositivo
+            width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -293,8 +296,7 @@ class CustomPagination extends StatelessWidget {
                           _launchFacebookApp();
                         },
                         icon: Image.asset('assets/social_facebook.png'),
-                        tooltip:
-                            'Facebook', // Texto que se muestra al mantener presionado el botón
+                        tooltip: 'Facebook',
                       ),
                       IconButton(
                         onPressed: () {
@@ -302,8 +304,7 @@ class CustomPagination extends StatelessWidget {
                           _launchInstagramApp();
                         },
                         icon: Image.asset('assets/social_instagram.png'),
-                        tooltip:
-                            'Instagram', // Texto que se muestra al mantener presionado el botón
+                        tooltip: 'Instagram',
                       ),
                       IconButton(
                         onPressed: () {
@@ -311,8 +312,7 @@ class CustomPagination extends StatelessWidget {
                           _launchLinkedInProfile();
                         },
                         icon: Image.asset('assets/social_linkedin.png'),
-                        tooltip:
-                            'LinkedIn', // Texto que se muestra al mantener presionado el botón
+                        tooltip: 'LinkedIn',
                       ),
                     ],
                   ),
@@ -326,11 +326,8 @@ class CustomPagination extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF4FC028),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            25.0), // Ajusta el radio según tus necesidades
+                        borderRadius: BorderRadius.circular(25.0),
                       ),
-                      minimumSize: const Size(
-                          100, 30), // Ajusta el tamaño mínimo del botón
                     ),
                     child: Text(
                       'Mas Información',
