@@ -1415,7 +1415,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   });
                 },
                 decoration: InputDecoration(
-                  labelText: 'PAÍS',
+                  labelText: 'PAÍS*',
                   errorText: _errorMessage2,
                   labelStyle: TextStyle(
                       fontFamily: 'Roboto',
