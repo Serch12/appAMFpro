@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:card_swiper/card_swiper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,82 +79,87 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color(0xFF211A46),
+          // title: Image.asset(
+          //   'assets/logo3.png',
+          //   width: 80,
+          //   height: 50,
+          // ),
+          automaticallyImplyLeading: false,
+          title: Center(
+            child: Text(
+              '',
+              style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'homeroute');
+                },
+                icon: Image.asset('assets/logoblanco.png'),
+              ),
+            ),
+          ]),
       body: SingleChildScrollView(
           child: Column(
         children: [
           Container(
             width: double.infinity,
-            height: size.height * 0.5,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                    child: Image.asset('assets/logo-negro.png'))
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Container(
+            width: double.infinity,
+            height: size.height * 0.65,
             child: Stack(
               children: [
                 Swiper(
                   autoplay: true,
                   autoplayDelay:
                       8000, // Duración en milisegundos (en este caso, 5 segundos)
-                  pagination: SwiperPagination(
-                    builder: DotSwiperPaginationBuilder(
-                      color:
-                          Colors.grey, // Color de los puntos no seleccionados
-                      activeColor:
-                          Color(0XFF6EBC44), // Color del punto seleccionado
-                      size: 8.0, // Tamaño de los puntos
-                      activeSize: 10.0, // Tamaño del punto seleccionado
-                      space: 5.0, // Espaciado entre los puntos
-                    ),
-                  ),
-                  itemCount: lista_publicaciones.length,
-                  layout: SwiperLayout.STACK,
-                  itemWidth: size.width,
-                  itemHeight: size.height,
                   itemBuilder: (_, int index) {
                     return ClipRRect(
                       borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(50),
-                          bottomLeft: Radius.circular(50)),
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                          bottomLeft: Radius.circular(30)),
                       child: FadeInImage(
                         placeholder: AssetImage('assets/no-image.jpg'),
-                        image: NetworkImage(
-                            'http://amfpro.mx/intranet/public/ArchivosSistema/PostApp/${lista_publicaciones[index]['archivo']}'),
+                        image:
+                            // NetworkImage(
+                            //     'http://amfpro.mx/intranet/public/ArchivosSistema/PostApp/${lista_publicaciones[index]['archivo']}'),
+                            AssetImage("assets/Mask.png"),
                         fit: BoxFit.fill,
                       ),
                     );
                   },
+                  itemCount: lista_publicaciones.length,
+                  viewportFraction: 0.8,
+                  scale: 0.9,
+                  pagination:
+                      SwiperCustomPagination(builder: (context, config) {
+                    return CustomPagination(config);
+                  }),
                 ),
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                  child: Text(
-                    'OBJETIVO',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: Color(0xFF424753),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                  child: Text(
-                    'Representar y proteger los intereses de las y los Futbolistas profesionales afiliados a la Federación Mexicana de Futbol (FMF) de la Liga MX, Liga MX Femenil, Liga Expansión MX, Liga Premier y Liga TDP, así como Sub 17 y Sub 20, ante los órganos de dirección, de administración, de auditoría, de evaluación de resultados y de justicia deportiva y/o demás órganos competentes y/o comisiones de dicha Asociación Deportiva Nacional, y someterles todos los asuntos relacionados con la actividad de las y los Jugadores profesionales. Asimismo, representar y proteger dichos intereses ante afiliados directos y derivados de la FMF y ante las entidades, autoridades y organismos nacionales e internacionales relacionados con el desarrollo y consolidación del futbol profesional. A través de las acciones presentadas, la AMFpro busca fortalecer su dignidad, honorabilidad, integridad, salud, seguridad y libertad, al promover, fomentar y estimular su profesionalización y desarrollo integral.',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      // fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Color(0xFF9A9A9A),
-                    ),
-                    textAlign: TextAlign.justify,
-                  ),
-                )
-              ],
-            ),
+          SizedBox(
+            height: 30,
           ),
           Container(
             width: double.infinity,
@@ -233,6 +239,163 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class CustomPagination extends StatelessWidget {
+  final SwiperPluginConfig config;
+
+  CustomPagination(this.config);
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Positioned(
+      bottom: 10,
+      left: screenWidth *
+          0.1, // 10% del ancho de la pantalla desde el borde izquierdo
+      right: screenWidth *
+          0.1, // 10% del ancho de la pantalla desde el borde derecho
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              config.itemCount!,
+              (index) {
+                bool isActive = index == config.activeIndex;
+                return Container(
+                  width: isActive
+                      ? 30.0
+                      : 5.0, // Ajusta el ancho según esté activo o no
+                  height: 5.0,
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: isActive ? Colors.white : Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            // margin: EdgeInsets.all(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          // Acción cuando se presiona el primer botón
+                          _launchFacebookApp();
+                        },
+                        icon: Image.asset('assets/social_facebook.png'),
+                        tooltip:
+                            'Facebook', // Texto que se muestra al mantener presionado el botón
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          // Acción cuando se presiona el segundo botón
+                          _launchInstagramApp();
+                        },
+                        icon: Image.asset('assets/social_instagram.png'),
+                        tooltip:
+                            'Instagram', // Texto que se muestra al mantener presionado el botón
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          // Acción cuando se presiona el tercer botón
+                          _launchLinkedInProfile();
+                        },
+                        icon: Image.asset('assets/social_linkedin.png'),
+                        tooltip:
+                            'LinkedIn', // Texto que se muestra al mantener presionado el botón
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(right: 20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _launchURL();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFF4FC028),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            25.0), // Ajusta el radio según tus necesidades
+                      ),
+                      minimumSize: const Size(
+                          100, 30), // Ajusta el tamaño mínimo del botón
+                    ),
+                    child: Text(
+                      'Mas Información',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+void _launchFacebookApp() async {
+  final facebookUrl =
+      "fb://page/AMFproMX"; // Esquema de URL de Facebook para abrir la página
+  final webUrl =
+      "https://www.facebook.com/AMFproMX"; // URL de respaldo para abrir en el navegador si la aplicación de Facebook no está instalada
+  try {
+    bool launched = await launch(facebookUrl, forceSafariVC: false);
+    if (!launched) {
+      await launch(webUrl, forceSafariVC: false);
+    }
+  } catch (e) {
+    await launch(webUrl, forceSafariVC: false);
+  }
+}
+
+void _launchInstagramApp() async {
+  final instagramUrl =
+      "instagram://user?username=AMFproMX"; // Esquema de URL de Instagram para abrir el perfil
+  final webUrl =
+      "https://www.instagram.com/AMFproMX/"; // URL de respaldo para abrir en el navegador si la aplicación de Instagram no está instalada
+  try {
+    bool launched = await launch(instagramUrl, forceSafariVC: false);
+    if (!launched) {
+      await launch(webUrl, forceSafariVC: false);
+    }
+  } catch (e) {
+    await launch(webUrl, forceSafariVC: false);
+  }
+}
+
+void _launchLinkedInProfile() async {
+  final linkedInUrl =
+      "linkedin://profile/company/amfpromx"; // Esquema de URL de LinkedIn para abrir el perfil de la empresa
+  final webUrl =
+      "https://www.linkedin.com/company/amfpromx/mycompany/"; // URL de respaldo para abrir en el navegador si la aplicación de LinkedIn no está instalada
+  try {
+    bool launched = await launch(linkedInUrl, forceSafariVC: false);
+    if (!launched) {
+      await launch(webUrl, forceSafariVC: false);
+    }
+  } catch (e) {
+    await launch(webUrl, forceSafariVC: false);
+  }
+}
+
+void _launchURL() async {
+  final url = 'https://amfpro.mx/asesorias';
+  await launch(url, forceSafariVC: false);
+}
 // class _bannerHorizontal extends StatelessWidget {
 //   const _bannerHorizontal({super.key});
 

@@ -392,7 +392,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                                 'Audiencia',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        14,
+                                                                        12,
                                                                     color: Colors
                                                                         .black,
                                                                     fontFamily:
@@ -437,7 +437,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                                 'Términos',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        14,
+                                                                        12,
                                                                     color: Colors
                                                                         .black,
                                                                     fontFamily:
@@ -487,7 +487,9 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                                         'Roboto',
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .bold),
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        12),
                                                               ),
                                                               style:
                                                                   ElevatedButton

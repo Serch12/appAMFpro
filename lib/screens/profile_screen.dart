@@ -173,6 +173,44 @@ class _ProfileScreenState extends State<ProfileScreen>
     ];
 
     return Scaffold(
+        appBar: AppBar(
+            // backgroundColor: Color(0xFF211A46),
+            backgroundColor: Color(0xFF6EBC44),
+            elevation: 0, // Establece la elevación del AppBar a cero
+            // title: Image.asset(
+            //   'assets/logo3.png',
+            //   width: 80,
+            //   height: 50,
+            // ),
+            automaticallyImplyLeading: false,
+            title: Center(
+              child: Text(
+                '',
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
+              ),
+            ),
+            // leading: IconButton(
+            //   onPressed: () {
+            //     // Acción al presionar el botón de retroceso
+            //     Navigator.pop(context);
+            //   },
+            //   icon: Icon(
+            //     Icons.arrow_back_ios,
+            //     color: Colors.white, // Color blanco para el icono
+            //   ),
+            // ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: IconButton(
+                  onPressed: () {
+                    // Acción al presionar el IconButton
+                    Navigator.pushReplacementNamed(context, 'homeroute');
+                  },
+                  icon: Image.asset('assets/logoblanco.png'),
+                ),
+              ),
+            ]),
         body: FutureBuilder(
             // Reducimos la duración del tiempo de carga a medio segundo
             future: Future.delayed(Duration(seconds: 3)),
@@ -184,7 +222,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                   children: [
                     // Fondo principal
                     Container(
-                      color: const Color(0xFF211A46),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xFF6EBC44), Colors.black],
+                          stops: [
+                            0.0,
+                            0.2
+                          ], // Ajusta las paradas de color según lo necesites
+                        ),
+                      ),
+                      // color: const Color(0xFF211A46),
                       padding: EdgeInsets.only(top: 20.0),
                       child: Center(
                         child: Column(
@@ -561,7 +610,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           Container(
                                             padding: const EdgeInsets.all(2.0),
                                             decoration: BoxDecoration(
-                                              color: const Color(0xFF6EBC44),
+                                              // color: const Color(0xFF6EBC44),
                                               borderRadius:
                                                   BorderRadius.circular(40.0),
                                             ),
@@ -582,7 +631,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       ElevatedButton.styleFrom(
                                                     primary: boton1Activado
                                                         ? Colors.white
-                                                        : Color(0xFF6EBC44),
+                                                        : Color(0xFF211A46),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -596,7 +645,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     'Anverso',
                                                     style: TextStyle(
                                                       color: boton1Activado
-                                                          ? Color(0xFF6EBC44)
+                                                          ? Color(0xFF211A46)
                                                           : Colors.white,
                                                     ),
                                                   ),
@@ -614,7 +663,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       ElevatedButton.styleFrom(
                                                     primary: boton2Activado
                                                         ? Colors.white
-                                                        : Color(0xFF6EBC44),
+                                                        : Color(0xFF211A46),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -628,7 +677,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                     'Reverso',
                                                     style: TextStyle(
                                                       color: boton2Activado
-                                                          ? Color(0xFF6EBC44)
+                                                          ? Color(0xFF211A46)
                                                           : Colors.white,
                                                     ),
                                                   ),

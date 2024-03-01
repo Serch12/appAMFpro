@@ -74,7 +74,7 @@ class _Bubble extends StatelessWidget {
       width: 460,
       height: 460,
       child: Image(
-        image: AssetImage('assets/vec.png'),
+        image: AssetImage('assets/Foto.png'),
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(350),

@@ -4,12 +4,11 @@ import 'package:splash_animated/screens/verification_code_password_screen.dart';
 import 'package:splash_animated/screens/verification_code_screen.dart';
 import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/src/services/afiliados_services.dart';
-// import 'package:amf_app/screens/register_screen.dart';
-import 'package:splash_animated/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +41,17 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        // Aquí agregamos las localizaciones específicas de Material para español
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('es', 'ES'), // Español
+        ],
         debugShowCheckedModeBanner: false,
         title: 'Material App',
+        theme: ThemeData(primarySwatch: Colors.green),
         initialRoute: 'checkauth',
         routes: {
           'inicio_nui_screen': (_) => const InicioNuiScreen(),
