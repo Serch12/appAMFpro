@@ -18,6 +18,31 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+          backgroundColor: Color(0xFF211A46),
+          // title: Image.asset(
+          //   'assets/logo3.png',
+          //   width: 80,
+          //   height: 50,
+          // ),
+          automaticallyImplyLeading: false,
+          title: Center(
+            child: Text(
+              '',
+              style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'homeroute');
+                },
+                icon: Image.asset('assets/logoblanco.png'),
+              ),
+            ),
+          ]),
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
