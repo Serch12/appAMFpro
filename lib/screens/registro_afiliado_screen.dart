@@ -205,12 +205,13 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 Icon(Icons.check_circle,
                     color: Color(0xFF1AD598)), // Icono a la izquierda del texto
                 SizedBox(width: 10.0), // Espacio entre el icono y el texto
-                Flexible(
+                Expanded(
                   child: Text(
                     'Usuario registrado exitosamente',
                     style: TextStyle(color: Color(0xFF1AD598)),
                     overflow: TextOverflow.visible,
-                    softWrap: false, // Permite que el texto se desborde
+                    softWrap:
+                        true, // Permite que el texto se ajuste al ancho disponible
                   ),
                 ),
                 TextButton(
@@ -245,12 +246,13 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 Icon(Icons.cancel,
                     color: Colors.red), // Icono a la izquierda del texto
                 SizedBox(width: 10.0), // Espacio entre el icono y el texto
-                Flexible(
+
+                Expanded(
                   child: Text(
                     'Error al registrar el usuario',
-                    style: TextStyle(color: Color(0xFF1AD598)),
+                    style: TextStyle(color: Colors.red),
                     overflow: TextOverflow.visible,
-                    softWrap: false, // Permite que el texto se desborde
+                    softWrap: true, // Permite que el texto se desborde
                   ),
                 ),
                 TextButton(
@@ -1415,7 +1417,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   });
                 },
                 decoration: InputDecoration(
-                  labelText: 'PAÍS',
+                  labelText: 'PAÍS*',
                   errorText: _errorMessage2,
                   labelStyle: TextStyle(
                       fontFamily: 'Roboto',

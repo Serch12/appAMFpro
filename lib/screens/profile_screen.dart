@@ -264,6 +264,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                     // Fondo encima del fondo principal con bordes redondeados
                     Positioned(
                       top: MediaQuery.of(context).size.width * 0.25,
+
+                      height: MediaQuery.of(context).size.height *
+                          0.75, // Alto ajustado
                       child: DefaultTabController(
                         length: tabs.length, // Número de pestañas
                         child: Container(
