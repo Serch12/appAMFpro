@@ -240,14 +240,19 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Roboto'),
                                   textAlign: TextAlign.left),
-                              const SizedBox(height: 20),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                              ),
                               TablaSolicitudInicio(datos: widget.value),
                             ],
                           ),
                         ),
                         Container(
                           width: double.infinity,
-                          height: (screenHeight - appBarHeight) / 1.5,
+                          height: (MediaQuery.of(context).size.height -
+                                  appBarHeight) /
+                              1.5,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
@@ -871,326 +876,348 @@ class TablaSolicitudInicio extends StatefulWidget {
 class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
   @override
   Widget build(BuildContext context) {
-    return Table(
-      columnWidths: {
-        0: FlexColumnWidth(1.0),
-        1: FlexColumnWidth(1.0),
-      },
-      children: [
-        TableRow(
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.15),
-              borderRadius: BorderRadius.circular(20.0)), // Fila blanca
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Table(
+          columnWidths: {
+            0: FlexColumnWidth(1.0),
+            1: FlexColumnWidth(1.0),
+          },
           children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('No.Solicitud:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['no_solicitud'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Nombre:',
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.025,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto',
-                        color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['nombre'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.15),
-              borderRadius: BorderRadius.circular(20.0)), // Fila blanca
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('División:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['division'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Club:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['club'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.15),
-              borderRadius: BorderRadius.circular(20.0)), // Fila blanca
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('NUI:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['nui'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Trámite:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['tramite'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.15),
-              borderRadius: BorderRadius.circular(20.0)), // Fila blanca
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Observaciones:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['observaciones'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Fecha inicial:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.datos['fecha'].toString(),
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.w300,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            )
-          ],
-        ),
-        TableRow(
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.15),
-              borderRadius: BorderRadius.circular(20.0)), // Fila blanca
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Estatus:',
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto',
-                          color: Colors.white)),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 25.0, vertical: 4.0),
-                  decoration: BoxDecoration(
-                    color: widget.datos['estatus'] == 0
-                        ? Color(0x80ff6d00)
-                        : Color(0x806EBC44),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Text(
-                    widget.datos['estatus'] == 0 ? 'En proceso' : 'Concluido',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.025,
-                      color: Colors.white,
+            TableRow(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  borderRadius: BorderRadius.circular(20.0)), // Fila blanca
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('No.Solicitud:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
                     ),
                   ),
                 ),
-              ),
-            )
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['no_solicitud'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Nombre:',
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.025,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Roboto',
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['nombre'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  borderRadius: BorderRadius.circular(20.0)), // Fila blanca
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('División:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['division'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Club:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['club'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  borderRadius: BorderRadius.circular(20.0)), // Fila blanca
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('NUI:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['nui'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Trámite:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['tramite'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  borderRadius: BorderRadius.circular(20.0)), // Fila blanca
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Observaciones:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['observaciones'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Fecha inicial:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.datos['fecha'].toString(),
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            TableRow(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.15),
+                  borderRadius: BorderRadius.circular(20.0)), // Fila blanca
+              children: [
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Estatus:',
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              color: Colors.white)),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25.0, vertical: 4.0),
+                      decoration: BoxDecoration(
+                        color: widget.datos['estatus'] == 0
+                            ? Color(0x80ff6d00)
+                            : Color(0x806EBC44),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Text(
+                        widget.datos['estatus'] == 0
+                            ? 'En proceso'
+                            : 'Concluido',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
