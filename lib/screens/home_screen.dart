@@ -287,8 +287,12 @@ class CustomPagination extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width *
+                          0.01), // Ajusta el padding horizontal según el ancho de la pantalla
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment
+                        .spaceBetween, // Alinea los elementos de la fila
                     children: [
                       IconButton(
                         onPressed: () {
@@ -318,7 +322,9 @@ class CustomPagination extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width *
+                          0.02), // Ajusta el padding horizontal según el ancho de la pantalla
                   child: ElevatedButton(
                     onPressed: () {
                       _launchURL();
@@ -331,7 +337,11 @@ class CustomPagination extends StatelessWidget {
                     ),
                     child: Text(
                       'Mas Información',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: MediaQuery.of(context).size.width *
+                            0.02, // Ajusta el tamaño del texto según el ancho de la pantalla
+                      ),
                     ),
                   ),
                 ),

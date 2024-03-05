@@ -168,6 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     final List<Tab> tabs = <Tab>[
       const Tab(text: 'Info Personal'),
       const Tab(text: 'Domicilio'),
+      const Tab(text: 'Datos Deportivos'),
       const Tab(text: 'Contacto'),
       // Agrega más pestañas si es necesario
     ];
@@ -242,17 +243,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                           children: [
                             Text(
                               '$nombre',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 24.0,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Roboto'),
                             ),
                             Text(
                               '$apellidoPaterno $apellidoMaterno',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 24.0,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.05,
                                   fontWeight: FontWeight.w300,
                                   fontFamily: 'Roboto'),
                             ),
@@ -304,9 +307,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           style: DefaultTextStyle.of(context)
                                               .style,
                                           children: <TextSpan>[
-                                            const TextSpan(
+                                            TextSpan(
                                               text: 'ID: ',
                                               style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                 color: Colors.black,
                                                 fontWeight: FontWeight
                                                     .bold, // Pone el texto "ID" en negritas
@@ -314,7 +321,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                                             ),
                                             TextSpan(
                                               text: 'AMF-${id}',
-                                              style: const TextStyle(
+                                              style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                 color: Colors
                                                     .black, // Cambia a tu color deseado
                                               ),
@@ -330,17 +341,25 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           style: DefaultTextStyle.of(context)
                                               .style,
                                           children: <TextSpan>[
-                                            const TextSpan(
+                                            TextSpan(
                                               text: 'NUI: ',
                                               style: TextStyle(
                                                 color: Colors.black,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                 fontWeight: FontWeight
                                                     .bold, // Pone el texto "ID" en negritas
                                               ),
                                             ),
                                             TextSpan(
                                               text: '${nui}',
-                                              style: const TextStyle(
+                                              style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.03, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                 color: Colors
                                                     .black, // Cambia a tu color deseado
                                               ),
@@ -362,6 +381,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     0xFF848587), // Color de etiqueta inactiva
                                 indicatorColor: const Color(
                                     0xFF211A46), // Cambia a tu color deseado para la línea activa
+                                labelStyle: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.025,
+                                ),
                               ),
                               Expanded(
                                 child: TabBarView(
@@ -388,8 +411,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                 .all(8.0),
                                                         child: Text(
                                                             'Fecha de nacimiento:',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -408,8 +435,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                 .all(8.0),
                                                         child: Text(
                                                             '${nacimiento ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w300,
@@ -437,8 +468,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: Text('CURP:',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -457,8 +492,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                 .all(8.0),
                                                         child: Text(
                                                             '${curp ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.023, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w300,
@@ -480,8 +519,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: Text('Sexo:',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -500,8 +543,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                 .all(8.0),
                                                         child: Text(
                                                             '${sexo ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w300,
@@ -520,7 +567,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                         70,
                                                         0.04)), // Fila blanca
                                                 children: [
-                                                  const TableCell(
+                                                  TableCell(
                                                     child: Align(
                                                       alignment:
                                                           Alignment.centerLeft,
@@ -530,7 +577,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                         child: Text(
                                                             'Último grado de estudios:',
                                                             style: TextStyle(
-                                                                fontSize: 12.0,
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -549,8 +600,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                 .all(8.0),
                                                         child: Text(
                                                             '${escolaridad ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w300,
@@ -563,7 +618,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               ),
                                               TableRow(
                                                 children: [
-                                                  const TableCell(
+                                                  TableCell(
                                                     child: Align(
                                                       alignment:
                                                           Alignment.centerLeft,
@@ -573,7 +628,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                         child: Text(
                                                             'Nacionalidad:',
                                                             style: TextStyle(
-                                                                fontSize: 12.0,
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -592,8 +651,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                                 .all(8.0),
                                                         child: Text(
                                                             '${nacionalidad ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
+                                                            style: TextStyle(
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w300,
@@ -606,10 +669,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               ),
                                             ],
                                           ),
-                                          // Agrega más elementos aquí
-                                          const SizedBox(
-                                              height:
-                                                  20), // Agrega un espacio entre la tabla y el siguiente elemento
                                           Container(
                                             padding: const EdgeInsets.all(2.0),
                                             decoration: BoxDecoration(
@@ -641,8 +700,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                           BorderRadius.circular(
                                                               25.0), // Ajusta el radio según tus necesidades
                                                     ),
-                                                    minimumSize: const Size(150,
-                                                        50), // Ajusta el tamaño mínimo del botón
+                                                    minimumSize: Size(
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.4, // Ajusta el ancho del botón según el ancho de la pantalla
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.1, // Ajusta el alto del botón según el ancho de la pantalla
+                                                    ),
                                                   ),
                                                   child: Text(
                                                     'Anverso',
@@ -673,8 +740,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                           BorderRadius.circular(
                                                               25.0), // Ajusta el radio según tus necesidades
                                                     ),
-                                                    minimumSize: Size(150,
-                                                        50), // Ajusta el tamaño mínimo del botón
+                                                    minimumSize: Size(
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.4, // Ajusta el ancho del botón según el ancho de la pantalla
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.1, // Ajusta el alto del botón según el ancho de la pantalla
+                                                    ),
                                                   ),
                                                   child: Text(
                                                     'Reverso',
@@ -687,257 +762,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          // Agrega más elementos aquí
-                                          SizedBox(
-                                              height:
-                                                  20), // Agrega un espacio entre la tabla y el siguiente elemento
-                                          Table(
-                                            columnWidths: const {
-                                              0: FlexColumnWidth(1.0),
-                                              1: FlexColumnWidth(1.0),
-                                            },
-                                            children: [
-                                              TableRow(
-                                                children: [
-                                                  const TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.0),
-                                                        child: Text('División:',
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            '${division ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              TableRow(
-                                                decoration: const BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        33,
-                                                        26,
-                                                        70,
-                                                        0.04)), // Fila blanca
-                                                children: [
-                                                  const TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.0),
-                                                        child: Text('Equipo:',
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            '${club ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              TableRow(
-                                                children: [
-                                                  const TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.0),
-                                                        child: Text(
-                                                            'Posición en cancha:',
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            '${posicion ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              TableRow(
-                                                decoration: const BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        33,
-                                                        26,
-                                                        70,
-                                                        0.04)), // Fila blanca
-                                                children: [
-                                                  const TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.0),
-                                                        child: Text(
-                                                            'Apodo deportivo:',
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            '${apodo ?? ''}',
-                                                            style: const TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              TableRow(
-                                                children: [
-                                                  const TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.0),
-                                                        child: Text('Estatus:',
-                                                            style: TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    'Roboto')),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal:
-                                                                    25.0,
-                                                                vertical: 4.0),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: estatus ==
-                                                                  'Activo'
-                                                              ? Color(
-                                                                  0xFF6EBC44) // Color verde si estatus es 'Activo'
-                                                              : Colors
-                                                                  .red, // Color rojo en caso contrario
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                        ),
-                                                        child: Text(
-                                                          '${estatus}',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors
-                                                                .white, // Color del texto blanco
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
                                           ),
                                         ],
                                       ),
@@ -952,14 +776,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       children: [
                                         TableRow(
                                           children: [
-                                            const TableCell(
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text('Calle:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -975,8 +803,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text('${calle ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -991,14 +823,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               color: Color.fromRGBO(33, 26, 70,
                                                   0.04)), // Fila blanca
                                           children: [
-                                            const TableCell(
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text('Colonia:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -1015,8 +851,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
                                                       '${colonia ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -1028,14 +868,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         ),
                                         TableRow(
                                           children: [
-                                            const TableCell(
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text('Estado:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -1051,8 +895,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text('${estado ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -1067,14 +915,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               color: Color.fromRGBO(33, 26, 70,
                                                   0.04)), // Fila blanca
                                           children: [
-                                            const TableCell(
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text('Ciudad:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -1090,8 +942,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text('${ciudad ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -1103,14 +959,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         ),
                                         TableRow(
                                           children: [
-                                            const TableCell(
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text('Código postal:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -1126,8 +986,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text('${cp ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -1148,7 +1012,254 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       children: [
                                         TableRow(
                                           children: [
-                                            const TableCell(
+                                            TableCell(
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text('División:',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            ),
+                                            TableCell(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      '${division ?? ''}',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        TableRow(
+                                          decoration: const BoxDecoration(
+                                              color: Color.fromRGBO(33, 26, 70,
+                                                  0.04)), // Fila blanca
+                                          children: [
+                                            TableCell(
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text('Equipo:',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            ),
+                                            TableCell(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text('${club ?? ''}',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        TableRow(
+                                          children: [
+                                            TableCell(
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      'Posición en cancha:',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            ),
+                                            TableCell(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      '${posicion ?? ''}',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        TableRow(
+                                          decoration: const BoxDecoration(
+                                              color: Color.fromRGBO(33, 26, 70,
+                                                  0.04)), // Fila blanca
+                                          children: [
+                                            TableCell(
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                      'Apodo deportivo:',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            ),
+                                            TableCell(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text('${apodo ?? ''}',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        TableRow(
+                                          children: [
+                                            TableCell(
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text('Estatus:',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            ),
+                                            TableCell(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 25.0,
+                                                      vertical: 4.0),
+                                                  decoration: BoxDecoration(
+                                                    color: estatus == 'Activo'
+                                                        ? Colors.green
+                                                            .shade200 // Color verde si estatus es 'Activo'
+                                                        : Colors
+                                                            .red, // Color rojo en caso contrario
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: Text(
+                                                    '${estatus}',
+                                                    style: const TextStyle(
+                                                      color: Colors
+                                                          .white, // Color del texto blanco
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    // Contenido de la cuarta pestaña
+                                    Table(
+                                      columnWidths: const {
+                                        0: FlexColumnWidth(1.0),
+                                        1: FlexColumnWidth(1.0),
+                                      },
+                                      children: [
+                                        TableRow(
+                                          children: [
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
@@ -1156,7 +1267,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   child: Text(
                                                       'Teléfono celular:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -1173,8 +1288,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
                                                       '${celular ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -1189,14 +1308,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                               color: Color.fromRGBO(33, 26, 70,
                                                   0.04)), // Fila blanca
                                           children: [
-                                            const TableCell(
+                                            TableCell(
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Padding(
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text('Teléfono fijo:',
                                                       style: TextStyle(
-                                                          fontSize: 12.0,
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -1213,8 +1336,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
                                                       '${telCasa ?? ''}',
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
                                                           fontWeight:
                                                               FontWeight.w300,
                                                           fontFamily:
@@ -1240,7 +1367,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       left: MediaQuery.of(context).size.width * 0.30,
                       right: MediaQuery.of(context).size.width * 0.30,
                       bottom:
-                          MediaQuery.of(context).size.height * 0.55, // bottom
+                          MediaQuery.of(context).size.height * 0.5, // bottom
                       child: Container(
                         width: screenWidth,
                         height: screenHeight,

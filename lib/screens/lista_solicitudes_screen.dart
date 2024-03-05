@@ -152,9 +152,12 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text('$nombre',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 24.0,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Roboto')),
                                 ),
@@ -162,9 +165,12 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                                   padding: const EdgeInsets.only(left: 23.0),
                                   child: Text(
                                       '$apellidoPaterno $apellidoMaterno',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 24.0,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.05,
                                           fontWeight: FontWeight.w300,
                                           fontFamily: 'Roboto')),
                                 ),
@@ -194,7 +200,10 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                                             'Listado de solicitudes',
                                             style: TextStyle(
                                                 fontFamily: 'Roboto',
-                                                fontSize: 18,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
@@ -304,7 +313,7 @@ class _TablaListadoState extends State<TablaListado> {
                   child: Text(
                     'Solicitud',
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Roboto',
                     ),
@@ -320,7 +329,7 @@ class _TablaListadoState extends State<TablaListado> {
                   child: Text(
                     'Estatus',
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Roboto',
                     ),
@@ -336,7 +345,7 @@ class _TablaListadoState extends State<TablaListado> {
                   child: Text(
                     'Acción',
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontSize: MediaQuery.of(context).size.width * 0.03,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Roboto',
                     ),
@@ -358,7 +367,7 @@ class _TablaListadoState extends State<TablaListado> {
                       item['no_solicitud']
                           .toString(), // Ajusta el nombre de la clave según tus datos reales
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: MediaQuery.of(context).size.width * 0.03,
                         fontWeight: FontWeight.w300,
                         fontFamily: 'Roboto',
                       ),
@@ -385,7 +394,8 @@ class _TablaListadoState extends State<TablaListado> {
                     ),
                     child: Text(
                       item['estatus'] == 0 ? 'En proceso' : 'Concluido',
-                      style: const TextStyle(
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.03,
                         color: Colors.white,
                       ),
                     ),

@@ -225,29 +225,21 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                     child: Column(
                       children: [
                         Container(
+                          height: MediaQuery.of(context).size.height * 0.55,
                           padding: EdgeInsets.all(15),
-                          height: (screenHeight - appBarHeight) /
-                              2, // La mitad de la altura de la pantalla para el contenedor azul
                           color: Color(0xFF211A46),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(widget.value['nombre'],
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 24.0,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.05,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Roboto'),
                                   textAlign: TextAlign.left),
-                              // Text(
-                              //   'Damian Peña',
-                              //   style: const TextStyle(
-                              //       color: Colors.white,
-                              //       fontSize: 24.0,
-                              //       fontWeight: FontWeight.w300,
-                              //       fontFamily: 'Roboto'),
-                              //   textAlign: TextAlign.left,
-                              // ),
                               const SizedBox(height: 20),
                               TablaSolicitudInicio(datos: widget.value),
                             ],
@@ -261,14 +253,13 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: DefaultTabController(
-                            length: 3, // Número de pestañas
+                            length: 2, // Número de pestañas
                             child: Column(
                               children: [
                                 TabBar(
                                   tabs: [
                                     Tab(text: 'Asesoria'),
                                     Tab(text: 'Controversía'),
-                                    Tab(text: 'Documentación'),
                                   ],
                                   labelColor:
                                       Colors.black, // Color de etiqueta activa
@@ -276,6 +267,11 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                       0xFF848587), // Color de etiqueta inactiva
                                   indicatorColor: const Color(
                                       0xFF211A46), // Cambia a tu color de
+                                  labelStyle: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.03,
+                                  ),
                                 ),
                                 Expanded(
                                   child: TabBarView(
@@ -391,8 +387,11 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                               child: Text(
                                                                 'Audiencia',
                                                                 style: TextStyle(
-                                                                    fontSize:
-                                                                        12,
+                                                                    fontSize: MediaQuery.of(
+                                                                                context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.025,
                                                                     color: Colors
                                                                         .black,
                                                                     fontFamily:
@@ -436,8 +435,11 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                               child: Text(
                                                                 'Términos',
                                                                 style: TextStyle(
-                                                                    fontSize:
-                                                                        12,
+                                                                    fontSize: MediaQuery.of(
+                                                                                context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.025,
                                                                     color: Colors
                                                                         .black,
                                                                     fontFamily:
@@ -480,16 +482,21 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                               },
                                                               child: Text(
                                                                 'Pagos',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        12),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontFamily:
+                                                                      'Roboto',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.025,
+                                                                ),
                                                               ),
                                                               style:
                                                                   ElevatedButton
@@ -517,22 +524,6 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                           ],
                                         ),
                                       ),
-
-                                      // Contenido de la Pestaña 3
-
-                                      ListView.builder(
-                                        itemCount: 15,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Card(
-                                            // Aquí configuras el contenido de cada Card
-                                            child: ListTile(
-                                              title: Text('Item $index'),
-                                              // Agrega aquí el contenido de la Card
-                                            ),
-                                          );
-                                        },
-                                      )
                                     ],
                                   ),
                                 ),
@@ -597,7 +588,7 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                         text: TextSpan(
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 14.0,
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
                             fontFamily: 'Roboto',
                           ),
                           children: [
@@ -650,14 +641,16 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                     children: [
                       TableRow(
                         children: [
-                          const TableCell(
+                          TableCell(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text('División',
                                     style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Roboto')),
                               ),
@@ -669,8 +662,10 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(widget.controversia['division'],
-                                    style: const TextStyle(
-                                        fontSize: 12.0,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
                                         fontWeight: FontWeight.w300,
                                         fontFamily: 'Roboto')),
                               ),
@@ -684,14 +679,16 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                             borderRadius:
                                 BorderRadius.circular(20.0)), // Fila blanca
                         children: [
-                          const TableCell(
+                          TableCell(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text('VS Club:',
                                     style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Roboto')),
                               ),
@@ -703,8 +700,10 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(widget.controversia['vsclub'],
-                                    style: const TextStyle(
-                                        fontSize: 12.0,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
                                         fontWeight: FontWeight.w300,
                                         fontFamily: 'Roboto')),
                               ),
@@ -714,14 +713,16 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                       ),
                       TableRow(
                         children: [
-                          const TableCell(
+                          TableCell(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text('Reclamo:',
                                     style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Roboto')),
                               ),
@@ -733,8 +734,10 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('',
-                                    style: const TextStyle(
-                                        fontSize: 12.0,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
                                         fontWeight: FontWeight.w300,
                                         fontFamily: 'Roboto')),
                               ),
@@ -748,14 +751,16 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                             borderRadius:
                                 BorderRadius.circular(20.0)), // Fila blanca
                         children: [
-                          const TableCell(
+                          TableCell(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text('Resuelto:',
                                     style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Roboto')),
                               ),
@@ -767,8 +772,10 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(widget.controversia['resuelto'],
-                                    style: const TextStyle(
-                                        fontSize: 12.0,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
                                         fontWeight: FontWeight.w300,
                                         fontFamily: 'Roboto')),
                               ),
@@ -778,14 +785,16 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                       ),
                       TableRow(
                         children: [
-                          const TableCell(
+                          TableCell(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text('Observaciones:',
                                     style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Roboto')),
                               ),
@@ -797,8 +806,10 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('',
-                                    style: const TextStyle(
-                                        fontSize: 12.0,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
                                         fontWeight: FontWeight.w300,
                                         fontFamily: 'Roboto')),
                               ),
@@ -827,7 +838,9 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                                 child: Text(
                                     widget.controversia['observaciones'],
                                     style: TextStyle(
-                                        fontSize: 12.0,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
                                         fontWeight: FontWeight.w300,
                                         fontFamily: 'Roboto')),
                               ),
@@ -875,8 +888,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text('No.Solicitud:',
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -889,8 +902,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['no_solicitud'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -908,8 +921,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Nombre:',
-                    style: const TextStyle(
-                        fontSize: 12.0,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.025,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
                         color: Colors.white),
@@ -923,8 +936,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['nombre'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -944,8 +957,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text('División:',
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -958,8 +971,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['division'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -970,14 +983,14 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
         ),
         TableRow(
           children: [
-            const TableCell(
+            TableCell(
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Club:',
                       style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -990,8 +1003,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['club'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1005,14 +1018,14 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
               color: Color.fromRGBO(255, 255, 255, 0.15),
               borderRadius: BorderRadius.circular(20.0)), // Fila blanca
           children: [
-            const TableCell(
+            TableCell(
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('NUI:',
                       style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1025,8 +1038,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['nui'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1037,14 +1050,14 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
         ),
         TableRow(
           children: [
-            const TableCell(
+            TableCell(
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Trámite:',
                       style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1057,8 +1070,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['tramite'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1072,14 +1085,14 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
               color: Color.fromRGBO(255, 255, 255, 0.15),
               borderRadius: BorderRadius.circular(20.0)), // Fila blanca
           children: [
-            const TableCell(
+            TableCell(
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Observaciones:',
                       style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1092,8 +1105,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['observaciones'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1104,14 +1117,14 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
         ),
         TableRow(
           children: [
-            const TableCell(
+            TableCell(
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Fecha inicial:',
                       style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1124,8 +1137,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(widget.datos['fecha'].toString(),
-                      style: const TextStyle(
-                          fontSize: 12.0,
+                      style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.w300,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1139,14 +1152,14 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
               color: Color.fromRGBO(255, 255, 255, 0.15),
               borderRadius: BorderRadius.circular(20.0)), // Fila blanca
           children: [
-            const TableCell(
+            TableCell(
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Estatus:',
                       style: TextStyle(
-                          fontSize: 12.0,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Roboto',
                           color: Colors.white)),
@@ -1167,7 +1180,8 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                   ),
                   child: Text(
                     widget.datos['estatus'] == 0 ? 'En proceso' : 'Concluido',
-                    style: const TextStyle(
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.025,
                       color: Colors.white,
                     ),
                   ),
@@ -1216,7 +1230,7 @@ class _CardAsesoriaState extends State<CardAsesoria> {
                         text: TextSpan(
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 14.0,
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
                             fontFamily: 'Roboto',
                           ),
                           children: [
@@ -1264,7 +1278,7 @@ class _CardAsesoriaState extends State<CardAsesoria> {
                 'Hechos Manifestados:',
                 style: TextStyle(
                   fontFamily: 'Roboto',
-                  fontSize: 14,
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.left,
@@ -1292,7 +1306,7 @@ class _CardAsesoriaState extends State<CardAsesoria> {
                 'Estatus actual:',
                 style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 14,
+                    fontSize: MediaQuery.of(context).size.width * 0.03,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
@@ -1319,7 +1333,7 @@ class _CardAsesoriaState extends State<CardAsesoria> {
                 'Asesoría:',
                 style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 14,
+                    fontSize: MediaQuery.of(context).size.width * 0.03,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
@@ -1343,7 +1357,7 @@ class _CardAsesoriaState extends State<CardAsesoria> {
                     text: TextSpan(
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 14.0,
+                        fontSize: MediaQuery.of(context).size.width * 0.03,
                         fontFamily: 'Roboto',
                       ),
                       children: [

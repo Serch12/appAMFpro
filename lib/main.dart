@@ -19,8 +19,29 @@ void main() async {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _textFieldFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // Oculta el teclado cuando se carga el screen
+    _textFieldFocusNode.unfocus();
+  }
+
+  @override
+  void dispose() {
+    // Asegúrate de eliminar el focus node cuando el widget se descarte
+    _textFieldFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
