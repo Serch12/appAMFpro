@@ -225,7 +225,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                     child: Column(
                       children: [
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.55,
+                          height: MediaQuery.of(context).size.height * 0.4,
                           padding: EdgeInsets.all(15),
                           color: Color(0xFF211A46),
                           child: Column(
@@ -247,7 +247,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: (screenHeight - appBarHeight) / 1.0,
+                          height: (screenHeight - appBarHeight) / 1.5,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
