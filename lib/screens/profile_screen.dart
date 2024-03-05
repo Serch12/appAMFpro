@@ -166,9 +166,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     final screenHeight = MediaQuery.of(context).size.height;
     // Define las etiquetas de las pestañas
     final List<Tab> tabs = <Tab>[
-      const Tab(text: 'Info Personal'),
+      const Tab(text: 'Inf. Personal'),
       const Tab(text: 'Domicilio'),
-      const Tab(text: 'Datos Deportivos'),
+      const Tab(text: 'Inf. Deportiva'),
       const Tab(text: 'Contacto'),
       // Agrega más pestañas si es necesario
     ];
