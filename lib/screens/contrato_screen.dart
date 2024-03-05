@@ -343,7 +343,9 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   'Fecha De Inicio*',
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
-                                    fontSize: 14,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.03,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -355,7 +357,7 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   width: MediaQuery.of(context).size.width *
                                       0.9, // El 80% del ancho de la pantalla
                                   height: MediaQuery.of(context).size.height *
-                                      0.05, // El 5% de la altura de la pantalla
+                                      0.055, // El 5% de la altura de la pantalla
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.0),
                                     color: Colors.white,
@@ -378,7 +380,11 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                         DateFormat('dd-MM-yyyy')
                                             .format(_fechainicio),
                                         style: TextStyle(
-                                            fontFamily: 'Roboto', fontSize: 14),
+                                            fontFamily: 'Roboto',
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03),
                                       ),
                                       Icon(Icons.calendar_month,
                                           color: Color(0xff3C3C3B), size: 20.0)
@@ -419,7 +425,9 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   'Fecha De Vencimiento*',
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
-                                    fontSize: 14,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.03,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -430,7 +438,7 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   width: MediaQuery.of(context).size.width *
                                       0.9, // El 80% del ancho de la pantalla
                                   height: MediaQuery.of(context).size.height *
-                                      0.05, // El 5% de la altura de la pantalla
+                                      0.055, // El 5% de la altura de la pantalla
                                   // Alto deseado
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.0),
@@ -450,7 +458,11 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                         DateFormat('dd-MM-yyyy')
                                             .format(_fechafinal),
                                         style: TextStyle(
-                                            fontFamily: 'Roboto', fontSize: 14),
+                                            fontFamily: 'Roboto',
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03),
                                       ),
                                       Icon(Icons.calendar_month,
                                           color: Color(0xff3C3C3B), size: 20.0)
@@ -471,7 +483,8 @@ class _ContratoScreenState extends State<ContratoScreen> {
                               'División*',
                               style: TextStyle(
                                 fontFamily: 'Roboto',
-                                fontSize: 14,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -489,7 +502,10 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                 decoration: InputDecoration(
                                   errorText: _errorMessage3,
                                   labelStyle: TextStyle(
-                                      fontFamily: 'Roboto', fontSize: 14),
+                                      fontFamily: 'Roboto',
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.03),
                                   border: OutlineInputBorder(
                                     borderSide:
                                         BorderSide(color: Color(0XFF4CC2C9)),
@@ -508,7 +524,10 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 16.0, horizontal: 12.0),
+                                      vertical:
+                                          MediaQuery.of(context).size.width *
+                                              0.03,
+                                      horizontal: 12.0),
                                 ),
                                 items: [
                                   'SELECCIONAR',
@@ -532,7 +551,11 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                           child: Text(value,
                                               style: TextStyle(
                                                   fontFamily: 'Roboto',
-                                                  fontSize: 14)),
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03)),
                                         ))
                                     .toList(),
                                 onChanged: (value) async {
@@ -571,7 +594,8 @@ class _ContratoScreenState extends State<ContratoScreen> {
                               'Club*',
                               style: TextStyle(
                                 fontFamily: 'Roboto',
-                                fontSize: 14,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -613,7 +637,10 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 16.0, horizontal: 12.0),
+                                      vertical:
+                                          MediaQuery.of(context).size.width *
+                                              0.03,
+                                      horizontal: 12.0),
                                 ),
                                 items: _equipos
                                     .map((String value) =>
@@ -622,7 +649,11 @@ class _ContratoScreenState extends State<ContratoScreen> {
                                           child: Text(value,
                                               style: TextStyle(
                                                   fontFamily: 'Roboto',
-                                                  fontSize: 14)),
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03)),
                                         ))
                                     .toList(),
                                 onChanged: (value) {
@@ -740,7 +771,7 @@ class _ContratoScreenState extends State<ContratoScreen> {
               ],
             ),
             SizedBox(
-              height: 15,
+              height: MediaQuery.of(context).size.width * 0.030,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.90,
@@ -766,6 +797,9 @@ class _ContratoScreenState extends State<ContratoScreen> {
                   await _guardarContrato();
                 },
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.035,
             ),
           ],
         ),
