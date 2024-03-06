@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:splash_animated/screens/screens.dart';
 // import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/services/services.dart';
-import 'package:splash_animated/widgets/widgets.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -62,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // final mapeoFinal = twitterProvider.listadoPublicaciones;
     final Future<String> userDataFuture = authService.autenticacion();
     userDataFuture.then((userDataString) {
+      // ignore: unnecessary_null_comparison
       if (userDataString != null) {
         final Map<String, dynamic> userData = json.decode(userDataString);
         print(userData);
@@ -260,7 +258,7 @@ class CustomPagination extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
-              config.itemCount!,
+              config.itemCount,
               (index) {
                 bool isActive = index == config.activeIndex;
                 return Container(
@@ -330,7 +328,7 @@ class CustomPagination extends StatelessWidget {
                       _launchURL();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF4FC028),
+                      backgroundColor: Color(0xFF4FC028),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
@@ -360,11 +358,14 @@ void _launchFacebookApp() async {
   final webUrl =
       "https://www.facebook.com/AMFproMX"; // URL de respaldo para abrir en el navegador si la aplicación de Facebook no está instalada
   try {
+    // ignore: deprecated_member_use
     bool launched = await launch(facebookUrl, forceSafariVC: false);
     if (!launched) {
+      // ignore: deprecated_member_use
       await launch(webUrl, forceSafariVC: false);
     }
   } catch (e) {
+    // ignore: deprecated_member_use
     await launch(webUrl, forceSafariVC: false);
   }
 }
@@ -375,11 +376,14 @@ void _launchInstagramApp() async {
   final webUrl =
       "https://www.instagram.com/AMFproMX/"; // URL de respaldo para abrir en el navegador si la aplicación de Instagram no está instalada
   try {
+    // ignore: deprecated_member_use
     bool launched = await launch(instagramUrl, forceSafariVC: false);
     if (!launched) {
+      // ignore: deprecated_member_use
       await launch(webUrl, forceSafariVC: false);
     }
   } catch (e) {
+    // ignore: deprecated_member_use
     await launch(webUrl, forceSafariVC: false);
   }
 }
@@ -390,17 +394,21 @@ void _launchLinkedInProfile() async {
   final webUrl =
       "https://www.linkedin.com/company/amfpromx/mycompany/"; // URL de respaldo para abrir en el navegador si la aplicación de LinkedIn no está instalada
   try {
+    // ignore: deprecated_member_use
     bool launched = await launch(linkedInUrl, forceSafariVC: false);
     if (!launched) {
+      // ignore: deprecated_member_use
       await launch(webUrl, forceSafariVC: false);
     }
   } catch (e) {
+    // ignore: deprecated_member_use
     await launch(webUrl, forceSafariVC: false);
   }
 }
 
 void _launchURL() async {
   final url = 'https://amfpro.mx/asesorias';
+  // ignore: deprecated_member_use
   await launch(url, forceSafariVC: false);
 }
 // class _bannerHorizontal extends StatelessWidget {

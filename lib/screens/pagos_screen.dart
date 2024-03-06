@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class PagosScreen extends StatelessWidget {

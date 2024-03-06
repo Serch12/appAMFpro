@@ -27,7 +27,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   DateTime _fechaNacimiento = DateTime.now();
   String _edad = '0';
   String _sexo = 'SELECCIONAR';
-  bool _esMexicano = false;
+  // bool _esMexicano = false;
   bool _terminos = false;
   bool _avisoPrivacidad = false;
   final _curpController = TextEditingController();
@@ -50,8 +50,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   String _seleccion = 'SELECCIONAR';
   String _estatusDeportivo = 'SELECCIONAR';
   String _exFutbolista = 'SELECCIONAR';
-
-  final TextEditingController _phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
   final _formKey3 = GlobalKey<FormState>();
@@ -903,7 +901,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
+                          backgroundColor: Colors.red,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 25.0), // Ajusta el radio según tus necesidades
@@ -1023,7 +1021,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF4FC028),
+                          backgroundColor: Color(0xFF4FC028),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 25.0), // Ajusta el radio según tus necesidades
@@ -1070,7 +1068,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF4FC028),
+                          backgroundColor: Color(0xFF4FC028),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 25.0), // Ajusta el radio según tus necesidades

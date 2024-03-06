@@ -159,6 +159,7 @@ class _SigleCard extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _CardBackground extends StatelessWidget {
   final Widget child;
 

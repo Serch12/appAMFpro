@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class VerificationCodePasswordScreen extends StatefulWidget {
   final int codigo;

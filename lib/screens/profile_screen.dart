@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:accordion/controllers.dart';
+// import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:splash_animated/services/services.dart';
 import 'package:provider/provider.dart';
-import 'package:accordion/accordion.dart';
+// import 'package:accordion/accordion.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileScreen extends StatefulWidget {
@@ -58,6 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     final userDataString = await authService.autenticacion();
 
+    // ignore: unnecessary_null_comparison
     if (userDataString != null) {
       final Map<String, dynamic> userData = json.decode(userDataString);
       final String? userEmail = userData['correo'];
@@ -694,9 +695,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    primary: boton1Activado
-                                                        ? Colors.white
-                                                        : Color(0xFF211A46),
+                                                    backgroundColor:
+                                                        boton1Activado
+                                                            ? Colors.white
+                                                            : Color(0xFF211A46),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -734,9 +736,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    primary: boton2Activado
-                                                        ? Colors.white
-                                                        : Color(0xFF211A46),
+                                                    backgroundColor:
+                                                        boton2Activado
+                                                            ? Colors.white
+                                                            : Color(0xFF211A46),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:

@@ -10,8 +10,8 @@ class AppTheme {
       appBarTheme: const AppBarTheme(color: primary, elevation: 0),
 
       //Theme buttom app theme
-      textButtonTheme:
-          TextButtonThemeData(style: TextButton.styleFrom(primary: primary)),
+      textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: primary)),
 
       //floatingActionButtom
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -20,7 +20,7 @@ class AppTheme {
       //ElevateButtomTheme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: Colors.green,
+          backgroundColor: Colors.green,
           // shape: const StadiumBorder(),
           elevation: 10,
           padding: EdgeInsets.symmetric(vertical: 18),

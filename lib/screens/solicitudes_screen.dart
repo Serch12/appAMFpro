@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splash_animated/screens/screens.dart';
 
-import '../widgets/widgets.dart';
-
 class SolicitudesScreen extends StatefulWidget {
   const SolicitudesScreen({super.key});
 

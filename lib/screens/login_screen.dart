@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splash_animated/providers/login_form_provider.dart';
 import 'package:splash_animated/services/services.dart';
-import 'package:splash_animated/ui/input_decoration.dart';
-import 'package:splash_animated/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {

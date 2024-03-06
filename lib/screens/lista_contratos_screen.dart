@@ -29,10 +29,6 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
       fontSize: 18,
       fontWeight: FontWeight.bold,
       fontFamily: 'Roboto');
-  static const contentStyle = TextStyle(
-      color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.normal);
-  static const loremIpsum =
-      '''Lorem ipsum is typically a corrupted version of 'De finibus bonorum et malorum', a 1st century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.''';
 
   @override
   void initState() {
@@ -45,6 +41,7 @@ class _ListaContratosScreenState extends State<ListaContratosScreen> {
 
     final userDataString = await authService.autenticacion();
 
+    // ignore: unnecessary_null_comparison
     if (userDataString != null) {
       final Map<String, dynamic> userData = json.decode(userDataString);
       final String? userEmail = userData['correo'];

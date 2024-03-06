@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/screens.dart';
-
-import '../services/services.dart';
 import 'package:http/http.dart' as http;
 
 class Solicitudes2Screen extends StatefulWidget {
@@ -168,8 +165,6 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
-
     double screenHeight = MediaQuery.of(context).size.height;
     double appBarHeight = AppBar().preferredSize.height;
 
@@ -408,8 +403,9 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                               style:
                                                                   ElevatedButton
                                                                       .styleFrom(
-                                                                primary: Color(
-                                                                    0XFF6EBC44),
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0XFF6EBC44),
                                                                 shape:
                                                                     RoundedRectangleBorder(
                                                                   borderRadius:
@@ -456,8 +452,9 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                               style:
                                                                   ElevatedButton
                                                                       .styleFrom(
-                                                                primary: Color(
-                                                                    0XFF6EBC44),
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0XFF6EBC44),
                                                                 shape:
                                                                     RoundedRectangleBorder(
                                                                   borderRadius:
@@ -506,8 +503,9 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                               style:
                                                                   ElevatedButton
                                                                       .styleFrom(
-                                                                primary: Color(
-                                                                    0XFF6EBC44),
+                                                                backgroundColor:
+                                                                    Color(
+                                                                        0XFF6EBC44),
                                                                 shape:
                                                                     RoundedRectangleBorder(
                                                                   borderRadius:

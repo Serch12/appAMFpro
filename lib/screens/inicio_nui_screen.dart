@@ -8,7 +8,6 @@ import 'package:splash_animated/screens/verification_code_screen.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 import 'dart:math';
 
 class InicioNuiScreen extends StatefulWidget {

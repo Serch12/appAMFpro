@@ -66,8 +66,6 @@ class _GreenBox extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(

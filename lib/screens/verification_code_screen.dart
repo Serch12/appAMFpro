@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:splash_animated/theme/app_theme.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class VerificationCodeScreen extends StatefulWidget {
   final dynamic value;
@@ -20,8 +15,8 @@ class VerificationCodeScreen extends StatefulWidget {
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   @override
   Widget build(BuildContext context) {
-    final info = widget.value['data'];
-    final correo = info['mail'];
+    // final info = widget.value['data'];
+    // final correo = info['mail'];
     final nombre = widget.value['data']['nombre'] +
         ' ' +
         widget.value['data']['apellido_paterno'];

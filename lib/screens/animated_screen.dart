@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:splash_animated/screens/screens.dart';
 
@@ -15,7 +14,7 @@ class AnimatedScreen extends StatefulWidget {
 class _AnimatedScreenState extends State<AnimatedScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
+  // late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
@@ -25,12 +24,12 @@ class _AnimatedScreenState extends State<AnimatedScreen>
       duration: const Duration(milliseconds: 100),
     );
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.5).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.fastLinearToSlowEaseIn,
-      ),
-    );
+    // _scaleAnimation = Tween<double>(begin: 1.0, end: 0.5).animate(
+    //   CurvedAnimation(
+    //     parent: _animationController,
+    //     curve: Curves.fastLinearToSlowEaseIn,
+    //   ),
+    // );
 
     _animationController.repeat(reverse: true);
 

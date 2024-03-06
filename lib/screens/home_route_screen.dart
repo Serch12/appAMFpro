@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splash_animated/routes/routes.dart';
-import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/widgets/widgets.dart';
-import 'package:provider/provider.dart';
 
 class HomeRouteScreen extends StatefulWidget {
   const HomeRouteScreen({super.key});
@@ -22,13 +20,11 @@ class _HomeRouteScreenState extends State<HomeRouteScreen> {
         index = i;
       });
     });
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       // appBar: AppBar(
       //     backgroundColor: Color(0xFF211A46),

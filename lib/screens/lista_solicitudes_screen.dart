@@ -33,6 +33,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
 
     final userDataString = await authService.autenticacion();
 
+    // ignore: unnecessary_null_comparison
     if (userDataString != null) {
       final Map<String, dynamic> userData = json.decode(userDataString);
       final String? userEmail = userData['correo'];
@@ -82,7 +83,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
+    // final authService = Provider.of<AuthService>(context, listen: false);
     // Precarga el GIF de carga al inicio del screen
     precacheImage(AssetImage('assets/balon-loading.gif'), context);
 

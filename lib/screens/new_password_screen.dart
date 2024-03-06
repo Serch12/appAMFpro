@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:splash_animated/providers/login_form_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/login_screen.dart';
-import 'package:splash_animated/services/services.dart';
 
 class newPasswordScreen extends StatefulWidget {
   const newPasswordScreen({super.key});

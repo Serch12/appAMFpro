@@ -1,11 +1,7 @@
-import 'dart:math';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:splash_animated/screens/verification_code_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
 class recuperarPasswordScreen extends StatefulWidget {
   const recuperarPasswordScreen({super.key});
@@ -16,7 +12,7 @@ class recuperarPasswordScreen extends StatefulWidget {
 }
 
 class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   String username = 'intranet@amfpro.mx';

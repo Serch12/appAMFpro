@@ -26,7 +26,7 @@ class RegisterScreen extends StatelessWidget {
                   height: 134,
                 ),
                 Text('Registrate',
-                    style: Theme.of(context).textTheme.headline6),
+                    style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 30),
                 ChangeNotifierProvider(
                     create: (_) => LoginFormProvider(), child: _LoginForm())

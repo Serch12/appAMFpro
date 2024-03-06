@@ -24,8 +24,6 @@ class _ContratoScreenState extends State<ContratoScreen> {
   String? _imagen64;
   List<String> _equipos = [];
   String _equipo = '';
-  final _divisionController = TextEditingController();
-  final _clubController = TextEditingController();
   String? _errorMessage3;
   String? _errorMessage4;
   final String _urlBase = 'test-intranet.amfpro.mx';
@@ -44,6 +42,7 @@ class _ContratoScreenState extends State<ContratoScreen> {
 
     final userDataString = await authService.autenticacion();
 
+    // ignore: unnecessary_null_comparison
     if (userDataString != null) {
       final Map<String, dynamic> userData = json.decode(userDataString);
       final String? userEmail = userData['correo'];
@@ -262,7 +261,6 @@ class _ContratoScreenState extends State<ContratoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80.0,

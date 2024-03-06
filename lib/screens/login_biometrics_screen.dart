@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:splash_animated/screens/screens.dart';
-import 'package:splash_animated/services/services.dart';
-import 'package:provider/provider.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginBiometricsScreen extends StatelessWidget {
@@ -9,9 +6,9 @@ class LoginBiometricsScreen extends StatelessWidget {
   // const LoginBiometricsScreen({Key? key}) : super(key: key);
 
   // Nueva función para la navegación
-  void _navigateToHomeRoute(BuildContext context) {
-    Navigator.pushNamed(context, 'homeroute');
-  }
+  // void _navigateToHomeRoute(BuildContext context) {
+  //   Navigator.pushNamed(context, 'homeroute');
+  // }
 
   Future<void> _authenticate(BuildContext context) async {
     bool authenticated = false;
