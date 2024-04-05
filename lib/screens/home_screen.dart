@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 // import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/services/services.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:line_icons/line_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    IconLabel? selectedIcon;
 
     // final twitterProvider = Provider.of<TwitterProvider>(context);
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -78,46 +81,54 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF211A46),
-        automaticallyImplyLeading: false,
-        title: Center(
-          child: Text(
-            '',
-            style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: MediaQuery.of(context).size.width * 0.04),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.03),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, 'homeroute');
-              },
-              icon: Image.asset(
-                'assets/logoblanco.png',
-                width: MediaQuery.of(context).size.width * 0.08,
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          toolbarHeight: MediaQuery.of(context).size.height *
+              0.07, // Ajusta el alto del AppBar según el tamaño de la pantalla
+          centerTitle: true,
+          flexibleSpace: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.03), // Espacio para bajar la imagen
+                Image.asset(
+                  'assets/logoblanco.png',
+                  // width: MediaQuery.of(context).size.width * 0.07,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF6EBC44),
+                  Color(0xFF000000),
+                ],
+                stops: [0.0, 1.0],
               ),
             ),
           ),
-        ],
-      ),
+          actions: [
+            Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
+          ]), // Aquí se utiliza MyAppBar,
       body: SingleChildScrollView(
           child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                    child: Image.asset('assets/logo-negro.png'))
-              ],
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: [
+          //       Container(
+          //           padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          //           child: Image.asset('assets/logo-negro.png'))
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 40,
           ),
@@ -129,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Swiper(
                   autoplay: true,
                   autoplayDelay:
-                      8000, // Duración en milisegundos (en este caso, 5 segundos)
+                      9000, // Duración en milisegundos (en este caso, 5 segundos)
                   itemBuilder: (_, int index) {
                     return ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -139,10 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           bottomLeft: Radius.circular(30)),
                       child: FadeInImage(
                         placeholder: AssetImage('assets/no-image.jpg'),
-                        image:
-                            // NetworkImage(
-                            //     'http://amfpro.mx/intranet/public/ArchivosSistema/PostApp/${lista_publicaciones[index]['archivo']}'),
-                            AssetImage("assets/Mask.png"),
+                        image: NetworkImage(
+                            'http://amfpro.mx/intranet/public/ArchivosSistema/PostApp/${lista_publicaciones[index]['archivo']}'),
+                        // AssetImage("assets/Mask.png"),
                         fit: BoxFit.fill,
                       ),
                     );
@@ -163,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Container(
             width: double.infinity,
-            height: size.height * 0.5,
+            height: size.height * 0.35,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -185,8 +195,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       child: Container(
-                        width: 250,
-                        height: 300,
+                        width: size.width *
+                            0.80, // El 80% del ancho de la pantalla
+                        height: size.height *
+                            0.7, // El 60% de la altura de la pantalla
                         margin:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                         child: Column(
@@ -202,7 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     image: NetworkImage(
                                       'http://amfpro.mx/intranet/public/ArchivosSistema/Post/${lista[index]['imagen_p']}',
                                     ),
-                                    width: 250, // Ancho deseado
+                                    width: MediaQuery.of(context).size.width *
+                                        0.9, // Ancho deseado
                                     height: 150, // Altura deseada
                                     fit: BoxFit.cover
                                     // AssetImage('assets/ejemplo2.jpg'),
@@ -210,19 +223,27 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 2,
                             ),
-                            Text(
-                              lista[index]['titulo'],
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
+                            Container(
+                              width: MediaQuery.of(context).size.width *
+                                  0.9, // Ancho deseado
+                              child: Text(
+                                lista[index]['titulo'],
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035),
+                              ),
                             ),
                             Text(
                               lista[index]['fecha'],
-                              style:
-                                  TextStyle(fontFamily: 'Roboto', fontSize: 12),
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.03),
                             )
                           ],
                         ),
@@ -276,7 +297,7 @@ class CustomPagination extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 5,
           ),
           Container(
             // Utiliza MediaQuery para obtener el ancho del dispositivo
@@ -328,7 +349,7 @@ class CustomPagination extends StatelessWidget {
                       _launchURL();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF4FC028),
+                      backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),

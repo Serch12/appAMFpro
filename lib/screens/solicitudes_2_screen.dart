@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
@@ -170,12 +172,15 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xFF211A46),
+          // backgroundColor: Color(0xFF211A46),
+          backgroundColor: Color(0xFF6EBC44),
+          elevation: 0, // Establece la elevación del AppBar a cero
           // title: Image.asset(
           //   'assets/logo3.png',
           //   width: 80,
           //   height: 50,
           // ),
+          automaticallyImplyLeading: false,
           title: Center(
             child: Text(
               '',
@@ -193,16 +198,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
             ),
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                onPressed: () {
-                  // Acción al presionar el IconButton
-                  Navigator.pushReplacementNamed(context, 'homeroute');
-                },
-                icon: Image.asset('assets/logoblanco.png'),
-              ),
-            ),
+            Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
           ]),
       body: FutureBuilder(
         future: Future.delayed(Duration(seconds: 2)),
@@ -222,7 +218,17 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.4,
                           padding: EdgeInsets.all(15),
-                          color: Color(0xFF211A46),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Color(0xFF6EBC44), Colors.black],
+                              stops: [
+                                0.0,
+                                0.8
+                              ], // Ajusta las paradas de color según lo necesites
+                            ),
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

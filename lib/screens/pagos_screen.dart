@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:splash_animated/screens/appbar_screen.dart';
 
 class PagosScreen extends StatelessWidget {
   final Map<String, dynamic> pagos;
@@ -9,31 +11,36 @@ class PagosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80.0,
-        centerTitle: true,
-        flexibleSpace: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Audiencia',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0, color: Colors.white, height: 6),
+          toolbarHeight: 80.0,
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF6EBC44),
+                  Color(0xFF000000),
+                ],
+                stops: [0.0, 1.0],
+              ),
             ),
-          ],
-        ),
-        backgroundColor: Color(0XFF6EBC44),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              onPressed: () {
-                // Acción al presionar el IconButton
-              },
-              icon: Image.asset('assets/logoblanco.png'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Pagos',
+                  textAlign: TextAlign.center,
+                  style:
+                      TextStyle(fontSize: 16.0, color: Colors.white, height: 6),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+          backgroundColor: Color(0XFF6EBC44),
+          actions: [
+            Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
+          ]),
       body: SingleChildScrollView(
           child: Column(
         children: [
@@ -41,7 +48,17 @@ class PagosScreen extends StatelessWidget {
             clipper: OvalBottomBorderClipper(),
             child: Container(
               height: MediaQuery.of(context).size.height * 0.05,
-              color: Color(0XFF6EBC44),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF6EBC44), Colors.black],
+                  stops: [
+                    0.0,
+                    0.01
+                  ], // Ajusta las paradas de color según lo necesites
+                ),
+              ),
               child: Center(),
             ),
           ),

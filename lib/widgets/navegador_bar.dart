@@ -3,19 +3,31 @@ import 'package:provider/provider.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
+import '../screens/screens.dart';
 import '../services/services.dart';
 
 class NavegadorBar extends StatefulWidget {
   final Function(int) currentIndex;
+  final initialIndex; // Nuevo atributo para el índice inicial
 
-  const NavegadorBar({Key? key, required this.currentIndex}) : super(key: key);
+  const NavegadorBar({
+    Key? key,
+    required this.currentIndex,
+    this.initialIndex, // Valor por defecto para el índice inicial
+  }) : super(key: key);
 
   @override
   _NavegadorBarState createState() => _NavegadorBarState();
 }
 
 class _NavegadorBarState extends State<NavegadorBar> {
-  int _index = 0;
+  late int _index; // Cambiado a late
+
+  @override
+  void initState() {
+    _index = widget.initialIndex; // Establece el índice inicial
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +43,8 @@ class _NavegadorBarState extends State<NavegadorBar> {
       ),
       child: SafeArea(
         child: CurvedNavigationBar(
-          index: _index,
-          height: 60.0,
+          index: _index, // Establece el índice inicial aquí
+          height: MediaQuery.of(context).size.height * 0.07,
           items: <Widget>[
             _buildIcon(LineIcons.home, 0),
             _buildIcon(LineIcons.folder, 1),
@@ -46,14 +58,11 @@ class _NavegadorBarState extends State<NavegadorBar> {
           animationDuration: Duration(milliseconds: 600),
           onTap: (int i) {
             if (i == 3) {
-              // Si el índice es 3 (Cerrar Sesión), realiza la operación de cierre de sesión
               final authService =
                   Provider.of<AuthService>(context, listen: false);
               authService.logout();
-              // Navega a la pantalla de inicio de sesión
               Navigator.pushReplacementNamed(context, 'login');
             } else {
-              // Si el índice no es 3, actualiza el índice y notifica al widget padre
               setState(() {
                 _index = i;
                 widget.currentIndex(i);

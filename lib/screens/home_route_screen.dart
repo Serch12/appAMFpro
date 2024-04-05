@@ -3,7 +3,7 @@ import 'package:splash_animated/routes/routes.dart';
 import 'package:splash_animated/widgets/widgets.dart';
 
 class HomeRouteScreen extends StatefulWidget {
-  const HomeRouteScreen({super.key});
+  const HomeRouteScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeRouteScreen> createState() => _HomeRouteScreenState();
@@ -11,15 +11,18 @@ class HomeRouteScreen extends StatefulWidget {
 
 class _HomeRouteScreenState extends State<HomeRouteScreen> {
   int index = 0;
-  NavegadorBar? myButtonMain;
+  late NavegadorBar myButtonMain;
 
   @override
   void initState() {
-    myButtonMain = NavegadorBar(currentIndex: (i) {
-      setState(() {
-        index = i;
-      });
-    });
+    myButtonMain = NavegadorBar(
+      currentIndex: (i) {
+        setState(() {
+          index = i;
+        });
+      },
+      initialIndex: index, // Establece el índice inicial aquí
+    );
     super.initState();
   }
 

@@ -89,6 +89,57 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
         );
       },
     );
+    final authService = Provider.of<AuthService>(context, listen: false);
+    //validar si el login es correcto
+    final String? mensajeError = await authService.createUser(
+        _emailController.text, _passwordController.text);
+    if (mensajeError == null) {
+      // Simula una espera de 3 segundos para demostración
+      await Future.delayed(Duration(seconds: 3));
+      // Ocultar el indicador de carga
+    } else {
+      if (mensajeError == 'EMAIL_EXISTS') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Row(
+                children: [
+                  Icon(Icons.cancel,
+                      color: Colors.red), // Icono a la izquierda del texto
+                  SizedBox(width: 10.0), // Espacio entre el icono y el texto
+                  Flexible(
+                    child: Text(
+                      '¡Correo electrónico previamente registrado!',
+                      style: TextStyle(color: Colors.red),
+                      overflow: TextOverflow.visible,
+                      softWrap: false, // Permite que el texto se desborde
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pop(); // Cerrar la alerta al presionar el botón
+                      },
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.black,
+                      )),
+                ],
+              ),
+
+              contentPadding: EdgeInsets.fromLTRB(
+                  15.0, 10.0, 0.0, 0.0), // Ajustar el padding del contenido
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(10.0), // Ajustar el radio del borde
+              ),
+              actions: [],
+            );
+          },
+        );
+      }
+    }
     final url = Uri.parse(
         'https://test-intranet.amfpro.mx/api/registro-afiliados-api'); // Reemplaza con la URL de tu API de Laravel
     Map<String, dynamic> data = {
@@ -142,58 +193,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       FocusScope.of(context).unfocus();
       final authService = Provider.of<AuthService>(context, listen: false);
 
-      //validar si el login es correcto
-      final String? mensajeError = await authService.createUser(
-          _emailController.text, _passwordController.text);
-      if (mensajeError == null) {
-        // Simula una espera de 3 segundos para demostración
-        await Future.delayed(Duration(seconds: 3));
-        // Ocultar el indicador de carga
-        Navigator.of(context).pop();
-        Navigator.pushReplacementNamed(context, 'homeroute');
-      } else {
-        if (mensajeError == 'EMAIL_EXISTS') {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Row(
-                  children: [
-                    Icon(Icons.cancel,
-                        color: Colors.red), // Icono a la izquierda del texto
-                    SizedBox(width: 10.0), // Espacio entre el icono y el texto
-                    Flexible(
-                      child: Text(
-                        '¡Correo electrónico previamente registrado!',
-                        style: TextStyle(color: Color(0xFF1AD598)),
-                        overflow: TextOverflow.visible,
-                        softWrap: false, // Permite que el texto se desborde
-                      ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pop(); // Cerrar la alerta al presionar el botón
-                        },
-                        child: Icon(
-                          Icons.clear,
-                          color: Colors.black,
-                        )),
-                  ],
-                ),
-
-                contentPadding: EdgeInsets.fromLTRB(
-                    15.0, 10.0, 0.0, 0.0), // Ajustar el padding del contenido
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(10.0), // Ajustar el radio del borde
-                ),
-                actions: [],
-              );
-            },
-          );
-        }
-      }
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -214,8 +213,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .pop(); // Cerrar la alerta al presionar el botón
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacementNamed(context, 'homeroute');
                     },
                     child: Icon(
                       Icons.clear,

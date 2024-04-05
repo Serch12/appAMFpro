@@ -5,6 +5,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/verification_code_screen.dart';
 // import 'package:splash_animated/theme/app_theme.dart';
+import 'dart:convert' as convert;
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:http/http.dart' as http;
@@ -49,9 +50,9 @@ class _contenidoState extends State<contenido> {
     super.dispose();
   }
 
-  Color getItemTextColor(int value) {
-    return value == selectedLength ? Colors.white : Colors.black;
-  }
+  // Color getItemTextColor(int value) {
+  //   return value == selectedLength ? Colors.white : Colors.black;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +114,13 @@ class _contenidoState extends State<contenido> {
       });
     }
 
+    Future<void> actualizaLongitud(int? value) async {
+      setState(() {
+        pinController.clear();
+        selectedLength = value!;
+      });
+    }
+
     return Scaffold(
       body: FractionallySizedBox(
         widthFactor: 1.0,
@@ -169,48 +177,39 @@ class _contenidoState extends State<contenido> {
                     width: 240,
                     height: 60,
                     child: DropdownButtonFormField<int>(
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.green),
                       value: selectedLength,
                       items: [
                         DropdownMenuItem(
                           value: 5,
-                          child: Text('5 Dígitos',
-                              style: TextStyle(color: getItemTextColor(5))),
+                          child: Text('5 Dígitos'),
                         ),
                         DropdownMenuItem(
                           value: 6,
-                          child: Text('6 Dígitos',
-                              style: TextStyle(color: getItemTextColor(6))),
+                          child: Text('6 Dígitos'),
                         ),
                       ],
-                      onChanged: (value) {
-                        // myProviderDigitos.sendData(value!);
-                        // print(value);
-                        setState(() {
-                          selectedLength = value!;
-                        });
+                      onChanged: (value) async {
+                        actualizaLongitud(value);
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          // Establecer el borde como un OutlineInputBorder
                           borderSide: BorderSide(
-                              color: Color(0xFF4FC028)), // Borde verde
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                            color: Color(0xFF4FC028), // Borde verde
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          // Establecer el borde habilitado
                           borderSide: BorderSide(
-                              color: Color(0xFF4FC028)), // Borde verde
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                            color: Color(0xFF4FC028), // Borde verde
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          // Establecer el borde enfocado
                           borderSide: BorderSide(
-                              color: Color(0xFF4FC028)), // Borde verde
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Radio de borde de 8.0 (ajusta según tus necesidades)
+                            color: Color(0xFF4FC028), // Borde verde
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
                     ),
@@ -229,15 +228,16 @@ class _contenidoState extends State<contenido> {
                         keyboardType: TextInputType.number,
                         appContext: context,
                         controller: pinController,
-                        length: selectedLength,
+                        length: selectedLength, // Usar el valor seleccionado
                         cursorHeight: 19,
                         enableActiveFill: true,
                         textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white),
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.white,
+                        ),
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                         pinTheme: PinTheme(
                           shape: PinCodeFieldShape.box,
@@ -251,7 +251,6 @@ class _contenidoState extends State<contenido> {
                               Color(0xFF4FC028), //color de casilla seleccionada
                           inactiveFillColor:
                               Colors.white, //color de casilla sin seleccionar
-
                           borderWidth: 1,
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -261,54 +260,48 @@ class _contenidoState extends State<contenido> {
                             setState(() {});
                             if (myProvider2._vizualiza == false) {
                               showDialog(
-                                  context: context,
-                                  barrierDismissible:
-                                      false, // No permite cerrar la alerta al tocar fuera de ella
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      content: Row(
-                                        children: [
-                                          Icon(Icons.cancel,
-                                              color: Colors
-                                                  .red), // Icono a la izquierda del texto
-                                          SizedBox(
-                                              width:
-                                                  10.0), // Espacio entre el icono y el texto
-                                          Flexible(
-                                            child: Text(
-                                              'NUI no registrado en AMFpro.',
-                                              style: TextStyle(
-                                                  color: Color(0xFF1AD598)),
-                                              overflow: TextOverflow.visible,
-                                              softWrap:
-                                                  false, // Permite que el texto se desborde
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.cancel,
+                                          color: Colors.red,
+                                        ),
+                                        SizedBox(width: 10.0),
+                                        Flexible(
+                                          child: Text(
+                                            'NUI no registrado en AMFpro.',
+                                            style: TextStyle(
+                                              color: Color(0xFF1AD598),
                                             ),
+                                            overflow: TextOverflow.visible,
+                                            softWrap: false,
                                           ),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .pop(); // Cerrar la alerta al presionar el botón
-                                                pinController.text = "";
-                                              },
-                                              child: Icon(
-                                                Icons.clear,
-                                                color: Colors.black,
-                                              )),
-                                        ],
-                                      ),
-
-                                      contentPadding: EdgeInsets.fromLTRB(
-                                          15.0,
-                                          10.0,
-                                          0.0,
-                                          0.0), // Ajustar el padding del contenido
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10.0), // Ajustar el radio del borde
-                                      ),
-                                      actions: [],
-                                    );
-                                  });
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            pinController.text = "";
+                                          },
+                                          child: Icon(
+                                            Icons.clear,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        15.0, 10.0, 0.0, 0.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    actions: [],
+                                  );
+                                },
+                              );
                             }
                           }
                         }),

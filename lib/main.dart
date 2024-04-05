@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:splash_animated/screens/verification_code_password_screen.dart';
@@ -61,7 +62,7 @@ class _MyAppState extends State<MyApp> {
           lazy: true,
         )
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         // Aquí agregamos las localizaciones específicas de Material para español
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -84,6 +85,7 @@ class _MyAppState extends State<MyApp> {
           'biometricos': (_) => LoginBiometricsScreen(),
           'home': (_) => HomeScreen(),
           'homeroute': (_) => HomeRouteScreen(),
+          'homeroutedos': (_) => HomeRouteDosScreen(),
           'register': (_) => RegisterScreen(),
           'checkauth': (_) => CheckAuthScreen(),
           'profile': (_) => ProfileScreen(),
@@ -100,6 +102,32 @@ class _MyAppState extends State<MyApp> {
           'terminos': (_) => TerminosScreen(termino: {}),
           'pagos': (_) => PagosScreen(pagos: {}),
           'detalle_post': (_) => detallePostScreen(value: {}),
+          'edita_perfil': (_) => editProfileScreen(
+              id: '',
+              nombre: '',
+              apellidoPaterno: '',
+              apellidoMaterno: '',
+              nacimiento: '',
+              curp: '',
+              sexo: '',
+              escolaridad: '',
+              nacionalidad: '',
+              calle: '',
+              colonia: '',
+              estado: '',
+              ciudad: '',
+              cp: '',
+              division: '',
+              club: '',
+              posicion: '',
+              apodo: '',
+              estatus: '',
+              celular: '',
+              telCasa: ''),
+          'foto_perfil': (_) => fotoPerfilScreen(id: '', nui: '', foto: ''),
+          'foto_anverso': (_) => fotoAnversoScreen(id: '', nui: '', pdf: ''),
+          'foto_reverso': (_) => fotoReversoScreen(id: '', nui: '', pdf2: '')
+
           // 'register' : (_) => const RegisterScreen()
         },
         // theme: AppTheme.lightTheme,

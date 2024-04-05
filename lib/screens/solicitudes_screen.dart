@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 
 class SolicitudesScreen extends StatefulWidget {
@@ -17,29 +19,39 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: Color(0xFF211A46),
-          // title: Image.asset(
-          //   'assets/logo3.png',
-          //   width: 80,
-          //   height: 50,
-          // ),
           automaticallyImplyLeading: false,
-          title: Center(
-            child: Text(
-              '',
-              style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
+          elevation: 0,
+          toolbarHeight: MediaQuery.of(context).size.height *
+              0.07, // Ajusta el alto del AppBar según el tamaño de la pantalla
+          centerTitle: true,
+          flexibleSpace: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.03), // Espacio para bajar la imagen
+                Image.asset(
+                  'assets/logoblanco.png',
+                  // width: MediaQuery.of(context).size.width * 0.07,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF6EBC44),
+                  Color(0xFF000000),
+                ],
+                stops: [0.0, 1.0],
+              ),
             ),
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'homeroute');
-                },
-                icon: Image.asset('assets/logoblanco.png'),
-              ),
-            ),
+            Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
           ]),
       body: Center(
         child: Row(

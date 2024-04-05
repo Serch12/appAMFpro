@@ -29,7 +29,7 @@ class LoginBiometricsScreen extends StatelessWidget {
       // El usuario fue autenticado exitosamente
       print("Autenticación exitosa");
       // Aquí puedes navegar a la siguiente pantalla o realizar acciones después de la autenticación exitosa
-      Navigator.pushNamed(context, 'homeroute');
+      Navigator.pushReplacementNamed(context, 'homeroute');
     } else {
       // La autenticación falló
       print("Autenticación fallida");

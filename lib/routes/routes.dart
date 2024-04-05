@@ -7,10 +7,11 @@ class Routes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(index);
     List<Widget> myList = [
-      const HomeScreen(),
-      const SolicitudesScreen(),
-      const ProfileScreen(),
+      HomeScreen(),
+      SolicitudesScreen(),
+      ProfileScreen(),
       // const Solicitudes2Screen(),
       // const ContratoScreen()
     ];

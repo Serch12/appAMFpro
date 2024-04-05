@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/solicitudes_2_screen.dart';
 import '../services/services.dart';
 import 'package:http/http.dart' as http;
@@ -92,12 +94,15 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
 
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xFF211A46),
+            // backgroundColor: Color(0xFF211A46),
+            backgroundColor: Color(0xFF6EBC44),
+            elevation: 0, // Establece la elevación del AppBar a cero
             // title: Image.asset(
             //   'assets/logo3.png',
             //   width: 80,
             //   height: 50,
             // ),
+            automaticallyImplyLeading: false,
             title: Center(
               child: Text(
                 '',
@@ -115,16 +120,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
               ),
             ),
             actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: IconButton(
-                  onPressed: () {
-                    // Acción al presionar el IconButton
-                    Navigator.pushReplacementNamed(context, 'homeroute');
-                  },
-                  icon: Image.asset('assets/logoblanco.png'),
-                ),
-              ),
+              Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
             ]),
         body: FutureBuilder(
           // Reducimos la duración del tiempo de carga a medio segundo
@@ -138,7 +134,17 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                   Container(
                     height: screenHeight -
                         appBarHeight, // Ajustar al tamaño de la pantalla después del AppBar
-                    color: Color(0xFF211A46),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0xFF6EBC44), Colors.black],
+                        stops: [
+                          0.0,
+                          0.2
+                        ], // Ajusta las paradas de color según lo necesites
+                      ),
+                    ),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +153,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                             // padding: EdgeInsets.all(15),
                             height: (screenHeight - appBarHeight) /
                                 9, // La mitad de la altura de la pantalla para el contenedor azul
-                            color: Color(0xFF211A46),
+                            color: Colors.transparent,
                             child: Column(
                               children: [
                                 Padding(
@@ -163,7 +169,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                                           fontFamily: 'Roboto')),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 23.0),
+                                  padding: const EdgeInsets.only(left: 10.0),
                                   child: Text(
                                       '$apellidoPaterno $apellidoMaterno',
                                       style: TextStyle(
