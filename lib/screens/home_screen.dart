@@ -283,9 +283,7 @@ class CustomPagination extends StatelessWidget {
               (index) {
                 bool isActive = index == config.activeIndex;
                 return Container(
-                  width: isActive
-                      ? 30.0
-                      : 5.0, // Ajusta el ancho según esté activo o no
+                  width: isActive ? 30.0 : 5.0,
                   height: 5.0,
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
@@ -300,7 +298,6 @@ class CustomPagination extends StatelessWidget {
             height: 5,
           ),
           Container(
-            // Utiliza MediaQuery para obtener el ancho del dispositivo
             width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
