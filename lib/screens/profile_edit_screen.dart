@@ -154,7 +154,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                     style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.white,
-                        height: MediaQuery.of(context).size.height * 0.005),
+                        height: MediaQuery.of(context).size.height * 0.0055),
                   ),
                 ],
               ),
@@ -457,7 +457,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                     Alignment.centerRight,
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(2.0),
                                                   child: Container(
                                                     height:
                                                         MediaQuery.of(context)
@@ -565,7 +565,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                     Alignment.centerRight,
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(2.0),
                                                   child: Container(
                                                     height:
                                                         MediaQuery.of(context)
@@ -612,8 +612,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                                 style: TextStyle(
                                                                     fontFamily:
                                                                         'Roboto',
-                                                                    fontSize:
-                                                                        10,
+                                                                    fontSize: 8,
                                                                     color: Colors
                                                                         .black)),
                                                           ),

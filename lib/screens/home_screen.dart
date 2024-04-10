@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: MediaQuery.of(context).size.width *
                                         0.9, // Ancho deseado
                                     height: 150, // Altura deseada
-                                    fit: BoxFit.cover
+                                    fit: BoxFit.fill
                                     // AssetImage('assets/ejemplo2.jpg'),
                                     ),
                               ),

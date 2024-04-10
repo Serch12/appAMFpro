@@ -393,7 +393,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               ),
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.25,
+                                    MediaQuery.of(context).size.height * 0.27,
                                 child: TabBarView(
                                   children: [
                                     Padding(
@@ -1175,7 +1175,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       Alignment.centerRight,
                                                   child: Container(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 25.0,
                                                         vertical: 4.0),
                                                     decoration: BoxDecoration(
