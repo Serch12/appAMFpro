@@ -62,7 +62,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   easy_stepper: ^0.5.2
   camera: ^0.10.3+1
-  cached_network_image: ^3.0.0
+  cached_network_image: ^3.3.1
   get: 
 
 dev_dependencies:
