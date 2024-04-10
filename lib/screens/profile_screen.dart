@@ -241,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         ),
                       ),
                       // color: const Color(0xFF211A46),
-                      padding: EdgeInsets.only(top: 20.0),
+                      padding: EdgeInsets.only(top: 10.0),
                       child: Center(
                         child: Column(
                           mainAxisAlignment:
@@ -1175,7 +1175,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       Alignment.centerRight,
                                                   child: Container(
                                                     padding: const EdgeInsets
-                                                        .symmetric(
+                                                            .symmetric(
                                                         horizontal: 25.0,
                                                         vertical: 4.0),
                                                     decoration: BoxDecoration(
@@ -1343,11 +1343,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
 
                     Positioned(
-                      top: MediaQuery.of(context).size.height * 0.13,
+                      top: MediaQuery.of(context).size.height * 0.1,
                       left: MediaQuery.of(context).size.width * 0.30,
                       right: MediaQuery.of(context).size.width * 0.30,
                       bottom:
-                          MediaQuery.of(context).size.height * 0.42, // bottom
+                          MediaQuery.of(context).size.height * 0.45, // bottom
 
                       child: fotoPerfilScreen(id: id, nui: nui, foto: foto),
                     )

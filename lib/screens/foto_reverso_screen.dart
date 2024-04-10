@@ -439,7 +439,7 @@ class _fotoReversoScreenState extends State<fotoReversoScreen> {
         minimumSize: Size(
           MediaQuery.of(context).size.width *
               0.4, // Ajusta el ancho del botón según el ancho de la pantalla
-          MediaQuery.of(context).size.width *
+          MediaQuery.of(context).size.height *
               0.05, // Ajusta el alto del botón según el ancho de la pantalla
         ),
       ),
