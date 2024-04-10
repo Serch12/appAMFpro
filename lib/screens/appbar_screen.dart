@@ -16,7 +16,10 @@ class _MyAppBarState extends State<MyAppBar> {
       child: Stack(
         children: [
           IconButton(
-            icon: Icon(LineIcons.bell),
+            icon: Icon(
+              LineIcons.bell,
+              color: Colors.white,
+            ),
             onPressed: () {
               // Al presionar el icono, muestra el menú desplegable
               showMenu(
@@ -169,8 +172,9 @@ class _MyAppBarState extends State<MyAppBar> {
           Positioned(
             right: 10.5,
             top: 1,
+            height: 20,
             child: Container(
-              padding: EdgeInsets.all(4),
+              padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(10),
@@ -183,7 +187,7 @@ class _MyAppBarState extends State<MyAppBar> {
                 '5',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

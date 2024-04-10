@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       child: Container(
                         width: size.width *
-                            0.80, // El 80% del ancho de la pantalla
+                            0.65, // El 80% del ancho de la pantalla
                         height: size.height *
                             0.7, // El 60% de la altura de la pantalla
                         margin:
@@ -235,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontSize:
                                         MediaQuery.of(context).size.width *
-                                            0.035),
+                                            0.03),
                               ),
                             ),
                             Text(

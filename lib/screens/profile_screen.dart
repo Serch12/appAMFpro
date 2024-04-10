@@ -139,6 +139,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             // backgroundColor: Color(0xFF211A46),
             backgroundColor: Color(0xFF6EBC44),
             elevation: 0, // Establece la elevación del AppBar a cero
+            toolbarHeight: MediaQuery.of(context).size.height *
+                0.07, // Ajusta el alto del AppBar según el tamaño de la pantalla
             automaticallyImplyLeading: false,
             flexibleSpace: Container(
               child: Column(
@@ -391,7 +393,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               ),
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.2,
+                                    MediaQuery.of(context).size.height * 0.25,
                                 child: TabBarView(
                                   children: [
                                     Padding(
@@ -1173,7 +1175,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       Alignment.centerRight,
                                                   child: Container(
                                                     padding: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 25.0,
                                                         vertical: 4.0),
                                                     decoration: BoxDecoration(
@@ -1318,7 +1320,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.all(2.0),
+                                padding: const EdgeInsets.all(1.0),
                                 decoration: BoxDecoration(
                                   // color: const Color(0xFF6EBC44),
                                   borderRadius: BorderRadius.circular(40.0),
@@ -1341,11 +1343,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
 
                     Positioned(
-                      top: MediaQuery.of(context).size.height * 0.09,
+                      top: MediaQuery.of(context).size.height * 0.13,
                       left: MediaQuery.of(context).size.width * 0.30,
                       right: MediaQuery.of(context).size.width * 0.30,
                       bottom:
-                          MediaQuery.of(context).size.height * 0.5, // bottom
+                          MediaQuery.of(context).size.height * 0.42, // bottom
 
                       child: fotoPerfilScreen(id: id, nui: nui, foto: foto),
                     )
