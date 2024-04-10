@@ -441,7 +441,7 @@ class _fotoAnversoScreenState extends State<fotoAnversoScreen> {
           MediaQuery.of(context).size.width *
               0.4, // Ajusta el ancho del botón según el ancho de la pantalla
           MediaQuery.of(context).size.width *
-              0.1, // Ajusta el alto del botón según el ancho de la pantalla
+              0.05, // Ajusta el alto del botón según el ancho de la pantalla
         ),
       ),
       child: Text(

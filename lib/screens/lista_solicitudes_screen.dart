@@ -177,7 +177,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.05,
+                                              0.04,
                                           fontWeight: FontWeight.w300,
                                           fontFamily: 'Roboto')),
                                 ),

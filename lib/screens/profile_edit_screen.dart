@@ -141,6 +141,8 @@ class _editProfileScreenState extends State<editProfileScreen> {
             // backgroundColor: Color(0xFF211A46),
             backgroundColor: Color(0xFF6EBC44),
             elevation: 0, // Establece la elevación del AppBar a cero
+            toolbarHeight: MediaQuery.of(context).size.height *
+                0.07, // Ajusta el alto del AppBar según el tamaño de la pantalla
             automaticallyImplyLeading: false,
             flexibleSpace: Container(
               child: Column(
