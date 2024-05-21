@@ -10,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:375782356345:android:0ff809c2d2a66ed2996ba8",
         "android_client_info": {
-          "package_name": "com.emmanueldamian.flutteramfpro"
+          "package_name": "com.example.splash_animated"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "375782356345-kf1n8042sc44c4g0iih7o2b9qaongi61.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.splash_animated",
+            "certificate_hash": "162c6782c204d16ef1107cf6c655765e0b694178"
+          }
+        },
         {
           "client_id": "375782356345-a5uq921o2sqb5702lhiajitc18lgiso4.apps.googleusercontent.com",
           "client_type": 3

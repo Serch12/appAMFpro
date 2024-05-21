@@ -41,13 +41,15 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
     if (mounted) {
       setState(() {
         dynamic decodedResponse = json.decode(respuesta.body);
-
-        if (decodedResponse is List && decodedResponse.isNotEmpty) {
-          // Si la respuesta es una lista, toma el primer elemento
-          asesoria = decodedResponse.first;
+        if (decodedResponse.isEmpty) {
         } else {
-          // Si la respuesta es un mapa, simplemente asígnalo
-          asesoria = decodedResponse;
+          if (decodedResponse is List) {
+            // Si la respuesta es una lista, toma el primer elemento
+            asesoria = decodedResponse.first;
+          } else {
+            // Si la respuesta es un mapa, simplemente asígnalo
+            asesoria = decodedResponse;
+          }
         }
       });
     }
@@ -289,32 +291,42 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                style: TextStyle(
-                                                    // Estilo base
-                                                    color: Colors
-                                                        .black, // Puedes cambiar el color según tus necesidades
-                                                    fontSize:
-                                                        16.0, // Puedes ajustar el tamaño de fuente según tus necesidades
-                                                    fontFamily: 'Roboto'),
-                                                children: [
-                                                  TextSpan(
-                                                    text: 'Asesoria: ',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                            asesoria.isEmpty
+                                                ? Center(
+                                                    child: Image.asset(
+                                                    'assets/app.png',
+                                                    width: 230,
+                                                    height: 230,
+                                                  ))
+                                                : RichText(
+                                                    text: TextSpan(
+                                                      style: TextStyle(
+                                                          // Estilo base
+                                                          color: Colors
+                                                              .black, // Puedes cambiar el color según tus necesidades
+                                                          fontSize:
+                                                              16.0, // Puedes ajustar el tamaño de fuente según tus necesidades
+                                                          fontFamily: 'Roboto'),
+                                                      children: [
+                                                        TextSpan(
+                                                          text: 'Asesoria: ',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: asesoria[
+                                                              'folio_ase'],
+                                                        )
+                                                      ],
                                                     ),
                                                   ),
-                                                  TextSpan(
-                                                    text: asesoria['folio_ase'],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
                                             const SizedBox(height: 20),
-                                            CardAsesoria(
-                                                datos_asesoria: asesoria),
+                                            asesoria.isEmpty
+                                                ? Text('')
+                                                : CardAsesoria(
+                                                    datos_asesoria: asesoria),
                                           ],
                                         ),
                                       ),
@@ -378,154 +390,153 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Flexible(
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          AudienciaScreen(
-                                                                              audiencia: audiencia)),
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                'Audiencia',
-                                                                style: TextStyle(
-                                                                    fontSize: MediaQuery.of(
-                                                                                context)
-                                                                            .size
-                                                                            .width *
-                                                                        0.025,
+                                                          if (audiencia
+                                                              .isNotEmpty)
+                                                            Flexible(
+                                                              child:
+                                                                  ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                AudienciaScreen(audiencia: audiencia)),
+                                                                  );
+                                                                },
+                                                                child: Text(
+                                                                  'Audiencia',
+                                                                  style: TextStyle(
+                                                                      fontSize: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.025,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontFamily:
+                                                                          'Roboto',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      Color(
+                                                                          0XFF6EBC44),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20.0),
+                                                                  ),
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              20),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          SizedBox(width: 16),
+                                                          if (termino
+                                                              .isNotEmpty)
+                                                            Flexible(
+                                                              child:
+                                                                  ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                TerminosScreen(termino: termino)),
+                                                                  );
+                                                                },
+                                                                child: Text(
+                                                                  'Términos',
+                                                                  style: TextStyle(
+                                                                      fontSize: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.025,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontFamily:
+                                                                          'Roboto',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      Color(
+                                                                          0XFF6EBC44),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20.0),
+                                                                  ),
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              20),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          SizedBox(width: 16),
+                                                          if (pagos.isNotEmpty)
+                                                            Flexible(
+                                                              child:
+                                                                  ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                PagosScreen(pagos: pagos)),
+                                                                  );
+                                                                },
+                                                                child: Text(
+                                                                  'Pagos',
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: Colors
                                                                         .black,
                                                                     fontFamily:
                                                                         'Roboto',
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0XFF6EBC44),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20.0),
-                                                                ),
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(width: 16),
-                                                          Flexible(
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          TerminosScreen(
-                                                                              termino: termino)),
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                'Términos',
-                                                                style: TextStyle(
-                                                                    fontSize: MediaQuery.of(
-                                                                                context)
+                                                                            .bold,
+                                                                    fontSize: MediaQuery.of(context)
                                                                             .size
                                                                             .width *
                                                                         0.025,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0XFF6EBC44),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20.0),
+                                                                  ),
                                                                 ),
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            20),
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      Color(
+                                                                          0XFF6EBC44),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20.0),
+                                                                  ),
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              32),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          SizedBox(width: 16),
-                                                          Flexible(
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          PagosScreen(
-                                                                              pagos: pagos)),
-                                                                );
-                                                              },
-                                                              child: Text(
-                                                                'Pagos',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontFamily:
-                                                                      'Roboto',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width *
-                                                                      0.025,
-                                                                ),
-                                                              ),
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0XFF6EBC44),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20.0),
-                                                                ),
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            32),
-                                                              ),
-                                                            ),
-                                                          ),
                                                         ],
                                                       ),
                                                     ),
@@ -780,7 +791,9 @@ class _CardControversiaTablaState extends State<CardControversiaTabla> {
                               alignment: Alignment.centerRight,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(widget.controversia['resuelto'],
+                                child: Text(
+                                    widget.controversia['resuelto'] ??
+                                        'En atención',
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
@@ -1200,15 +1213,21 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 25.0, vertical: 4.0),
                       decoration: BoxDecoration(
-                        color: widget.datos['estatus'] == 0
-                            ? Color(0x80ff6d00)
-                            : Color(0x806EBC44),
+                        color: widget.datos['estatus'] == 0 ||
+                                widget.datos['estatus'] == 3
+                            ? Color(0xff2E2A60)
+                            : widget.datos['estatus'] == 1
+                                ? Color(0xff4FC028)
+                                : Color(0xffFF0000),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Text(
-                        widget.datos['estatus'] == 0
+                        widget.datos['estatus'] == 0 ||
+                                widget.datos['estatus'] == 3
                             ? 'En proceso'
-                            : 'Concluido',
+                            : widget.datos['estatus'] == 1
+                                ? 'Concluido'
+                                : 'Controversia',
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.025,
                           color: Colors.white,

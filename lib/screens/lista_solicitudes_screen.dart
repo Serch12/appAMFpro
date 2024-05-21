@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
-import 'package:splash_animated/screens/solicitudes_2_screen.dart';
+import 'package:splash_animated/screens/screens.dart';
+import 'package:pulsator/pulsator.dart';
 import '../services/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,6 +23,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
   String? nombre;
   String? apellidoPaterno;
   String? apellidoMaterno;
+  int? nui;
 
   @override
   void initState() {
@@ -67,6 +68,7 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
         nombre = jugador['data']['nombre'];
         apellidoPaterno = jugador['data']['apellido_paterno'];
         apellidoMaterno = jugador['data']['apellido_materno'];
+        nui = jugador['data']['nui'];
         obtenerSolicitudesDeAPI(jugador['data']['id']);
       });
     }
@@ -93,350 +95,87 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
     double appBarHeight = AppBar().preferredSize.height;
 
     return Scaffold(
-        appBar: AppBar(
-            // backgroundColor: Color(0xFF211A46),
-            backgroundColor: Color(0xFF6EBC44),
-            elevation: 0, // Establece la elevación del AppBar a cero
-            // title: Image.asset(
-            //   'assets/logo3.png',
-            //   width: 80,
-            //   height: 50,
-            // ),
-            automaticallyImplyLeading: false,
-            title: Center(
-              child: Text(
-                '',
-                style: TextStyle(fontFamily: 'Roboto', fontSize: 16),
-              ),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          toolbarHeight: MediaQuery.of(context).size.height *
+              0.07, // Ajusta el alto del AppBar según el tamaño de la pantalla
+          centerTitle: true,
+          flexibleSpace: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.03), // Espacio para bajar la imagen
+                Image.asset(
+                  'assets/logoblanco.png',
+                  // width: MediaQuery.of(context).size.width * 0.07,
+                  height: MediaQuery.of(context).size.height * 0.04,
+                )
+              ],
             ),
-            leading: IconButton(
-              onPressed: () {
-                // Acción al presionar el botón de retroceso
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white, // Color blanco para el icono
-              ),
-            ),
-            actions: [
-              Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
-            ]),
-        body: FutureBuilder(
-          // Reducimos la duración del tiempo de carga a medio segundo
-          future: Future.delayed(Duration(seconds: 2)),
-          builder: (context, snapshot) {
-            // Verifica si el Future ha completado
-            if (snapshot.connectionState == ConnectionState.done) {
-              // Muestra tu contenido después de la carga
-              return ListView(
-                children: [
-                  Container(
-                    height: screenHeight -
-                        appBarHeight, // Ajustar al tamaño de la pantalla después del AppBar
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Color(0xFF6EBC44), Colors.black],
-                        stops: [
-                          0.0,
-                          0.2
-                        ], // Ajusta las paradas de color según lo necesites
-                      ),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            // padding: EdgeInsets.all(15),
-                            height: (screenHeight - appBarHeight) /
-                                9, // La mitad de la altura de la pantalla para el contenedor azul
-                            color: Colors.transparent,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text('$nombre',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.05,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Roboto')),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                      '$apellidoPaterno $apellidoMaterno',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.04,
-                                          fontWeight: FontWeight.w300,
-                                          fontFamily: 'Roboto')),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: double
-                                .infinity, // Ancho igual al ancho total de la pantalla
-                            height: (screenHeight - appBarHeight) /
-                                1.2, // La mitad de la altura de la pantalla para el contenedor blanco
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Center(
-                                          child: Text(
-                                            'Listado de solicitudes',
-                                            style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.04,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: lista.isEmpty
-                                            ? Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0), // Ajusta el radio según tus preferencias
-                                                ),
-                                                child: Center(
-                                                    child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.6, // Ancho del GIF
-                                                  child: Image.asset(
-                                                    "assets/sininfo.gif",
-                                                    key: UniqueKey(),
-                                                    repeat:
-                                                        ImageRepeat.noRepeat,
-                                                  ),
-                                                )),
-                                              )
-                                            : Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0), // Ajusta el radio según tus preferencias
-                                                ),
-                                                elevation: 10,
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: TablaListado(
-                                                            listado: lista)),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    )
-                                                  ],
-                                                )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF6EBC44),
+                  Color(0xFF000000),
                 ],
-              );
-            } else {
-              // Muestra un indicador de carga mientras se está cargando
-              return Center(
-                  child: Container(
-                width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
-                height:
-                    MediaQuery.of(context).size.height * 0.3, // Alto del GIF
-                child: Image.asset(
-                  "assets/balon-loading.gif",
-                  key: UniqueKey(),
-                  repeat: ImageRepeat.repeatX,
-                ),
-              ));
-            }
-          },
-        ));
-  }
-}
-
-class TablaListado extends StatefulWidget {
-  final List<Map<String, dynamic>> listado;
-
-  const TablaListado({Key? key, required this.listado}) : super(key: key);
-
-  @override
-  State<TablaListado> createState() => _TablaListadoState();
-}
-
-class _TablaListadoState extends State<TablaListado> {
-  @override
-  Widget build(BuildContext context) {
-    return Table(
-      columnWidths: const {
-        0: FlexColumnWidth(1.0),
-        1: FlexColumnWidth(1.0),
-        2: FlexColumnWidth(1.0),
-      },
-      children: [
-        TableRow(
-          children: [
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Solicitud',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
+                stops: [0.0, 1.0],
               ),
             ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Estatus',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            TableCell(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Acción',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        for (final item in widget.listado)
-          TableRow(
-            children: [
-              TableCell(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      item['no_solicitud']
-                          .toString(), // Ajusta el nombre de la clave según tus datos reales
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Roboto',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              TableCell(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.all(3),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width *
-                          0.03, // 5% del ancho de la pantalla
-                      vertical: MediaQuery.of(context).size.height *
-                          0.01, // 1% del alto de la pantalla
-                    ),
-                    decoration: BoxDecoration(
-                      color: item['estatus'] == 0
-                          ? Color(0x80ff6d00)
-                          : Color(0x806EBC44),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text(
-                      item['estatus'] == 0 ? 'En proceso' : 'Concluido',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              TableCell(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navegar a otro screen aquí
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Solicitudes2Screen(value: item),
-                          ),
-                        );
-                      },
-                      child: Icon(
-                        Icons.visibility_outlined,
-                        color: Colors.black,
-                        size: 20.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
-      ],
+          actions: [
+            Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
+          ]),
+      body: FutureBuilder(
+        // Reducimos la duración del tiempo de carga a medio segundo
+        future: Future.delayed(Duration(seconds: 2)),
+        builder: (context, snapshot) {
+          // Verifica si el Future ha completado
+          if (snapshot.connectionState == ConnectionState.done) {
+            // Muestra tu contenido después de la carga
+            return SolicitudesFiltroScreen(listado: lista, id_afiliado: id_afi);
+          } else {
+            // Muestra un indicador de carga mientras se está cargando
+            return Center(
+                child: Container(
+              width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
+              height: MediaQuery.of(context).size.height * 0.3, // Alto del GIF
+              child: Image.asset(
+                "assets/balon-loading.gif",
+                key: UniqueKey(),
+                repeat: ImageRepeat.repeatX,
+              ),
+            ));
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Acciones al presionar el botón flotante (agregar contrato)
+          // Puedes abrir una pantalla de creación de contrato o realizar otras acciones
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => nuevaSolicitudScreen(
+                  id_afiliado2: jugador['data']['id'],
+                  nombre2: jugador['data']['nombre'],
+                  ap2: jugador['data']['apellido_paterno'],
+                  am2: jugador['data']['apellido_materno'],
+                  nui2: jugador['data']['nui'])));
+        },
+        child: PulseIcon(
+          icon: Icons.add,
+          pulseColor: Color(0xff4FC028),
+          innerSize: 30.0,
+          pulseSize: 100.0,
+          iconSize: 30,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        mini: false,
+      ),
     );
   }
 }

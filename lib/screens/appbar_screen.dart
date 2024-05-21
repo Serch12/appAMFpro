@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
+import 'package:splash_animated/main.dart';
+import 'package:splash_animated/screens/screens.dart';
+
+// import '../main.dart';
 
 class MyAppBar extends StatefulWidget {
   @override
@@ -9,6 +14,7 @@ class MyAppBar extends StatefulWidget {
 class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<NotificacionesProvider>(context);
     return GestureDetector(
       onTap: () {
         // Acción al tocar el icono de campana o el contador
@@ -21,179 +27,159 @@ class _MyAppBarState extends State<MyAppBar> {
               color: Colors.white,
             ),
             onPressed: () {
-              // Al presionar el icono, muestra el menú desplegable
-              showMenu(
-                context: context,
-                position: RelativeRect.fromLTRB(
-                  MediaQuery.of(context).size.width *
-                      0.4, // 40% desde la izquierda
-                  MediaQuery.of(context).size.height * 0.11, // 45% desde arriba
-                  0,
-                  0,
-                ),
-                color: Color(0xFFF3F3F3),
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Bordes redondeados
-                ),
-                items: [
-                  PopupMenuItem(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(
-                              Icons.close,
-                              color: Colors.red,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Jurido AMFpro",
-                              style:
-                                  TextStyle(fontFamily: 'Roboto', fontSize: 10),
-                            ),
-                            Text(
-                              "ahora",
-                              style:
-                                  TextStyle(fontFamily: 'Roboto', fontSize: 10),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              LineIcons.recordVinyl,
-                              color: Colors.black,
-                              size: 10,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Documentos faltantes",
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Descripcion de la notificación para mostrar y que lleve a la sercción indicada",
-                          style: TextStyle(fontFamily: 'Roboto', fontSize: 12),
-                        )
-                      ],
-                    ),
-                    value: 1,
+              if (provider.notificaciones.isNotEmpty) {
+                // Al presionar el icono, muestra el menú desplegable
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(
+                    MediaQuery.of(context).size.width *
+                        0.4, // 40% desde la izquierda
+                    MediaQuery.of(context).size.height *
+                        0.11, // 11% desde arriba
+                    0,
+                    0,
                   ),
-                  PopupMenuItem(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(
-                              Icons.close,
-                              color: Colors.red,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Jurido AMFpro",
-                              style:
-                                  TextStyle(fontFamily: 'Roboto', fontSize: 10),
-                            ),
-                            Text(
-                              "04/04/2024",
-                              style:
-                                  TextStyle(fontFamily: 'Roboto', fontSize: 10),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              LineIcons.recordVinyl,
-                              color: Colors.black,
-                              size: 10,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Seguimiento de audencia",
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Descripcion de la notificación para mostrar y que lleve a la sercción indicada",
-                          style: TextStyle(fontFamily: 'Roboto', fontSize: 12),
-                        )
-                      ],
-                    ),
-                    value: 2,
+                  color: Color(0xFFF3F3F3),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10), // Bordes redondeados
                   ),
-                ],
-              );
+                  items: provider.notificaciones.map((notificacion) {
+                    return PopupMenuItem(
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                height:
+                                    20, // Ajusta la altura según lo necesario
+                                width: 20, // Ajusta el ancho si es necesario
+                                child: IconButton(
+                                  padding: EdgeInsets.all(
+                                      0), // Quitar padding para que no tenga bordes extra
+                                  constraints: BoxConstraints(),
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 16,
+                                  ),
+                                  onPressed: () {
+                                    provider.eliminarNotificacion(notificacion);
+                                    Navigator.pop(context); // Cerrar el menú
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Solicitudes2Screen(value: {
+                                          'no_solicitud':
+                                              notificacion.no_solicitud,
+                                          'nombre': notificacion.nombre,
+                                          'division': notificacion.division,
+                                          'club': notificacion.club,
+                                          'nui': notificacion.nui,
+                                          'tramite': notificacion.tramite,
+                                          'observaciones':
+                                              notificacion.observaciones,
+                                          'estatus': notificacion.estatus,
+                                          'fecha': notificacion.fechaSol,
+                                        }),
+                                      ),
+                                    );
+                                    // Navigator.pushNamed(context,
+                                    //     'homeroutetres'); // Navegar al listado de solicitudes
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                notificacion.titulo,
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "${notificacion.fecha.hour}:${notificacion.fecha.minute}",
+                                style: TextStyle(
+                                    fontFamily: 'Roboto', fontSize: 10),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Icon(
+                                LineIcons.recordVinyl,
+                                color: Colors.black,
+                                size: 10,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                notificacion.descripcion,
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
+                          ),
+                          // SizedBox(height: 5),
+                          // Text(
+                          //   notificacion.descripcion,
+                          //   style: TextStyle(
+                          //       fontFamily: 'Roboto',
+                          //       fontSize: 12,
+                          //       fontWeight: FontWeight.bold),
+                          // ),
+                        ],
+                      ),
+                      value: notificacion,
+                    );
+                  }).toList(),
+                );
+              } else {
+                // Mostrar mensaje o no hacer nada si no hay notificaciones
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Center(child: Text('No hay notificaciones'))),
+                );
+              }
             },
           ),
-          Positioned(
-            right: 10.5,
-            top: 1,
-            height: 20,
-            child: Container(
-              padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              constraints: BoxConstraints(
-                minWidth: 16,
-                minHeight: 16,
-              ),
-              child: Text(
-                '5',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+          if (provider.numeroNotificaciones > 0)
+            Positioned(
+              right: 10.5,
+              top: 1,
+              height: 20,
+              child: Container(
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                textAlign: TextAlign.center,
+                constraints: BoxConstraints(
+                  minWidth: 16,
+                  minHeight: 16,
+                ),
+                child: Text(
+                  provider.numeroNotificaciones.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
