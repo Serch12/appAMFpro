@@ -105,7 +105,6 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => MyProvider(),
-          lazy: false,
         ),
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(
@@ -128,17 +127,15 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(primarySwatch: Colors.green),
         initialRoute: 'checkauth',
         routes: {
-          'inicio_nui_screen': (_) => const InicioNuiScreen(),
-          'animated_screen': (_) => const AnimatedScreen(),
-          'basic_desing': (_) => const BasicDesingScreen(),
-          'verification_code_screen': (_) =>
-              const VerificationCodeScreen(value: [], codigo: 0),
+          'circular': (_) => CircularStepperDemo(),
+          'detalle_lesiones': (_) => DetalleLesionesScreen(id_afiliado: 0),
           'login': (_) => LoginScreen(),
           'biometricos': (_) => LoginBiometricsScreen(),
           'home': (_) => HomeScreen(),
           'homeroute': (_) => HomeRouteScreen(),
           'homeroutedos': (_) => HomeRouteDosScreen(),
           'homeroutetres': (_) => HomeRouteTresScreen(),
+          'homeroutecuatro': (_) => HomeRouteCuatroScreen(),
           'register': (_) => RegisterScreen(),
           'checkauth': (_) => CheckAuthScreen(),
           'profile': (_) => ProfileScreen(),

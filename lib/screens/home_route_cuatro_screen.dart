@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:splash_animated/routes/routes.dart';
 import 'package:splash_animated/widgets/widgets.dart';
 
-class HomeRouteDosScreen extends StatefulWidget {
-  const HomeRouteDosScreen({Key? key}) : super(key: key);
+class HomeRouteCuatroScreen extends StatefulWidget {
+  const HomeRouteCuatroScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeRouteDosScreen> createState() => _HomeRouteDosScreenState();
+  State<HomeRouteCuatroScreen> createState() => _HomeRouteCuatroScreenState();
 }
 
-class _HomeRouteDosScreenState extends State<HomeRouteDosScreen> {
-  int index = 3;
+class _HomeRouteCuatroScreenState extends State<HomeRouteCuatroScreen> {
+  int index = 1;
   late NavegadorBar myButtonMain; // Cambiado a late
 
   @override

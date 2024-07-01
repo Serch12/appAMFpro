@@ -10,7 +10,9 @@ class Routes extends StatelessWidget {
     print(index);
     List<Widget> myList = [
       HomeScreen(),
+      CircularStepperDemo(),
       ListaSolicitudesScreen(),
+
       ProfileScreen(),
       // SolicitudesScreen(),
       // const Solicitudes2Screen(),

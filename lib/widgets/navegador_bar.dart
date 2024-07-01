@@ -47,9 +47,10 @@ class _NavegadorBarState extends State<NavegadorBar> {
           height: MediaQuery.of(context).size.height * 0.07,
           items: <Widget>[
             _buildIcon(LineIcons.home, 0),
-            _buildIcon(LineIcons.folder, 1),
-            _buildIcon(LineIcons.user, 2),
-            _buildIcon(LineIcons.alternateSignOut, 3),
+            _buildIcon(LineIcons.running, 1),
+            _buildIcon(LineIcons.folder, 2),
+            _buildIcon(LineIcons.user, 3),
+            _buildIcon(LineIcons.alternateSignOut, 4),
           ],
           color: Colors.white,
           buttonBackgroundColor: Colors.white,
@@ -57,7 +58,7 @@ class _NavegadorBarState extends State<NavegadorBar> {
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 600),
           onTap: (int i) {
-            if (i == 3) {
+            if (i == 4) {
               final authService =
                   Provider.of<AuthService>(context, listen: false);
               authService.logout();

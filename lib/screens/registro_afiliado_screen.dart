@@ -16,7 +16,7 @@ class RegistroAfiliadoScreen extends StatefulWidget {
 class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   final String _urlBase = 'test-intranet.amfpro.mx';
   bool existe_nui = false;
-  int _currentStep = 0;
+  int _currentStep = 4;
   int ver_seccion = 0;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
