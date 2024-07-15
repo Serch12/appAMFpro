@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:splash_animated/screens/screens.dart';
-import '../services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'package:intl/intl.dart';
 
 class ContratoScreen extends StatefulWidget {

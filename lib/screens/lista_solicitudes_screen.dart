@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:pulsator/pulsator.dart';
-import '../services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'package:http/http.dart' as http;
 
 class ListaSolicitudesScreen extends StatefulWidget {

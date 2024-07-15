@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
+// P8 - KeyID: 3J5W59Q3Q3
 final GlobalKey<NavigatorState> llavenavegador =
     new GlobalKey<NavigatorState>();
 
@@ -15,7 +16,24 @@ class NotificacionesPush {
   Stream<NotificacionDatos> get mensajes => _mensajesStreamController.stream;
 
   void initNotifications() async {
-    _firebaseMessaging.requestPermission();
+    // Solicitar permisos para notificaciones en iOS
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+        announcement: false,
+        carPlay: false,
+        criticalAlert: false);
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+
     _firebaseMessaging.getToken().then((value) {
       print('===== FCM TOKEN =====');
       print(value);
@@ -45,7 +63,7 @@ class NotificacionesPush {
       String argumento8 = 'no-data';
       DateTime? argumento9 = null;
       int argumento10 = 0;
-      if (Platform.isAndroid) {
+      if (Platform.isAndroid || Platform.isIOS) {
         // Asigna valores desde message.data con conversiones de tipo apropiadas
         argumento = message.data['mensaje'] ?? 'no-data';
         argumento1 = int.tryParse(message.data['id_sol'] ?? '0') ?? 0;

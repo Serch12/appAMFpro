@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:splash_animated/services/services.dart';
+//import 'package:splash_animated/services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -14,9 +16,10 @@ class RegistroAfiliadoScreen extends StatefulWidget {
 }
 
 class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
+  ScrollController _scrollController = ScrollController();
   final String _urlBase = 'test-intranet.amfpro.mx';
   bool existe_nui = false;
-  int _currentStep = 4;
+  int _currentStep = 0;
   int ver_seccion = 0;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -89,16 +92,17 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
         );
       },
     );
-    final authService = Provider.of<AuthService>(context, listen: false);
+    final AuthService _auth = AuthService();
     //validar si el login es correcto
-    final String? mensajeError = await authService.createUser(
+    final String? mensajeError = await _auth.createAcount(
         _emailController.text, _passwordController.text);
-    if (mensajeError == null) {
+    print("Este es el mensaje al entrar del login: ${mensajeError}");
+    if (mensajeError != null) {
       // Simula una espera de 3 segundos para demostración
       await Future.delayed(Duration(seconds: 3));
       // Ocultar el indicador de carga
     } else {
-      if (mensajeError == 'EMAIL_EXISTS') {
+      if (mensajeError == 2) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -191,7 +195,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       // El usuario se registró exitosamente
       // ocultar el teclado
       FocusScope.of(context).unfocus();
-      final authService = Provider.of<AuthService>(context, listen: false);
+      final AuthService _auth = AuthService();
 
       showDialog(
         context: context,
@@ -778,6 +782,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
         heightFactor: 1.0,
         widthFactor: 1.0,
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
               ClipPath(
@@ -802,7 +807,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               ),
               EasyStepper(
                 activeStep: _currentStep,
-                lineLength: 35,
+                lineStyle: LineStyle(lineLength: 35),
+
                 stepShape: StepShape.circle,
                 stepBorderRadius: 15,
                 borderThickness: 2,
@@ -1016,6 +1022,12 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               setState(() {
                                 _currentStep++;
                               });
+                              // Desplazarse al principio
+                              _scrollController.animateTo(
+                                0,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
                             }
                           }
                         },
@@ -1115,7 +1127,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       padding: EdgeInsets.all(16.0),
       child: Form(
         key: _formKey5,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
             Row(
@@ -1181,7 +1192,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       padding: EdgeInsets.all(16.0),
       child: Form(
         key: _formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
             Row(
@@ -1569,7 +1579,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       padding: EdgeInsets.all(16.0),
       child: Form(
         key: _formKey2,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
             Row(
@@ -1734,7 +1743,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       padding: EdgeInsets.all(16.0),
       child: Form(
         key: _formKey3,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
             Row(
@@ -2191,7 +2199,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       padding: EdgeInsets.all(16.0),
       child: Form(
         key: _formKey4,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
             Row(
@@ -2316,7 +2323,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               tooltip: 'Cargar imagen desde galería',
                             ),
                           ),
-                          SizedBox(width: 30),
+                          /* SizedBox(width: 30),
                           Container(
                             decoration: BoxDecoration(
                               color: Color(0xFFCFC8C8),
@@ -2335,7 +2342,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               splashRadius: 20,
                               tooltip: 'Cargar imagen desde cámara',
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ],
@@ -2362,10 +2369,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                     BorderRadius.all(Radius.circular(10))),
                             child: IconButton(
                               onPressed: () async {
-                                _pickImageAnverso(ImageSource.camera);
+                                _pickImageAnverso(ImageSource.gallery);
                               },
                               icon: Image.asset(
-                                'assets/camara.png', // Ruta de tu imagen
+                                'assets/gallery.png', // Ruta de tu imagen
                               ), // Icono que deseas mostrar
                               iconSize: 50, // Tamaño del icono
                               splashRadius: 20, // Radio del efecto splash
@@ -2396,10 +2403,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                     BorderRadius.all(Radius.circular(10))),
                             child: IconButton(
                               onPressed: () async {
-                                _pickImageReverso(ImageSource.camera);
+                                _pickImageReverso(ImageSource.gallery);
                               },
                               icon: Image.asset(
-                                'assets/camara.png', // Ruta de tu imagen
+                                'assets/gallery.png', // Ruta de tu imagen
                               ), // Icono que deseas mostrar
                               iconSize: 50, // Tamaño del icono
                               splashRadius: 20, // Radio del efecto splash

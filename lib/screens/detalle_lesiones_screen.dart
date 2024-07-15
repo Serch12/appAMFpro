@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 import 'appbar_screen.dart';
 
@@ -354,13 +353,15 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                           style: TextStyle(
                               color: Color(0xFF979797),
                               fontFamily: 'Roboto',
-                              fontSize: 15,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.0325,
                               fontWeight: FontWeight.bold)),
                       Text('Insidentes registrados durante los partidos.',
                           style: TextStyle(
                               color: Color(0xFF979797),
                               fontFamily: 'Roboto',
-                              fontSize: 12)),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025)),
                       Card(
                         color: Color(0xFFE8FFDC),
                         shape: RoundedRectangleBorder(
@@ -385,7 +386,11 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                         children: [
                                           TextSpan(
                                             text: 'Historial',
-                                            style: TextStyle(fontSize: 10),
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.02),
                                           ),
                                         ],
                                       ),
@@ -410,7 +415,10 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           style: TextStyle(
                                               color: Color(0xff979797),
                                               fontFamily: 'Roboto',
-                                              fontSize: 10),
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02),
                                         ),
                                         SizedBox(width: 5.0),
                                         Text(
@@ -419,7 +427,10 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                               color: Color(0xff979797),
                                               fontFamily: 'Roboto',
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 10),
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.02),
                                         ),
                                       ],
                                     ),
@@ -447,7 +458,10 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                         return Icon(
                                           Icons.brightness_1,
                                           color: iconColor,
-                                          size: 11.0,
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.025,
                                         );
                                       }),
                                     ),
@@ -506,7 +520,11 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                                   Text(
                                                     "${lista[i]['fecha_evento']}",
                                                     style: TextStyle(
-                                                        fontSize: 10,
+                                                        fontSize: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.02,
                                                         color:
                                                             Color(0xff979797)),
                                                   ),
@@ -586,13 +604,15 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                           style: TextStyle(
                               color: Color(0xFF979797),
                               fontFamily: 'Roboto',
-                              fontSize: 15,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.0325,
                               fontWeight: FontWeight.bold)),
                       Text('Historial gráfico de lesiones registradas por año.',
                           style: TextStyle(
                               color: Color(0xFF979797),
                               fontFamily: 'Roboto',
-                              fontSize: 12)),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.025)),
                       Card(
                         color: Color(0xFFE8FFDC),
                         shape: RoundedRectangleBorder(
@@ -611,7 +631,7 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                               legend: Legend(isVisible: true),
                               // Enable tooltip
                               tooltipBehavior: TooltipBehavior(enable: true),
-                              series: <ChartSeries<_SalesData, String>>[
+                              series: <LineSeries<_SalesData, String>>[
                                 ...anosList.map((element) {
                                   return LineSeries<_SalesData, String>(
                                       markerSettings: MarkerSettings(
@@ -643,13 +663,15 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                             style: TextStyle(
                                 color: Color(0xFF979797),
                                 fontFamily: 'Roboto',
-                                fontSize: 15,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.0325,
                                 fontWeight: FontWeight.bold)),
                         Text('Insidentes registrados durante los partidos.',
                             style: TextStyle(
                                 color: Color(0xFF979797),
                                 fontFamily: 'Roboto',
-                                fontSize: 12)),
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.025)),
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
@@ -670,7 +692,10 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           "Lesión Registrada:",
                                           style: TextStyle(
                                               fontFamily: "Roboto",
-                                              fontSize: 12,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.025,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         SizedBox(
@@ -680,7 +705,7 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           "${_lesion_registrada}",
                                           style: TextStyle(
                                               fontFamily: "Roboto",
-                                              fontSize: 12),
+                                              fontSize: 25),
                                         )
                                       ],
                                     ),
@@ -691,7 +716,10 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           "Editar Lesión",
                                           style: TextStyle(
                                               fontFamily: "Roboto",
-                                              fontSize: 12),
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.025),
                                         )
                                       ],
                                     )
@@ -776,14 +804,22 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           child: Text('Partido',
                                               style: TextStyle(
                                                   fontFamily: 'Roboto',
-                                                  fontSize: 14)),
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03)),
                                         ),
                                         DropdownMenuItem(
                                           value: 'Entrenamiento',
                                           child: Text('Entrenamiento',
                                               style: TextStyle(
                                                   fontFamily: 'Roboto',
-                                                  fontSize: 14)),
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.03)),
                                         ),
                                       ],
                                       onChanged: (value) {
@@ -856,12 +892,19 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           Text(
                                             'Esguince de',
                                             style: TextStyle(
-                                                fontSize: 10,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.02,
                                                 color: Color(0xFF979797)),
                                           ),
                                           Text('tobillo',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797)))
                                         ],
                                       ),
@@ -880,11 +923,19 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           ),
                                           Text('Lesiones de',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797))),
                                           Text('rodilla',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797)))
                                         ],
                                       ),
@@ -903,11 +954,19 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           ),
                                           Text('Lesiones de',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797))),
                                           Text('hombro',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797)))
                                         ],
                                       ),
@@ -926,11 +985,19 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           ),
                                           Text('Desgarres',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797))),
                                           Text('musculares',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797)))
                                         ],
                                       ),
@@ -950,10 +1017,19 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           ),
                                           Text('Lesión grave',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797))),
                                           Text('',
-                                              style: TextStyle(fontSize: 10))
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02))
                                         ],
                                       ),
                                       SizedBox(width: 10),
@@ -968,10 +1044,19 @@ class _DetalleLesionesScreenState extends State<DetalleLesionesScreen> {
                                           ),
                                           Text('Otro',
                                               style: TextStyle(
-                                                  fontSize: 10,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02,
                                                   color: Color(0xFF979797))),
                                           Text('',
-                                              style: TextStyle(fontSize: 10))
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.02))
                                         ],
                                       ),
                                     ],

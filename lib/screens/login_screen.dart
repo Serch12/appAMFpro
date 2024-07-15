@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:splash_animated/providers/login_form_provider.dart';
-import 'package:splash_animated/services/services.dart';
+import 'package:splash_animated/services/notification_service.dart';
+//import 'package:splash_animated/services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -69,6 +71,7 @@ class _LoginFormState extends State<_LoginForm> {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    final AuthService _auth = AuthService();
 
     return Container(
       child: Padding(
@@ -273,28 +276,20 @@ class _LoginFormState extends State<_LoginForm> {
                           : () async {
                               // ocultar el teclado
                               FocusScope.of(context).unfocus();
-                              final authService = Provider.of<AuthService>(
-                                  context,
-                                  listen: false);
                               if (!loginForm.isValidForm()) return;
                               loginForm.isLoading = true;
-                              //validar si el login es correcto
-                              final String? mensajeError = await authService
-                                  .login(loginForm.email, loginForm.password);
-                              if (mensajeError == null) {
+                              var result = await _auth.singInEmailAndPassword(
+                                  loginForm.email, loginForm.password);
+
+                              if (result == 1) {
+                                NotificationsService.showSnackBar(
+                                    'Error en el usuario o contraseña!');
+                              } else if (result == 2) {
+                                NotificationsService.showSnackBar(
+                                    'Error en el usuario o contraseña!');
+                              } else if (result != null) {
                                 Navigator.pushReplacementNamed(
                                     context, 'homeroute');
-                              } else {
-                                if (mensajeError == 'EMAIL_NOT_FOUND') {
-                                  NotificationsService.showSnackBar(
-                                      '¡Correo electrónico no encontrado!');
-                                }
-                                if (mensajeError == 'INVALID_PASSWORD') {
-                                  NotificationsService.showSnackBar(
-                                      '¡Contraseña incorrecta!');
-                                }
-                                print(mensajeError);
-                                loginForm.isLoading = false;
                               }
                             }),
                 ),

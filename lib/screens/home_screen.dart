@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 // import 'package:splash_animated/providers/twitter_provider.dart';
-import 'package:splash_animated/services/services.dart';
+// import 'package:splash_animated/services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:line_icons/line_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    IconLabel? selectedIcon;
 
     // final twitterProvider = Provider.of<TwitterProvider>(context);
     final authService = Provider.of<AuthService>(context, listen: false);

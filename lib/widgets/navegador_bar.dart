@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
+import 'package:splash_animated/utils/auth.dart';
 import '../screens/screens.dart';
-import '../services/services.dart';
 
 class NavegadorBar extends StatefulWidget {
   final Function(int) currentIndex;

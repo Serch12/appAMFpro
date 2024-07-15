@@ -6,8 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
-
-import '../services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'appbar_screen.dart';
 // import 'package:icon_checkbox/icon_checkbox.dart';
 
@@ -298,6 +297,8 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     final kFirstDay = DateTime(kToday.year, kToday.month - 1, kToday.day);
     final kLastDay = DateTime(kToday.year, kToday.month + 1, kToday.day);
 
@@ -400,15 +401,17 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
               ),
               SizedBox(height: 100),
               Container(
+                  width: screenWidth * 0.45,
                   child: CircularDosStepper(onStepChanged: (stepText) async {
-                print(tipo_evento.text);
-                setState(() {
-                  tipo_evento.text = stepText;
-                });
-              })),
-              SizedBox(height: 50),
+                    print(tipo_evento.text);
+                    setState(() {
+                      tipo_evento.text = stepText;
+                    });
+                  })),
+              SizedBox(height: 15),
               tipo_evento.text != 'Jugador'
                   ? Container(
+                      width: screenWidth * 1,
                       alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(left: 40),
                       child: Column(
@@ -418,17 +421,21 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                               style: TextStyle(
                                   color: Color(0xFF979797),
                                   fontFamily: 'Roboto',
-                                  fontSize: 15,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.03,
                                   fontWeight: FontWeight.bold)),
                           Text('¿Tuviste una lesión en el partido de hoy?',
                               style: TextStyle(
-                                  color: Color(0xFF979797),
-                                  fontFamily: 'Roboto',
-                                  fontSize: 15)),
+                                color: Color(0xFF979797),
+                                fontFamily: 'Roboto',
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                              )),
                         ],
                       ),
                     )
                   : Container(
+                      width: screenWidth,
                       alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(left: 20, right: 20),
                       child: Row(
@@ -441,14 +448,19 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                                   style: TextStyle(
                                       color: Color(0xFF979797),
                                       fontFamily: 'Roboto',
-                                      fontSize: 15,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.03,
                                       fontWeight: FontWeight.bold)),
                               Text(
                                   'Insidentes registrados durante los partidos.',
                                   style: TextStyle(
-                                      color: Color(0xFF979797),
-                                      fontFamily: 'Roboto',
-                                      fontSize: 12)),
+                                    color: Color(0xFF979797),
+                                    fontFamily: 'Roboto',
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.025,
+                                  )),
                             ],
                           ),
                           ElevatedButton(
@@ -473,7 +485,10 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                                 Text(
                                   'Ver todos',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 10),
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.025),
                                 ),
                                 Icon(Icons.arrow_right)
                               ],
@@ -500,11 +515,16 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                             Text(
                               'Esguince de',
                               style: TextStyle(
-                                  fontSize: 10, color: Color(0xFF979797)),
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  color: Color(0xFF979797)),
                             ),
                             Text('tobillo',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797)))
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797)))
                           ],
                         ),
                         SizedBox(width: 10),
@@ -520,10 +540,16 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                             ),
                             Text('Lesiones de',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797))),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797))),
                             Text('rodilla',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797)))
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797)))
                           ],
                         ),
                         SizedBox(width: 10),
@@ -539,10 +565,16 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                             ),
                             Text('Lesiones de',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797))),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797))),
                             Text('hombro',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797)))
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797)))
                           ],
                         ),
                         SizedBox(width: 10),
@@ -558,10 +590,16 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                             ),
                             Text('Desgarres',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797))),
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797))),
                             Text('musculares',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797)))
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797)))
                           ],
                         ),
                         SizedBox(width: 10),
@@ -577,8 +615,15 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                             ),
                             Text('Lesión grave',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797))),
-                            Text('', style: TextStyle(fontSize: 10))
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797))),
+                            Text('',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02))
                           ],
                         ),
                         SizedBox(width: 10),
@@ -594,8 +639,15 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                             ),
                             Text('Otro',
                                 style: TextStyle(
-                                    fontSize: 10, color: Color(0xFF979797))),
-                            Text('', style: TextStyle(fontSize: 10))
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02,
+                                    color: Color(0xFF979797))),
+                            Text('',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.02))
                           ],
                         ),
                       ],
@@ -726,7 +778,8 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                 children: [
                   TextSpan(
                     text: 'Historial',
-                    style: TextStyle(fontSize: 10),
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.025),
                   ),
                 ],
               ),
@@ -750,7 +803,7 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                   style: TextStyle(
                       color: Color(0xff979797),
                       fontFamily: 'Roboto',
-                      fontSize: 10),
+                      fontSize: MediaQuery.of(context).size.width * 0.025),
                 ),
                 SizedBox(width: 5.0),
                 Text(
@@ -759,7 +812,7 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                       color: Color(0xff979797),
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
-                      fontSize: 10),
+                      fontSize: MediaQuery.of(context).size.width * 0.025),
                 ),
               ],
             ),
@@ -781,7 +834,7 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                 return Icon(
                   Icons.brightness_1,
                   color: iconColor,
-                  size: 11.0,
+                  size: MediaQuery.of(context).size.width * 0.022,
                 );
               }),
             )
@@ -804,7 +857,7 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                   style: TextStyle(
                       color: Color(0xff979797),
                       fontFamily: 'Roboto',
-                      fontSize: 10),
+                      fontSize: MediaQuery.of(context).size.width * 0.025),
                 ),
                 SizedBox(width: 5.0),
                 Text(
@@ -813,7 +866,7 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                       color: Color(0xff979797),
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
-                      fontSize: 10),
+                      fontSize: MediaQuery.of(context).size.width * 0.025),
                 ),
               ],
             ),
@@ -837,7 +890,7 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                 return Icon(
                   Icons.brightness_1,
                   color: iconColorAnterior,
-                  size: 11.0,
+                  size: MediaQuery.of(context).size.width * 0.022,
                 );
               }),
             )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splash_animated/screens/screens.dart';
-import 'package:splash_animated/services/services.dart';
+//import 'package:splash_animated/services/services.dart';
+import 'package:splash_animated/utils/auth.dart';
 import 'package:provider/provider.dart';
 
 class CheckAuthScreen extends StatelessWidget {

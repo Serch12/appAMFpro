@@ -98,7 +98,16 @@ class _CircularStepperState extends State<CircularDosStepper>
                 currentStep, totalSteps, _animation, stepImages),
             size: Size(200, 200),
           ),
-          Text(texts[currentStep]),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            texts[currentStep],
+            style: TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.of(context).size.width * 0.05),
+          ),
         ],
       ),
     );
