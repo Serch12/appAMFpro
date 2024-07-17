@@ -11,7 +11,6 @@ class AuthService extends ChangeNotifier {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: correo, password: pass);
-      print(userCredential.user);
       final Map<String, dynamic> userData = {
         'token': userCredential.user?.uid,
         'correo': userCredential
@@ -38,6 +37,13 @@ class AuthService extends ChangeNotifier {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: correo, password: password);
+      final Map<String, dynamic> userData = {
+        'token': userCredential.user?.uid,
+        'correo': userCredential
+            .user?.email // Reemplaza con el nombre de usuario real
+      };
+      final String userDataString = jsonEncode(userData);
+      await storage.write(key: 'user_data', value: userDataString);
       final a = userCredential.user;
       if (a?.uid != null) {
         return a?.uid;

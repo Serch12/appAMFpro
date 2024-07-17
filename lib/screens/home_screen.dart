@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('entramos al home,hola');
     final size = MediaQuery.of(context).size;
 
     // final twitterProvider = Provider.of<TwitterProvider>(context);

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splash_animated/providers/login_form_provider.dart';
 import 'package:splash_animated/services/notification_service.dart';
-//import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -280,7 +279,6 @@ class _LoginFormState extends State<_LoginForm> {
                               loginForm.isLoading = true;
                               var result = await _auth.singInEmailAndPassword(
                                   loginForm.email, loginForm.password);
-
                               if (result == 1) {
                                 NotificationsService.showSnackBar(
                                     'Error en el usuario o contraseña!');
@@ -288,9 +286,15 @@ class _LoginFormState extends State<_LoginForm> {
                                 NotificationsService.showSnackBar(
                                     'Error en el usuario o contraseña!');
                               } else if (result != null) {
+                                print('entramos aqui.');
                                 Navigator.pushReplacementNamed(
                                     context, 'homeroute');
+                              } else {
+                                NotificationsService.showSnackBar(
+                                    'Ocurrió un error inesperado.');
                               }
+                              // Restablecer el estado de carga
+                              loginForm.isLoading = false;
                             }),
                 ),
                 SizedBox(
