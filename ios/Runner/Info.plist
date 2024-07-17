@@ -38,7 +38,7 @@
 		<true/>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Se necesita acceso a la galería de fotos para seleccionar imágenes.</string>
+	<string>Permitir el acceso a tu galeria para seleccionar fotos</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
