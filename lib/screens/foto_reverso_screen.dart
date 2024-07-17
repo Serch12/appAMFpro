@@ -203,17 +203,17 @@ class _fotoReversoScreenState extends State<fotoReversoScreen> {
                       ),
                       value: 1000,
                     ),
-                    PopupMenuItem(
-                      // padding: EdgeInsets.all(5),
-                      child: Text(
-                        "Hacer una foto nueva",
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 10),
-                      ),
-                      value: 1001,
-                      onTap: () async {
-                        _pickImageAnverso(ImageSource.camera);
-                      },
-                    ),
+                    // PopupMenuItem(
+                    //   // padding: EdgeInsets.all(5),
+                    //   child: Text(
+                    //     "Hacer una foto nueva",
+                    //     style: TextStyle(fontFamily: 'Roboto', fontSize: 10),
+                    //   ),
+                    //   value: 1001,
+                    //   onTap: () async {
+                    //     _pickImageAnverso(ImageSource.camera);
+                    //   },
+                    // ),
                     PopupMenuItem(
                       // padding: EdgeInsets.all(5),
                       child: Text(

@@ -159,24 +159,24 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
               ),
             ),
             SizedBox(width: 30),
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xFF6D6F70),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: IconButton(
-                onPressed: () async {
-                  _pickImagePerfil(ImageSource.camera);
-                },
-                icon: Image.asset(
-                  'assets/camara1.png',
-                ),
-                iconSize: 50,
-                splashRadius: 20,
-                tooltip: 'Cargar imagen desde cámara',
-              ),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: Color(0xFF6D6F70),
+            //     shape: BoxShape.rectangle,
+            //     borderRadius: BorderRadius.all(Radius.circular(10)),
+            //   ),
+            //   child: IconButton(
+            //     onPressed: () async {
+            //       _pickImagePerfil(ImageSource.camera);
+            //     },
+            //     icon: Image.asset(
+            //       'assets/camara1.png',
+            //     ),
+            //     iconSize: 50,
+            //     splashRadius: 20,
+            //     tooltip: 'Cargar imagen desde cámara',
+            //   ),
+            // ),
           ],
         ),
       ],
