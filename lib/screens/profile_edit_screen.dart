@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 // import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:splash_animated/screens/screens.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class editProfileScreen extends StatefulWidget {
   final id;
@@ -62,6 +64,7 @@ class editProfileScreen extends StatefulWidget {
 }
 
 class _editProfileScreenState extends State<editProfileScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formEdit = GlobalKey<FormState>();
   late int? id;
   late String? nombre;
@@ -118,6 +121,120 @@ class _editProfileScreenState extends State<editProfileScreen> {
     editcp = TextEditingController(text: widget.cp.toString());
     editcelular = TextEditingController(text: widget.celular.toString());
     edittelCasa = TextEditingController(text: widget.telCasa.toString());
+  }
+
+  void _eliminarPerfil() async {
+    return showDialog<void>(
+      context: context,
+      barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Container(
+                color: Colors.transparent,
+              ),
+              // Contenedor con filtro de desenfoque
+              Positioned(
+                top: MediaQuery.of(context).size.height /
+                    6, // Posicionado en la mitad de la pantalla
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                    child: Container(
+                      color: Colors
+                          .transparent, // Color transparente para aplicar el desenfoque
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: AlertDialog(
+                        title: Text('¿Deseas eliminar la cuenta?'),
+                        content: Text(
+                            'Si eliminas tu cuenta de AMFpro, no podrás recuperar el contenido o la  información que has compartido. \n'
+                            'También se eliminarán tus estatus de controversias, tus seguimientos y, todos los datos personales. \n'),
+                        actions: <Widget>[
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                              backgroundColor: Color(0xFFFF0000),
+                            ),
+                            child: Text(
+                              'Cancelar',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelLarge,
+                                backgroundColor: Color(0xFF6EBC44)),
+                            child: Text(
+                              'Confirmar',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              await _deleteUser();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Contenedor sin filtro
+
+              // Resto del contenido de tu diálogo o pantalla
+              Center(
+                child: AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  elevation: 0, // Quita el sombreado del AlertDialog
+                  // Otro contenido que desees mostrar en la pantalla
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteUser() async {
+    User? user = _auth.currentUser;
+    final authService = Provider.of<AuthService>(context, listen: false);
+    if (user != null) {
+      try {
+        // Cerrar sesión
+        await authService.logout();
+        await FirebaseAuth.instance.currentUser!.delete();
+
+        // Mostrar mensaje de éxito
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Usuario eliminado exitosamente')),
+        );
+
+        // Navegar a la pantalla de inicio de sesión o de bienvenida
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CheckAuthScreen()),
+        );
+      } catch (e) {
+        print(e);
+        // Mostrar mensaje de error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al eliminar usuario: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -225,6 +342,37 @@ class _editProfileScreenState extends State<editProfileScreen> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       children: [
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  // // Valida el formulario
+                                  // if (_formEdit.currentState!.validate()) {
+                                  //   // Si la validación es exitosa, llamar al método para guardar la información
+                                  //   _editarInfo();
+                                  // }
+                                  _eliminarPerfil();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFFF0000),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        25.0), // Ajusta el radio según tus necesidades
+                                  ),
+                                  minimumSize: Size(0,
+                                      20), // Ajusta el tamaño mínimo del botón
+                                ),
+                                child: Text(
+                                  'Eliminar cuenta',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.06),
                         // Pestañas y contenido
