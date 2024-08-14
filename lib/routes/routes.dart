@@ -7,8 +7,6 @@ class Routes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("entramos a rutas");
-    print(index);
     List<Widget> myList = [
       HomeScreen(),
       CircularStepperDemo(),

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,12 +23,59 @@ class _HomeScreenState extends State<HomeScreen> {
   final String _urlBase = 'test-intranet.amfpro.mx';
   List<Map<String, dynamic>> lista = [];
   List<Map<String, dynamic>> lista_publicaciones = [];
-
+  dynamic jugador = [];
+  int? id_afi;
+  String? _token = '';
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   @override
   void initState() {
     super.initState();
+    _firebaseMessaging.requestPermission();
+    _firebaseMessaging.getToken().then((value) {
+      _token = value;
+    });
+    cargarUsername();
     obtenerDatosDeAPIPublicaciones();
-    obtenerDatosDeAPI();
+    obtenerDatosDeAPIComunicados();
+  }
+
+  void cargarUsername() async {
+    // final twitterProvider = Provider.of<TwitterProvider>(context);
+    final authService = Provider.of<AuthService>(context, listen: false);
+    // final mapeoFinal = twitterProvider.listadoPublicaciones;
+    final Future<String> userDataFuture = authService.autenticacion();
+    userDataFuture.then((userDataString) {
+      // ignore: unnecessary_null_comparison
+      if (userDataString != null) {
+        final Map<String, dynamic> userData = json.decode(userDataString);
+        final String? username = userData['correo'];
+
+        if (username != null) {
+          obtenerDatosDeAPI(username);
+        } else {
+          print('No se encontró el campo "email" en userData.');
+        }
+      } else {
+        print('El valor de userDataString es nulo.');
+      }
+    });
+  }
+
+  void obtenerDatosDeAPI(String userEmail) async {
+    final url = Uri.http(_urlBase, '/api/datos-afiliados/correo/$userEmail');
+    final respuesta = await http.get(url);
+    if (mounted) {
+      setState(() {
+        jugador = json.decode(respuesta.body);
+        id_afi = jugador['data']['id'];
+        consultarTokenExiste(id_afi);
+      });
+    }
+  }
+
+  void consultarTokenExiste(id_afiliado) async {
+    final url = Uri.http(_urlBase, '/api/consulta-token/$id_afiliado/$_token');
+    final respuesta3 = await http.get(url);
   }
 
   void obtenerDatosDeAPIPublicaciones() async {
@@ -42,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void obtenerDatosDeAPI() async {
+  void obtenerDatosDeAPIComunicados() async {
     final url = Uri.http(_urlBase, '/api/noticias/comunicados');
     final respuesta2 = await http.get(url);
     if (mounted) {
@@ -54,30 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('entramos al home,hola');
     final size = MediaQuery.of(context).size;
-
-    // final twitterProvider = Provider.of<TwitterProvider>(context);
-    final authService = Provider.of<AuthService>(context, listen: false);
-    // final mapeoFinal = twitterProvider.listadoPublicaciones;
-    final Future<String> userDataFuture = authService.autenticacion();
-    userDataFuture.then((userDataString) {
-      // ignore: unnecessary_null_comparison
-      if (userDataString != null) {
-        final Map<String, dynamic> userData = json.decode(userDataString);
-        print(userData);
-        final String? username = userData['correo'];
-
-        if (username != null) {
-          // Puedes acceder a 'username' aquí
-          print('Nombre de usuario: $username');
-        } else {
-          print('No se encontró el campo "email" en userData.');
-        }
-      } else {
-        print('El valor de userDataString es nulo.');
-      }
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -352,11 +377,11 @@ class CustomPagination extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Mas Información',
+                      'Más Información',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: MediaQuery.of(context).size.width *
-                            0.02, // Ajusta el tamaño del texto según el ancho de la pantalla
+                            0.023, // Ajusta el tamaño del texto según el ancho de la pantalla
                       ),
                     ),
                   ),

@@ -531,8 +531,9 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                         Column(
                           children: [
                             ImageCheckbox(
-                              checkedImage: 'assets/rodillan.png',
-                              uncheckedImage: 'assets/rodilla.png',
+                              checkedImage: 'assets/nuevalesionrodilla.png',
+                              uncheckedImage:
+                                  'assets/nuevalesionrodillaverde.png',
                               value: selectedInjury == 'Lesiones de rodilla',
                               onChanged: (value) {
                                 _onCheckboxChanged('Lesiones de rodilla');
@@ -606,8 +607,8 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                         Column(
                           children: [
                             ImageCheckbox(
-                              checkedImage: 'assets/rodillavendadan.png',
-                              uncheckedImage: 'assets/rodillavendadared.png',
+                              checkedImage: 'assets/rodillafacturan2.png',
+                              uncheckedImage: 'assets/rodillafactura2.png',
                               value: selectedInjury == 'Lesion grave',
                               onChanged: (value) {
                                 _onCheckboxChanged('Lesion grave');

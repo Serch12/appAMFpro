@@ -158,7 +158,7 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
                 tooltip: 'Cargar imagen desde galería',
               ),
             ),
-            SizedBox(width: 30),
+            // SizedBox(width: 30),
             // Container(
             //   decoration: BoxDecoration(
             //     color: Color(0xFF6D6F70),

@@ -99,7 +99,7 @@ class _CircularStepperState extends State<CircularDosStepper>
             size: Size(200, 200),
           ),
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           Text(
             texts[currentStep],
@@ -186,9 +186,9 @@ class CircularStepperPainter extends CustomPainter {
       final List<ui.Image> images = stepImages[i];
       final double imageWidth = i == 2 ? 185 : 140;
       final double imageHeight = i == 2 ? 185 : 140;
-
       // Draw each image for this step
       if (i == 2) {
+        print(images[1]);
         paintImage(
           canvas: canvas,
           image: images[1],
