@@ -80,38 +80,6 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
     }
   }
 
-  // void sendSMS() async {
-  //   Random random = Random();
-  //   int code1 = random.nextInt(900000) +
-  //       100000; // Generar un número aleatorio de 6 dígitos
-  //   final code = code1.toString();
-  //   final String accountSid = 'AC53e66350cb122724189003dfc3a62c7d';
-  //   final String authToken = '7e627331976cda8035915a43de736a20';
-  //   final String twilioNumber = '+19149158861';
-
-  //   var url = Uri.parse(
-  //       'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json');
-
-  //   var response = await http.post(
-  //     url,
-  //     headers: {
-  //       'Authorization':
-  //           'Basic ' + base64Encode(utf8.encode('$accountSid:$authToken')),
-  //     },
-  //     body: {
-  //       'From': twilioNumber,
-  //       'To': '+525554556687',
-  //       'Body': 'Codigo de verificación: ${code}',
-  //     },
-  //   );
-
-  //   if (response.statusCode == 201 || response.statusCode == 200) {
-  //     print('SMS enviado!');
-  //   } else {
-  //     print('Error al enviar SMS: ${response.body}');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,34 +165,6 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
                                 ),
                               ),
                             ),
-                            // ElevatedButton.icon(
-                            //   onPressed: () async {
-                            //     sendSMS();
-                            //   },
-                            //   style: ElevatedButton.styleFrom(
-                            //     backgroundColor: Color(0xFF6EBC44),
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(
-                            //           25.0), // Ajusta el radio según tus necesidades
-                            //     ),
-                            //     minimumSize: Size(
-                            //       MediaQuery.of(context).size.width *
-                            //           0.30, // Ajusta el ancho del botón según el ancho de la pantalla
-                            //       MediaQuery.of(context).size.height *
-                            //           0.04, // Ajusta el alto del botón según el ancho de la pantalla
-                            //     ),
-                            //   ),
-                            //   icon: Icon(
-                            //     Icons.description_outlined,
-                            //     color: Colors.white,
-                            //   ), // Icono que se mostrará dentro del botón
-                            //   label: Text(
-                            //     'Envio sms',
-                            //     style: TextStyle(
-                            //       color: Colors.white,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
