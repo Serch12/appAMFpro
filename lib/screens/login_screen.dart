@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             // Imagen de fondo que abarca toda la pantalla
             Image.asset(
-              'assets/back.jpg',
+              'assets/fondo-gris-principal-dos.jpg',
               fit: BoxFit.fill,
             ),
             Center(
@@ -26,15 +26,18 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Imagen centrada encima de la imagen de fondo
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      child: Image.asset(
-                        'assets/logoblanco.png',
-                        width: 73,
-                        height: 93,
-                      ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(bottom: 50),
+                    //   child: Image.asset(
+                    //     'assets/logoblanco.png',
+                    //     width: 73,
+                    //     height: 93,
+                    //   ),
+                    // ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.21,
+                      child: Text(''),
                     ),
-                    // const SizedBox(height: 20),
                     // Texto debajo de la imagen centrada
                     const Text(
                       'Ingresar',
@@ -112,7 +115,7 @@ class _LoginFormState extends State<_LoginForm> {
                       labelStyle: TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 14,
-                          color: Color(0xFF979797)),
+                          color: Colors.white),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                         borderRadius: BorderRadius.circular(15.0),
@@ -177,7 +180,7 @@ class _LoginFormState extends State<_LoginForm> {
                       labelStyle: TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 14,
-                          color: Color(0xFF979797)),
+                          color: Colors.white),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                         borderRadius: BorderRadius.circular(15.0),
@@ -281,10 +284,10 @@ class _LoginFormState extends State<_LoginForm> {
                                   loginForm.email, loginForm.password);
                               if (result == 1) {
                                 NotificationsService.showSnackBar(
-                                    'Error en el usuario o contraseña!');
+                                    '¡Error en el usuario o contraseña!');
                               } else if (result == 2) {
                                 NotificationsService.showSnackBar(
-                                    'Error en el usuario o contraseña!');
+                                    '¡Error en el usuario o contraseña!');
                               } else if (result != null) {
                                 print('entramos aqui.');
                                 Navigator.pushReplacementNamed(
@@ -297,29 +300,29 @@ class _LoginFormState extends State<_LoginForm> {
                               loginForm.isLoading = false;
                             }),
                 ),
-                SizedBox(
-                  height:
-                      50, // Alto fijo para el espacio del texto "Registrate aquí"
-                  child: Container(
-                    child: TextButton(
-                      onPressed: () =>
-                          Navigator.pushReplacementNamed(context, 'register'),
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(
-                          Colors.green.withOpacity(0.1),
-                        ),
-                        shape: MaterialStateProperty.all(const StadiumBorder()),
-                      ),
-                      child: const Text(
-                        '¿No tienes cuenta aún? Registrate aquí',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                // SizedBox(
+                //   height:
+                //       50, // Alto fijo para el espacio del texto "Registrate aquí"
+                //   child: Container(
+                //     child: TextButton(
+                //       onPressed: () =>
+                //           Navigator.pushReplacementNamed(context, 'register'),
+                //       style: ButtonStyle(
+                //         overlayColor: MaterialStateProperty.all(
+                //           Colors.green.withOpacity(0.1),
+                //         ),
+                //         shape: MaterialStateProperty.all(const StadiumBorder()),
+                //       ),
+                //       child: const Text(
+                //         '¿No tienes cuenta aún? Registrate aquí',
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             )),
       ),

@@ -4,6 +4,7 @@ import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:splash_animated/screens/verification_code_password_screen.dart';
 import 'package:splash_animated/screens/verification_code_screen.dart';
+import 'package:splash_animated/services/notification_service.dart';
 // import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:splash_animated/src/services/afiliados_services.dart';
@@ -79,6 +80,9 @@ class _MyAppState extends State<MyApp> {
             nui: argumentos.nui,
             tramite: argumentos.tramite,
             observaciones: argumentos.observaciones,
+            tipo_solicitud: argumentos.tipo_solicitud,
+            observaciones_solicitud: argumentos.observaciones_solicitud,
+            archivo_solicitud: argumentos.archivo_solicitud,
             fechaSol: argumentos.fechaSol,
             estatus: argumentos.estatus);
         provider.agregarNotificacion(nuevaNotificacion);
@@ -124,6 +128,7 @@ class _MyAppState extends State<MyApp> {
         ],
         debugShowCheckedModeBanner: false,
         navigatorKey: llavenavegador,
+        scaffoldMessengerKey: NotificationsService.messengerKey, // Añadir aquí
         title: 'Material App',
         theme: ThemeData(primarySwatch: Colors.green),
         initialRoute: 'checkauth',
@@ -182,7 +187,12 @@ class _MyAppState extends State<MyApp> {
           'solicitudes_filtro': (_) =>
               SolicitudesFiltroScreen(listado: [], id_afiliado: ''),
           'nueva_solicitud': (_) => nuevaSolicitudScreen(
-              id_afiliado2: 0, nombre2: '', ap2: '', am2: '', nui2: 0)
+              id_afiliado2: 0,
+              nombre2: '',
+              ap2: '',
+              am2: '',
+              nui2: 0,
+              no_tipo_sol: 0)
 
           // 'register' : (_) => const RegisterScreen()
         },
@@ -232,6 +242,9 @@ class NotificacionDatos {
   final int nui;
   final String tramite;
   final String observaciones;
+  final String tipo_solicitud;
+  final String observaciones_solicitud;
+  final String archivo_solicitud;
   final DateTime fechaSol;
   final int estatus;
 
@@ -245,7 +258,10 @@ class NotificacionDatos {
     required this.nui,
     required this.tramite,
     required this.observaciones,
+    required this.tipo_solicitud,
     required this.fechaSol,
     required this.estatus,
+    required this.observaciones_solicitud,
+    required this.archivo_solicitud,
   });
 }

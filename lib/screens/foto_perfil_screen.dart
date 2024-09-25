@@ -262,39 +262,39 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
     );
   }
 
-  Future<void> _pickImagePerfil(source) async {
+  Future<void> _pickImagePerfil(ImageSource source) async {
     try {
-      // Solicitar permisos
-      PermissionStatus cameraStatus = await Permission.camera.status;
-      PermissionStatus storageStatus = await Permission.storage.status;
+      // // Solicitar permisos
+      // PermissionStatus cameraStatus = await Permission.camera.status;
+      // PermissionStatus storageStatus = await Permission.storage.status;
 
-      if (!cameraStatus.isGranted) {
-        cameraStatus = await Permission.camera.request();
-      }
-      if (!storageStatus.isGranted) {
-        storageStatus = await Permission.storage.request();
-      }
-      // Si los permisos son otorgados, proceder con la selección de imagen
-      if (cameraStatus.isGranted && storageStatus.isGranted) {
-        // final picker = ImagePicker();
-        final XFile? archivo =
-            await ImagePicker().pickImage(source: source, imageQuality: 100);
-        if (archivo != null) {
-          _path = archivo.path;
-          List<int> bytes = await File(_path!).readAsBytes();
-          _nuevafoto = base64.encode(bytes);
-          // Mueve la lógica de mostrar la imagen aquí
-          // En lugar de esperar a que se cierre el AlertDialog
-          if (mounted) {
-            // Cierra el AlertDialog actualmente abierto
-            Navigator.of(context).pop();
-            // Llama a _mostrarAlertDialogPerfil() después de cerrar el AlertDialog para abrirlo nuevamente con la imagen seleccionada
-            _mostrarAlertDialogPerfil();
-          }
+      // if (!cameraStatus.isGranted) {
+      //   cameraStatus = await Permission.camera.request();
+      // }
+      // if (!storageStatus.isGranted) {
+      //   storageStatus = await Permission.storage.request();
+      // }
+      // // Si los permisos son otorgados, proceder con la selección de imagen
+      // if (cameraStatus.isGranted && storageStatus.isGranted) {
+      // final picker = ImagePicker();
+      final XFile? archivo =
+          await ImagePicker().pickImage(source: source, imageQuality: 100);
+      if (archivo != null) {
+        _path = archivo.path;
+        List<int> bytes = await File(_path!).readAsBytes();
+        _nuevafoto = base64.encode(bytes);
+        // Mueve la lógica de mostrar la imagen aquí
+        // En lugar de esperar a que se cierre el AlertDialog
+        if (mounted) {
+          // Cierra el AlertDialog actualmente abierto
+          Navigator.of(context).pop();
+          // Llama a _mostrarAlertDialogPerfil() después de cerrar el AlertDialog para abrirlo nuevamente con la imagen seleccionada
+          _mostrarAlertDialogPerfil();
         }
-      } else {
-        print('Permisos de cámara o almacenamiento no otorgados');
       }
+      // } else {
+      //   print('Permisos de cámara o almacenamiento no otorgados');
+      // }
     } catch (e) {
       print('Error al cargar imagen de perfil: $e');
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:splash_animated/event.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 // import 'package:splash_animated/providers/twitter_provider.dart';
@@ -11,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,12 +22,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime fecha_evento = DateTime.now();
   final String _urlBase = 'test-intranet.amfpro.mx';
   List<Map<String, dynamic>> lista = [];
   List<Map<String, dynamic>> lista_publicaciones = [];
+  List<Map<String, dynamic>> lista_eventos = [];
   dynamic jugador = [];
   int? id_afi;
   String? _token = '';
+  Map<DateTime, List<CleanCalendarEvent>> _events2 = {};
+
+  late List<CleanCalendarEvent> _selectedEvents2;
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   @override
   void initState() {
@@ -34,9 +45,31 @@ class _HomeScreenState extends State<HomeScreen> {
     _firebaseMessaging.getToken().then((value) {
       _token = value;
     });
+    _selectedDay = _focusedDay;
+    obtenerEventos();
+    // _events2 = {
+    //   DateTime.utc(2024, 9, 18): [
+    //     CleanCalendarEvent(
+    //         title: 'Reunión de trabajo',
+    //         // startTime: DateTime.utc(2024, 9, 18, 10, 0),
+    //         // endTime: DateTime.utc(2024, 9, 18, 12, 0),
+    //         description: 'Reunión de equipo para discutir el proyecto',
+    //         color: Colors.amber),
+    //   ],
+    //   DateTime.utc(2024, 9, 19): [
+    //     CleanCalendarEvent(
+    //         title: 'Consulta médica',
+    //         // startTime: DateTime.utc(2024, 9, 19, 14, 0),
+    //         // endTime: DateTime.utc(2024, 9, 19, 15, 0),
+    //         description: 'Visita al doctor',
+    //         color: Colors.blue),
+    //   ],
+    // };
+
     cargarUsername();
     obtenerDatosDeAPIPublicaciones();
     obtenerDatosDeAPIComunicados();
+    _selectedEvents2 = [];
   }
 
   void cargarUsername() async {
@@ -59,6 +92,42 @@ class _HomeScreenState extends State<HomeScreen> {
         print('El valor de userDataString es nulo.');
       }
     });
+  }
+
+  void obtenerEventos() async {
+    final url5 = Uri.http(_urlBase, '/api/lista-eventos');
+    final respuesta5 = await http.get(url5);
+    if (mounted) {
+      setState(() {
+        lista_eventos =
+            List<Map<String, dynamic>>.from(json.decode(respuesta5.body));
+      });
+    }
+    for (var event in lista_eventos) {
+      // Parsear la fecha del evento
+      DateTime eventDate = DateTime.parse(event['fecha']);
+
+      // Extraer solo el año, mes y día y convertir a UTC para que todas las fechas sean iguales
+      DateTime eventDateUtc =
+          DateTime.utc(eventDate.year, eventDate.month, eventDate.day);
+
+      // Crear el CleanCalendarEvent
+      CleanCalendarEvent calendarEvent = CleanCalendarEvent(
+        title: event['titulo'],
+        startTime:
+            eventDate, // Puedes ajustar el startTime si tienes información de la hora
+        endTime: eventDate, // Igual aquí para el endTime
+        description: event['descripcion'],
+        color: Color(0xFF6EBC44),
+        // Asignar color basado en el estatus
+      );
+
+      // Agregar el evento al mapa usando solo la fecha sin la hora como clave
+      if (_events2[eventDateUtc] == null) {
+        _events2[eventDateUtc] = [];
+      }
+      _events2[eventDateUtc]!.add(calendarEvent);
+    }
   }
 
   void obtenerDatosDeAPI(String userEmail) async {
@@ -99,6 +168,18 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
+
+  List<CleanCalendarEvent> _getEventsForDay(DateTime day) {
+    return _events2[day] ?? [];
+  }
+
+  @override
+  void dispose() {
+    // _selectedEvents.dispose();
+    super.dispose();
+  }
+
+  final kToday = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -195,6 +276,115 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(
             height: 30,
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            color: Colors.grey.shade300,
+            width: double.infinity,
+            child: Column(
+              children: [
+                Text(
+                  'Calendario de eventos importantes',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Roboto',
+                      fontSize: 16),
+                ),
+                TableCalendar(
+                  locale: 'es_ES',
+                  firstDay: DateTime.utc(2023, 10, 16),
+                  lastDay: DateTime.utc(2030, 3, 14),
+                  headerVisible: true,
+                  rowHeight: 40,
+                  headerStyle: const HeaderStyle(
+                      titleCentered: true, formatButtonVisible: false),
+                  daysOfWeekStyle: const DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(color: Colors.green),
+                      weekendStyle: TextStyle(color: Colors.white)),
+                  calendarStyle: CalendarStyle(
+                    todayTextStyle: TextStyle(color: Colors.white),
+                    todayDecoration: BoxDecoration(
+                      color: Color(0xFF6EBC44),
+                    ),
+                    selectedDecoration:
+                        BoxDecoration(color: Colors.green.shade200),
+                    markerDecoration: BoxDecoration(
+                      color: Color(0xFF6EBC44), // Color del indicador
+                      shape: BoxShape.circle, // Forma del indicador
+                    ),
+                    markersMaxCount: 3, // Límite de marcadores por día
+                  ),
+                  eventLoader: _getEventsForDay, // Define cómo cargar eventos
+                  focusedDay: _focusedDay,
+                  calendarFormat: CalendarFormat.month,
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    if (!isSameDay(_selectedDay, selectedDay)) {
+                      // Call `setState()` when updating the selected day
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        fecha_evento = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                      // _selectedEvents.value = _getEventsForDay(selectedDay);
+                      _selectedEvents2 = _getEventsForDay(selectedDay);
+                    }
+                  },
+                  onPageChanged: (focusedDay) {
+                    // No need to call `setState()` here
+                    _focusedDay = focusedDay;
+                  },
+                  onFormatChanged: (format) {
+                    if (_calendarFormat != format) {
+                      setState(() {
+                        _calendarFormat = format;
+                      });
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                _selectedEvents2.isNotEmpty
+                    ? ConstrainedBox(
+                        constraints:
+                            BoxConstraints(maxHeight: size.height * 0.15),
+                        child: ListView.builder(
+                          itemCount: _selectedEvents2.length,
+                          itemBuilder: (context, index) {
+                            final event = _selectedEvents2[index];
+                            return ListTile(
+                              leading: Container(
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: event.color, // Aplica el color aquí
+                                ),
+                              ),
+                              title: Text(
+                                event.title,
+                                style: TextStyle(
+                                    color: Color(0xFF6EBC44),
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(event.description),
+                              // trailing: Text(
+                              //   '${event.startTime.hour}:${event.startTime.minute} - ${event.endTime.hour}:${event.endTime.minute}',
+                              // ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 15,
           ),
           Container(
             width: double.infinity,
@@ -454,32 +644,19 @@ void _launchURL() async {
   // ignore: deprecated_member_use
   await launch(url, forceSafariVC: false);
 }
-// class _bannerHorizontal extends StatelessWidget {
-//   const _bannerHorizontal({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 250,
-//       height: 300,
-//       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           ClipRRect(
-//             borderRadius: BorderRadius.circular(20),
-//             child: FadeInImage(
-//               placeholder: AssetImage('assets/no-image.jpg'),
-//               image: // NetworkImage('https://via.placeholder.com/300x400'),
-//                   AssetImage('assets/ejemplo2.jpg'),
-//             ),
-//           ),
-//           SizedBox(
-//             height: 20,
-//           ),
-//           Text('Titulo de la noticia')
-//         ],
-//       ),
-//     );
-//   }
-// }
+class CleanCalendarEvent {
+  final String title;
+  final DateTime? startTime;
+  final DateTime? endTime;
+  final String description;
+  final Color color;
+
+  CleanCalendarEvent({
+    required this.title,
+    this.startTime,
+    this.endTime,
+    this.description = '',
+    required this.color,
+  });
+}

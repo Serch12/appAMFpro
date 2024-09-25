@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class nuevaSolicitudScreen extends StatefulWidget {
   final int id_afiliado2;
@@ -12,13 +14,16 @@ class nuevaSolicitudScreen extends StatefulWidget {
   final String ap2;
   final String am2;
   final int nui2;
+  final int no_tipo_sol;
+
   const nuevaSolicitudScreen(
       {super.key,
       required this.id_afiliado2,
       required this.nombre2,
       required this.ap2,
       required this.am2,
-      required this.nui2});
+      required this.nui2,
+      required this.no_tipo_sol});
 
   @override
   State<nuevaSolicitudScreen> createState() => _nuevaSolicitudScreenState();
@@ -27,10 +32,13 @@ class nuevaSolicitudScreen extends StatefulWidget {
 class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
   final formSolicitud = GlobalKey<FormState>();
   late int? id;
+  late int? no_tipo_sol;
   late TextEditingController observaciones;
+  late TextEditingController observaciones_solicitud;
   late TextEditingController nombre;
   late TextEditingController nui;
-  int _remainingCharacters = 150;
+  int _remainingCharacters = 200;
+  int _remainingCharacters2 = 200;
   String _division = 'SELECCIONAR';
   List<String> _equipos = [];
   String _equipo = '';
@@ -39,6 +47,24 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
   String? _errorMessage4;
   String? _token = '';
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  List<String> items = [
+    'COPIA DE CONVENIO DE TERMINACIÓN ANTICIPADA DE CONTRATO REGISTRADO EN LA FMF',
+    'PARA REVISIÓN DE CONTRATO REGISTRADO EN LA FMF',
+    'REVISIÓN DE VIGENCIA DE CONTRATO REGISTRADO EN LA FMF',
+    'CONSULTA DE MINUTOS DE JUEGO COMO FUTBOLISTA PROFESIONAL',
+    'ASESORÍA PARA FIRMA DE CONVENIO DE TERMINACIÓN ANTICIPADA DE CONTRATO',
+    'ASESORÍA PARA CONOCER LOS DERECHOS Y OBLIGACIONES QUE TIENES COMO FUTBOLISTA PROFESIONAL',
+    'ASESORÍA SOBRE LOS DERECHOS POR EMBARAZO Y MATERNIDAD (LIGA MX FEMENIL)',
+    'ELABORACIÓN DE FINIQUITO',
+    'COPIA DE CONTRATO',
+    'SOLICITUD ESTATUS COMO FUTBOLISTA PROFESIONAL',
+    'HISTORIAL DEPORTIVO',
+  ];
+
+  String? _archivo_adjunto;
+  String? _path;
+  bool _errorperfil = false;
+  File? _file; // Archivo seleccionado
 
   InputDecoration buildInputDecoration(String labelText) {
     return InputDecoration(
@@ -67,11 +93,13 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
   void initState() {
     super.initState();
     id = widget.id_afiliado2;
+    no_tipo_sol = widget.no_tipo_sol;
     nombre = TextEditingController(
         text:
             '${widget.nombre2.toString()} ${widget.ap2.toString()} ${widget.am2.toString()}');
     nui = TextEditingController(text: '${widget.nui2}');
     observaciones = TextEditingController();
+    observaciones_solicitud = TextEditingController();
     _firebaseMessaging.requestPermission();
     _firebaseMessaging.getToken().then((value) {
       _token = value;
@@ -132,6 +160,9 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
       "club": _equipo,
       "nui": nui.text,
       "observaciones": observaciones.text,
+      "observaciones_solicitud": observaciones_solicitud.text,
+      "tipo_solicitud": items[no_tipo_sol!],
+      "archivo_solicitud": _archivo_adjunto,
       "token": _token
     };
 
@@ -170,7 +201,8 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.pushReplacementNamed(context, 'homeroutetres');
+                      Navigator.pushReplacementNamed(
+                          context, 'lista_solicitudes');
                     },
                     child: Icon(
                       Icons.clear,
@@ -230,6 +262,26 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
           );
         },
       );
+    }
+  }
+
+  Future<void> _pickFileExpediente() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
+      if (result != null && result.files.single.path != null) {
+        setState(() {
+          _path = result.files.single.path;
+          _file = File(_path!);
+          _errorperfil = false;
+        });
+        List<int> bytes = File(_path!).readAsBytesSync();
+        _archivo_adjunto = base64.encode(bytes);
+      }
+    } catch (e) {
+      print('Error al cargar archivo: $e');
     }
   }
 
@@ -297,12 +349,26 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'GENERAR NUEVA SOLICITUD',
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'GENERAR NUEVA SOLICITUD:',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '${items[no_tipo_sol!]}',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -481,62 +547,264 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
                         SizedBox(
                           height: 15,
                         ),
-                        Material(
-                          elevation: 7.0,
-                          color: Colors.transparent,
-                          shadowColor: Color.fromARGB(255, 193, 192, 192)
-                              .withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(16),
-                          child: TextFormField(
-                            controller: observaciones,
-                            maxLines: null, // Permite múltiples líneas
-                            maxLength: 150,
-                            keyboardType: TextInputType
-                                .multiline, // Tipo de teclado para entrada de múltiples líneas
-                            decoration: InputDecoration(
-                              labelText: 'DESCRIPCIÓN',
-                              counterText:
-                                  '$_remainingCharacters caracteres restantes',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 14,
-                                  color: Color(0xFF060606)),
-                              border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                no_tipo_sol == 0
+                                    ? 'BREVE DESCRIPCIÓN DE LO QUE REQUIERE:'
+                                    : no_tipo_sol == 1 || no_tipo_sol == 2
+                                        ? 'BREVE EXPLICACIÓN DE LOS PUNTOS QUE DESEAN CONOCER DEL CONTRATO:'
+                                        : no_tipo_sol == 3
+                                            ? 'MENCIONAR QUE SE SOLICITA UN INFORME DE LOS MINUTOS DE JUEGO QUE SE TIENEN REGISTRADOS EN LA FMF:'
+                                            : no_tipo_sol == 4
+                                                ? 'MENCIONAR QUE SE SOLICITA ASESORÍA PARA REVISIÓN DE CONVENIO DE TERMINACIÓN ANTICIPADA DE CONTRATO CON EL CLUB:'
+                                                : no_tipo_sol == 5
+                                                    ? 'BREVE EXPLICACIÓN DE LAS DUDAS RESPECTO A LA CARRERA FUTBOLÍSTICA:'
+                                                    : no_tipo_sol == 6
+                                                        ? 'BREVE EXPLICACIÓN DE LAS DUDAS RESPECTO A LOS DERECHOS Y OBLIGACIONES DURANTE EL EMBARAZO Y MATERNIDAD:'
+                                                        : no_tipo_sol == 7
+                                                            ? 'ESPECIFICAR QUE DESEAS OBTENER EL FINIQUITO PARA REGISTRARTE CON OTRO CLUB:'
+                                                            : no_tipo_sol == 8
+                                                                ? 'TEMPORADAS Y/O TORNEOS (especificar la vigencia según se requiera):'
+                                                                : no_tipo_sol ==
+                                                                        9
+                                                                    ? 'ESPECIFICAR QUE REQUIERES CONOCER TU ESTATUS COMO FUTBOLISTA PROFESIONAL AFILIADO A LA FMF:'
+                                                                    : 'ESPECIFICAR QUE DESEAS OBTENER UNA COPIA DE TU HISTORIAL DEPORTIVO:',
+                                style: TextStyle(
+                                    fontSize: 10, fontWeight: FontWeight.bold),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
+                              SizedBox(height: 10),
+                              Material(
+                                elevation: 7.0,
+                                color: Colors.transparent,
+                                shadowColor: Color.fromARGB(255, 193, 192, 192)
+                                    .withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(16),
+                                child: TextFormField(
+                                  controller: observaciones,
+                                  maxLines: null, // Permite múltiples líneas
+                                  maxLength: 200,
+                                  keyboardType: TextInputType
+                                      .multiline, // Tipo de teclado para entrada de múltiples líneas
+                                  decoration: InputDecoration(
+                                    labelText: '',
+                                    counterText:
+                                        '$_remainingCharacters caracteres restantes',
+                                    counterStyle: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 10,
+                                        color: Colors.red),
+                                    labelStyle: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 10,
+                                        color: Color(0xFF060606)),
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 16.0, horizontal: 12.0),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _remainingCharacters = 200 - value.length;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Por favor, escribe algo'; // Mensaje de error si el campo está vacío
+                                    }
+                                    return null; // La entrada es válida
+                                  },
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 16.0, horizontal: 12.0),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                _remainingCharacters = 150 - value.length;
-                              });
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Por favor, escribe algo'; // Mensaje de error si el campo está vacío
-                              }
-                              return null; // La entrada es válida
-                            },
+                            ],
                           ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
+                        no_tipo_sol == 1 ||
+                                no_tipo_sol == 3 ||
+                                no_tipo_sol == 4 ||
+                                no_tipo_sol == 7
+                            ? Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      no_tipo_sol == 1
+                                          ? 'MENCIONA SI CUENTAS O NO CON LA COPIA DE TU CONTRATO:'
+                                          : no_tipo_sol == 3
+                                              ? 'MENCIONAR CUALES SON LOS CLUBES PROFESIONALES EN LOS QUE HAS TENIDO REGISTRO EN LA FMF:'
+                                              : no_tipo_sol == 4
+                                                  ? 'BREVE EXPLICACIÓN DE LAS DUDAS RESPECTO A LA FIRMA DEL CONVENIO:'
+                                                  : no_tipo_sol == 7
+                                                      ? 'ESPECIFICAR QUE DESEAS OBTENER EL FINIQUITO PARA REGISTRARTE CON OTRO CLUB:'
+                                                      : '',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Material(
+                                      elevation: 7.0,
+                                      color: Colors.transparent,
+                                      shadowColor:
+                                          Color.fromARGB(255, 193, 192, 192)
+                                              .withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: TextFormField(
+                                        controller: observaciones_solicitud,
+                                        maxLines:
+                                            null, // Permite múltiples líneas
+                                        maxLength: 200,
+                                        keyboardType: TextInputType
+                                            .multiline, // Tipo de teclado para entrada de múltiples líneas
+                                        decoration: InputDecoration(
+                                          labelText: '',
+                                          counterText:
+                                              '$_remainingCharacters2 caracteres restantes',
+                                          counterStyle: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 10,
+                                              color: Colors.red),
+                                          labelStyle: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 14,
+                                              color: Color(0xFF060606)),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.transparent),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 16.0, horizontal: 12.0),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _remainingCharacters2 =
+                                                200 - value.length;
+                                          });
+                                        },
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Por favor, escribe algo'; // Mensaje de error si el campo está vacío
+                                          }
+                                          return null; // La entrada es válida
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Text(''),
+                        no_tipo_sol == 1 ||
+                                no_tipo_sol == 3 ||
+                                no_tipo_sol == 4 ||
+                                no_tipo_sol == 7
+                            ? SizedBox(
+                                height: 15,
+                              )
+                            : SizedBox(
+                                height: 0,
+                              ),
+                        // Si se ha seleccionado un archivo, mostrar el visor PDF
+                        no_tipo_sol == 2
+                            ? _file != null
+                                ? Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4, // Ajusta la altura según sea necesario
+                                    child: SfPdfViewer.file(_file!),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'ADJUNTAR LA COPIA DEL CONTRATO DE TRABAJO PARA LA REVISIÓN DE VIGENCIA RESPECTIVA',
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              fontFamily: 'Roboto',
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          '(el documento debe ir escaneado en formato PDF en alta resolución)',
+                                          style: TextStyle(
+                                              fontSize: 8,
+                                              fontFamily: 'Roboto'),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                            : Text(''),
+                        no_tipo_sol == 2
+                            ? SizedBox(
+                                height: 15,
+                              )
+                            : SizedBox(
+                                height: 0,
+                              ),
+                        no_tipo_sol == 2
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF6EBC44),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await _pickFileExpediente();
+                                  },
+                                  icon: Image.asset(
+                                    'assets/file.png',
+                                  ),
+                                  iconSize: 50,
+                                  splashRadius: 20,
+                                  tooltip: 'Cargar archivo',
+                                ),
+                              )
+                            : Text(''),
+                        no_tipo_sol == 2
+                            ? SizedBox(
+                                height: 15,
+                              )
+                            : SizedBox(
+                                height: 0,
+                              ),
                         ElevatedButton(
                           onPressed: () {
                             final form = formSolicitud.currentState;

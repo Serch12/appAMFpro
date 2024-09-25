@@ -82,6 +82,13 @@ class _MyAppBarState extends State<MyAppBar> {
                                           'tramite': notificacion.tramite,
                                           'observaciones':
                                               notificacion.observaciones,
+                                          'tipo_solicitud':
+                                              notificacion.tipo_solicitud,
+                                          'observaciones_solicitud':
+                                              notificacion
+                                                  .observaciones_solicitud,
+                                          'archivo_solicitud':
+                                              notificacion.archivo_solicitud,
                                           'estatus': notificacion.estatus,
                                           'fecha': notificacion.fechaSol,
                                         }),

@@ -90,9 +90,9 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                           BoxShadow(
                             color: Color(0xff2E2A60),
                             spreadRadius: MediaQuery.of(context).size.width *
-                                0.005, // Radio de dispersión de la sombra
-                            blurRadius: MediaQuery.of(context).size.width *
-                                0.01, // Radio de desenfoque de la sombra
+                                0.001, // Radio de dispersión de la sombra
+                            // blurRadius: MediaQuery.of(context).size.width *
+                            //     0.01, // Radio de desenfoque de la sombra
                             offset: Offset(
                                 0,
                                 MediaQuery.of(context).size.width *
@@ -169,9 +169,9 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                           BoxShadow(
                             color: Color(0xffFF0000),
                             spreadRadius: MediaQuery.of(context).size.width *
-                                0.005, // Radio de dispersión de la sombra
-                            blurRadius: MediaQuery.of(context).size.width *
-                                0.01, // Radio de desenfoque de la sombra
+                                0.001, // Radio de dispersión de la sombra
+                            // blurRadius: MediaQuery.of(context).size.width *
+                            //     0.01, // Radio de desenfoque de la sombra
                             offset: Offset(
                                 0,
                                 MediaQuery.of(context).size.width *
@@ -245,9 +245,9 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                           BoxShadow(
                             color: Color(0xff4FC028),
                             spreadRadius: MediaQuery.of(context).size.width *
-                                0.005, // Radio de dispersión de la sombra
-                            blurRadius: MediaQuery.of(context).size.width *
-                                0.01, // Radio de desenfoque de la sombra
+                                0.001, // Radio de dispersión de la sombra
+                            // blurRadius: MediaQuery.of(context).size.width *
+                            //     0.01, // Radio de desenfoque de la sombra
                             offset: Offset(
                                 0,
                                 MediaQuery.of(context).size.width *
@@ -485,18 +485,18 @@ class _TablaListadoState extends State<TablaListado> {
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(20), // Radio de borde del card
-                  boxShadow: [
-                    BoxShadow(
-                      color: item['estatus'] == 0 || item['estatus'] == 3
-                          ? Color(0xff2E2A60)
-                          : item['estatus'] == 1
-                              ? Color(0xff4FC028)
-                              : Color(0xffFF0000),
-                      spreadRadius: 1, // Radio de dispersión
-                      blurRadius: 5, // Radio de desenfoque
-                      offset: Offset(0, 1), // Desplazamiento en eje Y
-                    ),
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: item['estatus'] == 0 || item['estatus'] == 3
+                  //         ? Color(0xff2E2A60)
+                  //         : item['estatus'] == 1
+                  //             ? Color(0xff4FC028)
+                  //             : Color(0xffFF0000),
+                  //     spreadRadius: 0, // Radio de dispersión
+                  //     // blurRadius: 5, // Radio de desenfoque
+                  //     offset: Offset(0, 1), // Desplazamiento en eje Y
+                  //   ),
+                  // ],
                 ),
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -580,8 +580,7 @@ class _TablaListadoState extends State<TablaListado> {
                                                 0.06,
                                           ),
                                         ),
-                                        item['estatus'] == 0 ||
-                                                item['estatus'] == 3
+                                        item['estatus'] == 3
                                             ? GestureDetector(
                                                 onTap: () {
                                                   _eliminaSolicitud(

@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
+import 'package:splash_animated/utils/auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+// import 'package:flutter_sms/flutter_sms.dart';
 
 class SolicitudesScreen extends StatefulWidget {
   const SolicitudesScreen({super.key});
@@ -15,35 +22,96 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
 
   String controller7 = "assets/Contratos-icono-tipo.gif";
   GlobalKey cardA = GlobalKey();
-  GlobalKey cardB = GlobalKey();
-  List<bool> isSelected = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-  List<bool> activo = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+  int? id_afi;
+  String? nombre;
+  String? apellidoPaterno;
+  String? apellidoMaterno;
+  int? nui;
+  String? username;
+  int? no_tipo_sol;
+  final String _urlBase = 'test-intranet.amfpro.mx';
+  dynamic jugador = [];
+  List<Map<String, dynamic>> lista = [];
+
+  void initState() {
+    super.initState();
+    cargarUsername();
+  }
+
+  void cargarUsername() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    final userDataString = await authService.autenticacion();
+
+    // ignore: unnecessary_null_comparison
+    if (userDataString != null) {
+      final Map<String, dynamic> userData = json.decode(userDataString);
+      final String? userEmail = userData['correo'];
+
+      if (userEmail != null) {
+        obtenerDatosDeAPI(userEmail);
+      } else {
+        setState(() {
+          print('No se encontró el campo "correo" en userData.');
+          username = 'Usuario Desconocido';
+        });
+      }
+    } else {
+      setState(() {
+        print('El valor de userDataString es nulo.');
+        username = 'Usuario Desconocido'; // Asigna un valor predeterminado
+      });
+    }
+  }
+
+  void obtenerDatosDeAPI(String userEmail) async {
+    final url = Uri.http(_urlBase, '/api/datos-afiliados/correo/$userEmail');
+    final respuesta = await http.get(url);
+    if (mounted) {
+      setState(() {
+        username = userEmail;
+        jugador = json.decode(respuesta.body);
+        id_afi = jugador['data']['id'];
+        nombre = jugador['data']['nombre'];
+        apellidoPaterno = jugador['data']['apellido_paterno'];
+        apellidoMaterno = jugador['data']['apellido_materno'];
+        nui = jugador['data']['nui'];
+      });
+    }
+  }
+
+  // void sendSMS() async {
+  //   Random random = Random();
+  //   int code1 = random.nextInt(900000) +
+  //       100000; // Generar un número aleatorio de 6 dígitos
+  //   final code = code1.toString();
+  //   final String accountSid = 'AC53e66350cb122724189003dfc3a62c7d';
+  //   final String authToken = '7e627331976cda8035915a43de736a20';
+  //   final String twilioNumber = '+19149158861';
+
+  //   var url = Uri.parse(
+  //       'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json');
+
+  //   var response = await http.post(
+  //     url,
+  //     headers: {
+  //       'Authorization':
+  //           'Basic ' + base64Encode(utf8.encode('$accountSid:$authToken')),
+  //     },
+  //     body: {
+  //       'From': twilioNumber,
+  //       'To': '+525554556687',
+  //       'Body': 'Codigo de verificación: ${code}',
+  //     },
+  //   );
+
+  //   if (response.statusCode == 201 || response.statusCode == 200) {
+  //     print('SMS enviado!');
+  //   } else {
+  //     print('Error al enviar SMS: ${response.body}');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,774 +151,552 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
             actions: [
               Padding(padding: EdgeInsets.only(right: 10.0), child: MyAppBar()),
             ]),
-        body: Container(
-            padding: EdgeInsets.all(1),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () async {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const ListaSolicitudesScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF6EBC44),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25.0), // Ajusta el radio según tus necesidades
-                          ),
-                          minimumSize: Size(
-                            MediaQuery.of(context).size.width *
-                                0.30, // Ajusta el ancho del botón según el ancho de la pantalla
-                            MediaQuery.of(context).size.height *
-                                0.05, // Ajusta el alto del botón según el ancho de la pantalla
-                          ),
-                        ),
-                        icon: Icon(Icons
-                            .description_outlined), // Icono que se mostrará dentro del botón
-                        label: Text(
-                          'Mis solicitudes',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  child: ExpansionTile(
-                    key: cardA,
-                    title: Text(
-                      'SERVICIOS',
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      'Asesoría jurídica permanente',
-                      style: TextStyle(fontFamily: 'Roboto'),
-                    ),
-                    leading: Image.asset(
-                      'assets/juridico1.png',
-                    ),
-                    children: [
-                      Divider(
-                        thickness: 1.0,
-                        height: 1.0,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    FilterChip(
-                                      selected: isSelected[0],
-                                      selectedColor: Colors.green,
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('S'),
-                                      // ),
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[0] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        padding: EdgeInsets.only(top: 6),
-                                        height: 30,
-                                        width: double.infinity,
-                                        child: Wrap(
-                                          children: [
-                                            Text(
-                                              'Obtención de Finiquito',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                color: isSelected[0]
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('S'),
-                                      // ),
-                                      selected: isSelected[1],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[1] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        padding: EdgeInsets.only(top: 6),
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Solicitud Copia de',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'Contrato',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('S'),
-                                      // ),
-                                      selected: isSelected[2],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[2] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Solicitud de Copia de',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'Terminación Anticipada',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('S'),
-                                      // ),
-                                      selected: isSelected[3],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[3] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Solicitud de Estatus',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'Deportivo',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('S'),
-                                      // ),
-                                      selected: isSelected[4],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[4] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Solicitud de Historial',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'Deportivo',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('R'),
-                                      // ),
-                                      selected: isSelected[5],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[5] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        padding: EdgeInsets.only(top: 6),
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Revisión de Contrato',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          )
-                                        ]),
-                                      ),
-                                    ),
-                                  ],
+        body: FutureBuilder(
+          // Reducimos la duración del tiempo de carga a medio segundo
+          future: Future.delayed(Duration(seconds: 2)),
+          builder: (context, snapshot) {
+            // Verifica si el Future ha completado
+            if (snapshot.connectionState == ConnectionState.done) {
+              // Muestra tu contenido después de la carga
+              return Container(
+                  padding: EdgeInsets.all(1),
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () async {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ListaSolicitudesScreen()));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF6EBC44),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      25.0), // Ajusta el radio según tus necesidades
+                                ),
+                                minimumSize: Size(
+                                  MediaQuery.of(context).size.width *
+                                      0.30, // Ajusta el ancho del botón según el ancho de la pantalla
+                                  MediaQuery.of(context).size.height *
+                                      0.04, // Ajusta el alto del botón según el ancho de la pantalla
                                 ),
                               ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('C'),
-                                      // ),
-                                      selected: isSelected[6],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[6] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Consulta de vigencia de',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'contrato',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('C'),
-                                      // ),
-                                      selected: isSelected[7],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[7] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height: 30,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Consulta de minutos de',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'juego',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('F'),
-                                      // ),
-                                      selected: isSelected[8],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[8] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.032,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Firma de Convenio de',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'Terminación Anticipada',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('D'),
-                                      // ),
-                                      selected: isSelected[9],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[9] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.032,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Derechos y Obligaciones',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'como Futbolista Profesional',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          )
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('D'),
-                                      // ),
-                                      selected: isSelected[10],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[10] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.032,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Derechos por embarazo y',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'maternidad (Liga MX Femenil)',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12),
-                                          )
-                                        ]),
-                                      ),
-                                    ),
-                                    FilterChip(
-                                      // avatar: CircleAvatar(
-                                      //   backgroundColor: Colors.grey.shade800,
-                                      //   child: const Text('O'),
-                                      // ),
-                                      selected: isSelected[11],
-                                      onSelected: (value) {
-                                        print(value);
-                                        setState(() {
-                                          isSelected[11] = value;
-                                        });
-                                      },
-                                      label: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.032,
-                                        width: double
-                                            .infinity, // Ocupa todo el ancho disponible
-
-                                        child: Wrap(children: [
-                                          Text(
-                                            'Otros (especificar que',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'requiere cada jugador)',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                  ],
+                              icon: Icon(
+                                Icons.description_outlined,
+                                color: Colors.white,
+                              ), // Icono que se mostrará dentro del botón
+                              label: Text(
+                                'Mis solicitudes',
+                                style: TextStyle(
+                                  color: Colors.white,
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            ),
+                            // ElevatedButton.icon(
+                            //   onPressed: () async {
+                            //     sendSMS();
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //     backgroundColor: Color(0xFF6EBC44),
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(
+                            //           25.0), // Ajusta el radio según tus necesidades
+                            //     ),
+                            //     minimumSize: Size(
+                            //       MediaQuery.of(context).size.width *
+                            //           0.30, // Ajusta el ancho del botón según el ancho de la pantalla
+                            //       MediaQuery.of(context).size.height *
+                            //           0.04, // Ajusta el alto del botón según el ancho de la pantalla
+                            //     ),
+                            //   ),
+                            //   icon: Icon(
+                            //     Icons.description_outlined,
+                            //     color: Colors.white,
+                            //   ), // Icono que se mostrará dentro del botón
+                            //   label: Text(
+                            //     'Envio sms',
+                            //     style: TextStyle(
+                            //       color: Colors.white,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0),
+                        child: ExpansionTile(
+                          key: cardA,
+                          title: Text(
+                            'SERVICIOS',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            'Asesoría jurídica permanente',
+                            style:
+                                TextStyle(fontFamily: 'Roboto', fontSize: 10.5),
+                          ),
+                          leading: Image.asset(
+                            'assets/juridico1.png',
+                          ),
+                          initiallyExpanded: true,
+                          children: [
+                            Divider(
+                              thickness: 1.0,
+                              height: 1.0,
+                            ),
+                            Align(
+                              child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 0)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFECECEE),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE COPIA DE CONVENIO DE TERMINACIÓN ANTICIPADA DE CONTRATO REGISTRADO EN LA FMF',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 1)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFF6FEF2),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'PARA SOLICITUD DE REVISIÓN DE CONTRATO REGISTRADO EN LA FMF',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      // InkWell(
+                                      //   onTap: () {
+                                      //     Navigator.of(context).push(MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             nuevaSolicitudScreen(
+                                      //                 id_afiliado2:
+                                      //                     jugador['data']['id'],
+                                      //                 nombre2: jugador['data']
+                                      //                     ['nombre'],
+                                      //                 ap2: jugador['data']
+                                      //                     ['apellido_paterno'],
+                                      //                 am2: jugador['data']
+                                      //                     ['apellido_materno'],
+                                      //                 nui2: jugador['data']
+                                      //                     ['nui'],
+                                      //                 no_tipo_sol: 2)));
+                                      //   },
+                                      //   borderRadius: BorderRadius.circular(
+                                      //       10.0), // Para que la animación respete el borde redondeado
+                                      //   child: Container(
+                                      //     padding: EdgeInsets.all(10),
+                                      //     decoration: BoxDecoration(
+                                      //       color: Color(0XFFECECEE),
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(10.0),
+                                      //     ),
+                                      //     margin: EdgeInsets.only(bottom: 5),
+                                      //     child: Column(
+                                      //       children: [
+                                      //         Text(
+                                      //           'SOLICITUD DE REVISIÓN DE VIGENCIA DE CONTRATO REGISTRADO EN LA FMF',
+                                      //           style: TextStyle(fontSize: 10),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // InkWell(
+                                      //   onTap: () {
+                                      //     Navigator.of(context).push(MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             nuevaSolicitudScreen(
+                                      //                 id_afiliado2:
+                                      //                     jugador['data']['id'],
+                                      //                 nombre2: jugador['data']
+                                      //                     ['nombre'],
+                                      //                 ap2: jugador['data']
+                                      //                     ['apellido_paterno'],
+                                      //                 am2: jugador['data']
+                                      //                     ['apellido_materno'],
+                                      //                 nui2: jugador['data']
+                                      //                     ['nui'],
+                                      //                 no_tipo_sol: 3)));
+                                      //   },
+                                      //   borderRadius: BorderRadius.circular(
+                                      //       10.0), // Para que la animación respete el borde redondeado
+                                      //   child: Container(
+                                      //     padding: EdgeInsets.all(10),
+                                      //     decoration: BoxDecoration(
+                                      //       color: Color(0XFFF6FEF2),
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(10.0),
+                                      //     ),
+                                      //     margin: EdgeInsets.only(bottom: 5),
+                                      //     child: Column(
+                                      //       children: [
+                                      //         Text(
+                                      //           'SOLICITUD DE CONSULTA DE MINUTOS DE JUEGO COMO FUTBOLISTA PROFESIONAL',
+                                      //           style: TextStyle(fontSize: 10),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 4)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFECECEE),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE ASESORÍA PARA FIRMA DE CONVENIO DE TERMINACIÓN ANTICIPADA DE CONTRATO',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 5)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFF6FEF2),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE ASESORÍA PARA CONOCER LOS DERECHOS Y OBLIGACIONES QUE TIENES COMO FUTBOLISTA PROFESIONAL',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 6)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFECECEE),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE ASESORÍA SOBRE LOS DERECHOS POR EMBARAZO Y MATERNIDAD (LIGA MX FEMENIL)',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 7)));
+                                        },
+
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          alignment: Alignment.bottomLeft,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFF6FEF2),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE ELABORACIÓN DE FINIQUITO',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 8)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          alignment: Alignment.bottomLeft,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFECECEE),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE COPIA DE CONTRATO',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 9)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          alignment: Alignment.bottomLeft,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFF6FEF2),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD ESTATUS COMO FUTBOLISTA PROFESIONAL',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  nuevaSolicitudScreen(
+                                                      id_afiliado2:
+                                                          jugador['data']['id'],
+                                                      nombre2: jugador['data']
+                                                          ['nombre'],
+                                                      ap2: jugador['data']
+                                                          ['apellido_paterno'],
+                                                      am2: jugador['data']
+                                                          ['apellido_materno'],
+                                                      nui2: jugador['data']
+                                                          ['nui'],
+                                                      no_tipo_sol: 10)));
+                                        },
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Para que la animación respete el borde redondeado
+                                        child: Container(
+                                          alignment: Alignment.bottomLeft,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Color(0XFFECECEE),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                'SOLICITUD DE HISTORIAL DEPORTIVO',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
-                  ),
+                  ));
+            } else {
+              // Muestra un indicador de carga mientras se está cargando
+              return Center(
+                  child: Container(
+                width: MediaQuery.of(context).size.width * 0.3, // Ancho del GIF
+                height:
+                    MediaQuery.of(context).size.height * 0.3, // Alto del GIF
+                child: Image.asset(
+                  "assets/balon-loading.gif",
+                  key: UniqueKey(),
+                  repeat: ImageRepeat.repeatX,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  child: ExpansionTile(
-                    key: cardB,
-                    title: Text(
-                      'PROCESOS',
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      'Representación e controversias presentadas ante la Comisión de Controversias CCRC',
-                      style: TextStyle(fontFamily: 'Roboto'),
-                    ),
-                    leading: Image.asset(
-                      'assets/juridico2.png',
-                    ),
-                    children: [
-                      Divider(
-                        thickness: 1.0,
-                        height: 1.0,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[0] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Adeudo de Salarios'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[0],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[0] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[1] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          'Rescisión de Contrato + Indemnización'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[1],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[1] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[2] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          'Despido Injustificado + Indemnización'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[2],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[2] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[3] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          'Pago de Porcentaje por Transferencia'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[3],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[3] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[4] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Incumplimiento de Convenio'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[4],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[4] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[5] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Lesión'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[5],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[5] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[6] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Rembolso de Gastos Médicos'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[6],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[6] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[7] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Adeudo de Premios en el Contrato'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[7],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[7] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[8] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Adeudo de Bonos en el Contrato'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[8],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[8] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 15.0),
-                                  color: activo[9] == false
-                                      ? Color(0XFFECECEE)
-                                      : Color(0XFFF6FEF2),
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                          'Reinstalación por Despido Injustificado'),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: activo[10],
-                                        activeColor: Color(0XFF6EBC44),
-                                        onChanged: (bool value) {
-                                          // This is called when the user toggles the switch.
-                                          setState(() {
-                                            activo[10] = value;
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )));
+              ));
+            }
+          },
+        ));
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -17,21 +19,26 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   Widget build(BuildContext context) {
     // final info = widget.value['data'];
     // final correo = info['mail'];
+    print(widget.value);
+    final estatus_app = widget.value['data']['estatus_app'].toString();
     final nombre = widget.value['data']['nombre'] +
         ' ' +
         widget.value['data']['apellido_paterno'];
     return Scaffold(
-      body: contenido(nombre: nombre, codigo: widget.codigo),
+      body: contenido(
+          nombre: nombre, estatus_app: estatus_app, codigo: widget.codigo),
     );
   }
 }
 
 class contenido extends StatefulWidget {
   final String nombre;
+  final String estatus_app;
   final int codigo;
   contenido({
     Key? key,
     required this.nombre,
+    required this.estatus_app,
     required this.codigo,
   }) : super(key: key);
 
@@ -58,6 +65,7 @@ class _contenidoState extends State<contenido> {
 
   @override
   Widget build(BuildContext context) {
+    print("esto es el estatus de app: ${widget.estatus_app}");
     return Scaffold(
       body: FractionallySizedBox(
         widthFactor: 1.0,
@@ -65,8 +73,9 @@ class _contenidoState extends State<contenido> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/back.jpg'), // Ruta de la imagen
-              fit: BoxFit.cover,
+              image: AssetImage(
+                  'assets/fondo-gris-principal-dos.jpg'), // Ruta de la imagen
+              fit: BoxFit.fill,
               alignment: Alignment(-1,
                   1.0), // Opcional: ajusta la imagen al tamaño del contenedor
             ),
@@ -81,10 +90,9 @@ class _contenidoState extends State<contenido> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // const SizedBox(height: 30),
-                  const Image(
-                    image: AssetImage('assets/logoblanco.png'),
-                    width: 73,
-                    height: 93,
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: Text(''),
                   ),
                   const SizedBox(height: 30),
                   SizedBox(
@@ -149,7 +157,11 @@ class _contenidoState extends State<contenido> {
                           if (_isDisposed) return;
                           if (value.length == 6) {
                             if (int.tryParse(value) == widget.codigo) {
-                              Navigator.pushReplacementNamed(context, 'login');
+                              widget.estatus_app == '1'
+                                  ? Navigator.pushReplacementNamed(
+                                      context, 'login')
+                                  : Navigator.pushReplacementNamed(
+                                      context, 'register');
                             } else {
                               showDialog(
                                   context: context,

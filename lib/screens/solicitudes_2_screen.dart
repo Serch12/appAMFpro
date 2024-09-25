@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
 import 'package:http/http.dart' as http;
@@ -213,7 +216,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                 Container(
                   height: screenHeight -
                       appBarHeight, // Ajustar al tamaño de la pantalla después del AppBar
-                  color: Color(0xFF211A46),
+                  color: Colors.black,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -234,12 +237,12 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.value['nombre'],
+                              Text(widget.value['tipo_solicitud'],
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize:
                                           MediaQuery.of(context).size.width *
-                                              0.05,
+                                              0.03,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Roboto'),
                                   textAlign: TextAlign.left),
@@ -890,6 +893,69 @@ class TablaSolicitudInicio extends StatefulWidget {
   State<TablaSolicitudInicio> createState() => _TablaSolicitudInicioState();
 }
 
+// Función que descarga el archivo y luego muestra el PDF
+Future<void> _downloadAndShowPdf(
+    BuildContext context, String pdfPath, String nui) async {
+  try {
+    // URL completa del archivo PDF
+    final url =
+        'https://amfpro.mx/intranet/public/ArchivosSistema/PDFApp/$nui/$pdfPath';
+
+    // Obtén el directorio temporal para guardar el archivo
+    var dir = await getTemporaryDirectory();
+    String filePath =
+        '${dir.path}/$pdfPath'; // Ruta local donde se guardará el archivo
+
+    // Descarga el archivo
+    await Dio().download(url, filePath);
+
+    // Muestra el PDF en el modal
+    _showPdfModal(context, filePath); // Pasa la ruta local del archivo
+  } catch (e) {
+    print('Error al descargar el archivo: $e');
+    // Muestra un mensaje de error si ocurre algún problema
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Error al abrir el archivo PDF')));
+  }
+}
+
+// Función que muestra el modal con el PDF
+void _showPdfModal(BuildContext context, String localPdfPath) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Container(
+          width: double.maxFinite,
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: PDFView(
+            filePath: localPdfPath, // Usa la ruta local del archivo PDF
+            enableSwipe: true,
+            swipeHorizontal: true,
+            autoSpacing: false,
+            pageFling: false,
+            onError: (error) {
+              print('Error al abrir el PDF: $error');
+            },
+            onRender: (_pages) {
+              print('Renderizado de $_pages páginas.');
+            },
+            onViewCreated: (PDFViewController pdfViewController) {},
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el modal
+            },
+            child: Text('Cerrar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
   @override
   Widget build(BuildContext context) {
@@ -1088,43 +1154,6 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text('Trámite:',
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.025,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Roboto',
-                              color: Colors.white)),
-                    ),
-                  ),
-                ),
-                TableCell(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(widget.datos['tramite'].toString(),
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.025,
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Roboto',
-                              color: Colors.white)),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            TableRow(
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, 0.15),
-                  borderRadius: BorderRadius.circular(20.0)), // Fila blanca
-              children: [
-                TableCell(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
                       child: Text('Observaciones:',
                           style: TextStyle(
                               fontSize:
@@ -1152,6 +1181,117 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                 )
               ],
             ),
+            widget.datos['tipo_solicitud'].toString() ==
+                    'REVISIÓN DE VIGENCIA DE CONTRATO REGISTRADO EN LA FMF'
+                ? TableRow(
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(255, 255, 255, 0.15),
+                        borderRadius:
+                            BorderRadius.circular(20.0)), // Fila blanca
+                    children: [
+                      TableCell(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Archivo:',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.025,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Roboto',
+                                    color: Colors.white)),
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                _downloadAndShowPdf(
+                                    context,
+                                    widget.datos['archivo_solicitud']
+                                        .toString(),
+                                    widget.datos['nui'].toString());
+                              },
+                              child: Text(
+                                widget.datos['archivo_solicitud'].toString(),
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.025,
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: 'Roboto',
+                                  color: Colors.white,
+                                  decoration: TextDecoration
+                                      .underline, // Subrayado para indicar que es interactivo
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : widget.datos['tipo_solicitud'].toString() ==
+                            'PARA REVISIÓN DE CONTRATO REGISTRADO EN LA FMF' ||
+                        widget.datos['tipo_solicitud'].toString() ==
+                            'CONSULTA DE MINUTOS DE JUEGO COMO FUTBOLISTA PROFESIONAL' ||
+                        widget.datos['tipo_solicitud'].toString() ==
+                            'ASESORÍA PARA FIRMA DE CONVENIO DE TERMINACIÓN ANTICIPADA DE CONTRATO' ||
+                        widget.datos['tipo_solicitud'].toString() ==
+                            'ELABORACIÓN DE FINIQUITO'
+                    ? TableRow(
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(255, 255, 255, 0.15),
+                            borderRadius:
+                                BorderRadius.circular(20.0)), // Fila blanca
+                        children: [
+                          TableCell(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('Detalles:',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Roboto',
+                                        color: Colors.white)),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    widget.datos['observaciones_solicitud']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.025,
+                                        fontWeight: FontWeight.w300,
+                                        fontFamily: 'Roboto',
+                                        color: Colors.white)),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : TableRow(
+                        children: [
+                          SizedBox(height: 10), // Añadir espacio vertical
+                          SizedBox(height: 10), // Espacio en ambas columnas
+                        ],
+                      ),
             TableRow(
               children: [
                 TableCell(
@@ -1187,6 +1327,12 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
               ],
             ),
             TableRow(
+              children: [
+                SizedBox(height: 10), // Añadir espacio vertical
+                SizedBox(height: 10), // Espacio en ambas columnas
+              ],
+            ),
+            TableRow(
               decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, 0.15),
                   borderRadius: BorderRadius.circular(20.0)), // Fila blanca
@@ -1211,7 +1357,7 @@ class _TablaSolicitudInicioState extends State<TablaSolicitudInicio> {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 25.0, vertical: 4.0),
+                          horizontal: 25.0, vertical: 5.0),
                       decoration: BoxDecoration(
                         color: widget.datos['estatus'] == 0 ||
                                 widget.datos['estatus'] == 3

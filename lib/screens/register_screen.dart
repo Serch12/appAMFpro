@@ -17,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
           children: [
             // Imagen de fondo que abarca toda la pantalla
             Image.asset(
-              'assets/back.jpg',
+              'assets/fondo-gris-principal-dos.jpg',
               fit: BoxFit.fill,
             ),
             Center(
@@ -26,15 +26,18 @@ class RegisterScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Imagen centrada encima de la imagen de fondo
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      child: Image.asset(
-                        'assets/logoblanco.png',
-                        width: 73,
-                        height: 93,
-                      ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(bottom: 50),
+                    //   child: Image.asset(
+                    //     'assets/logoblanco.png',
+                    //     width: 73,
+                    //     height: 93,
+                    //   ),
+                    // ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.14,
+                      child: Text(''),
                     ),
-                    // const SizedBox(height: 20),
                     // Texto debajo de la imagen centrada
                     const Text(
                       'Registrarse',
@@ -267,29 +270,29 @@ class _LoginFormState extends State<_LoginForm> {
                                       context, 'homeroute');
                                 }
                               })),
-                SizedBox(
-                  height:
-                      50, // Alto fijo para el espacio del texto "Registrate aquí"
-                  child: Container(
-                    child: TextButton(
-                      onPressed: () =>
-                          Navigator.pushReplacementNamed(context, 'login'),
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(
-                          Colors.green.withOpacity(0.1),
-                        ),
-                        shape: MaterialStateProperty.all(const StadiumBorder()),
-                      ),
-                      child: const Text(
-                        '¿Ya tienes una cuenta? Iniciar Sesión.',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                // SizedBox(
+                //   height:
+                //       50, // Alto fijo para el espacio del texto "Registrate aquí"
+                //   child: Container(
+                //     child: TextButton(
+                //       onPressed: () =>
+                //           Navigator.pushReplacementNamed(context, 'login'),
+                //       style: ButtonStyle(
+                //         overlayColor: MaterialStateProperty.all(
+                //           Colors.green.withOpacity(0.1),
+                //         ),
+                //         shape: MaterialStateProperty.all(const StadiumBorder()),
+                //       ),
+                //       child: const Text(
+                //         '¿Ya tienes una cuenta? Iniciar Sesión.',
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             )),
       ),

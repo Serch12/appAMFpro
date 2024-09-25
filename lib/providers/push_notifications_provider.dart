@@ -63,6 +63,9 @@ class NotificacionesPush {
       String argumento8 = 'no-data';
       DateTime? argumento9 = null;
       int argumento10 = 0;
+      String argumento11 = 'no-data';
+      String argumento12 = 'no-data';
+      String argumento13 = 'no-data';
       if (Platform.isAndroid || Platform.isIOS) {
         // Asigna valores desde message.data con conversiones de tipo apropiadas
         argumento = message.data['mensaje'] ?? 'no-data';
@@ -77,6 +80,9 @@ class NotificacionesPush {
         argumento9 =
             DateTime.tryParse(message.data['fecha'] ?? '') ?? DateTime(0);
         argumento10 = int.tryParse(message.data['estatus'] ?? '0') ?? 0;
+        argumento11 = message.data['tipo_solicitud'] ?? 'no-data';
+        argumento12 = message.data['observaciones_solicitud'] ?? 'no-data';
+        argumento13 = message.data['archivo_solicitud'] ?? 'no-data';
       }
       NotificacionDatos argumentos = NotificacionDatos(
           mensaje: argumento,
@@ -88,6 +94,9 @@ class NotificacionesPush {
           nui: argumento6,
           tramite: argumento7,
           observaciones: argumento8,
+          tipo_solicitud: argumento11,
+          observaciones_solicitud: argumento12,
+          archivo_solicitud: argumento13,
           fechaSol: argumento9!,
           estatus: argumento10);
       _mensajesStreamController.sink.add(argumentos);
@@ -109,6 +118,9 @@ class NotificacionDatos {
   final int nui;
   final String tramite;
   final String observaciones;
+  final String tipo_solicitud;
+  final String observaciones_solicitud;
+  final String archivo_solicitud;
   final DateTime fechaSol;
   final int estatus;
 
@@ -122,7 +134,10 @@ class NotificacionDatos {
     required this.nui,
     required this.tramite,
     required this.observaciones,
+    required this.tipo_solicitud,
     required this.fechaSol,
     required this.estatus,
+    required this.observaciones_solicitud,
+    required this.archivo_solicitud,
   });
 }

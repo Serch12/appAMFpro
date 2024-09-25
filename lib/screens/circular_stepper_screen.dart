@@ -373,6 +373,8 @@ class _CircularStepperDemoState extends State<CircularStepperDemo> {
                 locale: 'es_ES',
                 firstDay: kFirstDay,
                 lastDay: kLastDay,
+                headerStyle: const HeaderStyle(
+                    titleCentered: true, formatButtonVisible: false),
                 calendarStyle: CalendarStyle(
                     todayTextStyle: TextStyle(color: Colors.white),
                     todayDecoration: BoxDecoration(

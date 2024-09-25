@@ -3,35 +3,41 @@ import 'package:local_auth/local_auth.dart';
 
 class LoginBiometricsScreen extends StatelessWidget {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
-  // const LoginBiometricsScreen({Key? key}) : super(key: key);
-
-  // Nueva función para la navegación
-  // void _navigateToHomeRoute(BuildContext context) {
-  //   Navigator.pushNamed(context, 'homeroute');
-  // }
 
   Future<void> _authenticate(BuildContext context) async {
     bool authenticated = false;
+    bool canCheckBiometrics = false;
+    List<BiometricType> availableBiometrics = [];
 
     try {
-      authenticated = await _localAuthentication.authenticate(
+      // Comprobar si se puede verificar biometría
+      canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
+      // Obtener los tipos de biometría disponibles
+      availableBiometrics = await _localAuthentication.getAvailableBiometrics();
+
+      if (canCheckBiometrics && availableBiometrics.isNotEmpty) {
+        // Intentar autenticar con biometría si está disponible
+        authenticated = await _localAuthentication.authenticate(
           localizedReason: 'Autenticación biométrica requerida',
           options: const AuthenticationOptions(
-            useErrorDialogs: true, // Mostrar diálogos de error
-            stickyAuth:
-                true, // Mantener el diálogo de autenticación abierto hasta que el usuario lo cierre
-          ));
+            useErrorDialogs: true,
+            stickyAuth: true,
+          ),
+        );
+      } else {
+        // Si no hay biometría configurada, permitir acceso sin biometría
+        print("No hay biometría configurada en este dispositivo.");
+        Navigator.pushReplacementNamed(context, 'homeroute');
+        return; // Salir de la función
+      }
     } catch (e) {
       print("Error en la autenticación biométrica: $e");
     }
 
     if (authenticated) {
-      // El usuario fue autenticado exitosamente
       print("Autenticación exitosa");
-      // Aquí puedes navegar a la siguiente pantalla o realizar acciones después de la autenticación exitosa
       Navigator.pushReplacementNamed(context, 'homeroute');
     } else {
-      // La autenticación falló
       print("Autenticación fallida");
     }
   }
@@ -45,10 +51,9 @@ class LoginBiometricsScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/back.jpg'), // Ruta de la imagen
+              image: AssetImage('assets/fondo-gris-principal-dos.jpg'),
               fit: BoxFit.fill,
-              alignment: Alignment(-1,
-                  1.0), // Opcional: ajusta la imagen al tamaño del contenedor
+              alignment: Alignment(-1, 1.0),
             ),
           ),
           child: SingleChildScrollView(
@@ -58,29 +63,20 @@ class LoginBiometricsScreen extends StatelessWidget {
                 vertical: MediaQuery.of(context).size.height * 0.25,
               ),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // const SizedBox(height: 30),
-                  const Image(
-                    image: AssetImage('assets/logoblanco.png'),
-                    width: 73,
-                    height: 93,
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.125,
+                    child: Text(''),
                   ),
                   const SizedBox(height: 30),
                   SizedBox(
-                      child: Text('Bienvenido',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontFamily: 'RobotoMono',
-                              fontWeight: FontWeight.bold))),
-                  // SizedBox(
-                  //     child: Text('Emmanuel Damian Peña',
-                  //         style: TextStyle(
-                  //             fontSize: 28,
-                  //             fontFamily: 'RobotoMono',
-                  //             fontWeight: FontWeight.bold,
-                  //             color: Colors.green))),
+                    child: Text('Bienvenido',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontFamily: 'RobotoMono',
+                            fontWeight: FontWeight.bold)),
+                  ),
                   const SizedBox(height: 30),
                   ElevatedButton(
                     child: Text(
@@ -91,8 +87,7 @@ class LoginBiometricsScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
-                      _authenticate(
-                          context); // Llamar a la función de navegación
+                      _authenticate(context);
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(
@@ -106,9 +101,7 @@ class LoginBiometricsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   const Image(
                     image: AssetImage('assets/bio.png'),
                     width: 73,

@@ -9,6 +9,9 @@ class Notificacion {
   final int nui;
   final String tramite;
   final String observaciones;
+  final String tipo_solicitud;
+  final String observaciones_solicitud;
+  final String archivo_solicitud;
   final int id_sol;
   final int estatus;
   final DateTime fechaSol;
@@ -24,6 +27,9 @@ class Notificacion {
     required this.nui,
     required this.tramite,
     required this.observaciones,
+    required this.tipo_solicitud,
+    required this.observaciones_solicitud,
+    required this.archivo_solicitud,
     required this.estatus,
     required this.fechaSol,
   });

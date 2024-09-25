@@ -139,26 +139,46 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
     return Scaffold(
         backgroundColor: Color(0xFFF5F5F5),
         appBar: AppBar(
-          toolbarHeight: 80.0,
-          centerTitle: true,
-          flexibleSpace: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '¿Olvidaste tu contraseña?',
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontSize: 16.0, color: Colors.white, height: 6),
-              ),
-            ],
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
           ),
-          backgroundColor: Color(0xFF211A46),
-          // shape: ContinuousRectangleBorder(
-          //   borderRadius: BorderRadius.only(
-          //     bottomLeft: Radius.circular(80.0),
-          //     bottomRight: Radius.circular(80.0),
-          //   ),
-          // ),
+          toolbarHeight: MediaQuery.of(context).size.height *
+              0.1, // Ajusta el alto del AppBar según el tamaño de la pantalla
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF6EBC44),
+                  Color(0xFF000000),
+                ],
+                stops: [0.0, 1.0],
+              ),
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  '¿Olvidaste tu contraseña?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width *
+                        0.04, // Ajusta el tamaño del texto según el ancho de la pantalla
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -166,7 +186,11 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                 onPressed: () {
                   // Acción al presionar el IconButton
                 },
-                icon: Image.asset('assets/logoblanco.png'),
+                icon: Image.asset(
+                  'assets/logoblanco.png',
+                  width: MediaQuery.of(context).size.width *
+                      0.1, // Ajusta el ancho de la imagen según el tamaño de la pantalla
+                ),
               ),
             ),
           ],
@@ -183,7 +207,17 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                     child: Container(
                       height: 40,
                       width: 430,
-                      color: Color(0xFF211A46),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xFF6EBC44), Colors.black],
+                          stops: [
+                            0.0,
+                            0.01
+                          ], // Ajusta las paradas de color según lo necesites
+                        ),
+                      ),
                       child: Center(),
                     ),
                   ),
@@ -289,7 +323,7 @@ class _recuperarPasswordScreenState extends State<recuperarPasswordScreen> {
                                         'Recuperar contraseña',
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
-                                            fontSize: 15,
+                                            fontSize: 13,
                                             color: Colors.white),
                                         softWrap: false,
                                       ),

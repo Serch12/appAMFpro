@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -128,8 +129,9 @@ class _contenidoState extends State<contenido> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/back.jpg'), // Ruta de la imagen
-              fit: BoxFit.cover,
+              image: AssetImage(
+                  'assets/fondo-gris-principal-dos.jpg'), // Ruta de la imagen
+              fit: BoxFit.fill,
               alignment: Alignment(-1,
                   1.0), // Opcional: ajusta la imagen al tamaño del contenedor
             ),
@@ -144,20 +146,23 @@ class _contenidoState extends State<contenido> {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // const SizedBox(height: 10),
-                  const Image(
-                    image: AssetImage('assets/logoblanco.png'),
-                    width: 73,
-                    height: 93,
+                  // const Image(
+                  //   image: AssetImage('assets/logoblanco.png'),
+                  //   width: 73,
+                  //   height: 93,
+                  // ),
+                  const SizedBox(height: 80),
+                  const SizedBox(
+                      child: Text('BIENVENIDO',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontFamily: 'RobotoMono',
+                              fontWeight: FontWeight.bold))),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.0,
+                    child: Text(''),
                   ),
-                  // const SizedBox(height: 30),
-                  // const SizedBox(
-                  //     child: Text('BIENVENIDO',
-                  //         style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 40,
-                  //             fontFamily: 'RobotoMono',
-                  //             fontWeight: FontWeight.bold))),
-                  const SizedBox(height: 30),
                   const SizedBox(
                       // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
                       child: Text(
@@ -275,10 +280,11 @@ class _contenidoState extends State<contenido> {
                                           child: Text(
                                             'NUI no registrado en AMFpro.',
                                             style: TextStyle(
-                                              color: Color(0xFF1AD598),
+                                              color: Colors.red,
                                             ),
                                             overflow: TextOverflow.visible,
-                                            softWrap: false,
+                                            softWrap:
+                                                true, // Permite que el texto se desborde
                                           ),
                                         ),
                                         TextButton(
@@ -306,6 +312,7 @@ class _contenidoState extends State<contenido> {
                           }
                         }),
                       )),
+
                   // const SizedBox(height: 15),
                   Visibility(
                     visible: myProvider2._vizualiza,
@@ -410,7 +417,6 @@ class MyProvider with ChangeNotifier {
     } else {
       _vizualiza = true;
     }
-    print(_vizualiza);
     notifyListeners();
   }
 

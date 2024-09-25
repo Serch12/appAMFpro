@@ -96,6 +96,16 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
 
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              // Acción al presionar el botón de retroceso
+              Navigator.pushReplacementNamed(context, 'homeroutetres');
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white, // Color blanco para el icono
+            ),
+          ),
           automaticallyImplyLeading: false,
           elevation: 0,
           toolbarHeight: MediaQuery.of(context).size.height *
@@ -153,29 +163,29 @@ class _ListaSolicitudesScreenState extends State<ListaSolicitudesScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Acciones al presionar el botón flotante (agregar contrato)
-          // Puedes abrir una pantalla de creación de contrato o realizar otras acciones
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => nuevaSolicitudScreen(
-                  id_afiliado2: jugador['data']['id'],
-                  nombre2: jugador['data']['nombre'],
-                  ap2: jugador['data']['apellido_paterno'],
-                  am2: jugador['data']['apellido_materno'],
-                  nui2: jugador['data']['nui'])));
-        },
-        child: PulseIcon(
-          icon: Icons.add,
-          pulseColor: Color(0xff4FC028),
-          innerSize: 30.0,
-          pulseSize: 100.0,
-          iconSize: 30,
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        mini: false,
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Acciones al presionar el botón flotante (agregar contrato)
+      //     // Puedes abrir una pantalla de creación de contrato o realizar otras acciones
+      //     Navigator.of(context).push(MaterialPageRoute(
+      //         builder: (context) => nuevaSolicitudScreen(
+      //             id_afiliado2: jugador['data']['id'],
+      //             nombre2: jugador['data']['nombre'],
+      //             ap2: jugador['data']['apellido_paterno'],
+      //             am2: jugador['data']['apellido_materno'],
+      //             nui2: jugador['data']['nui'])));
+      //   },
+      //   child: PulseIcon(
+      //     icon: Icons.add,
+      //     pulseColor: Color(0xff4FC028),
+      //     innerSize: 30.0,
+      //     pulseSize: 100.0,
+      //     iconSize: 30,
+      //   ),
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   mini: false,
+      // ),
     );
   }
 }
