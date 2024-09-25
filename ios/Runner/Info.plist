@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Al permitir el acceso a tu càmara podràs cargar o actualizar la foto de perfil,anverso y reverso.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Permitir acceso al micrófono para grabar audio</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
@@ -38,7 +42,7 @@
 		<true/>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Permitir el acceso a tu galeria para seleccionar fotos</string>
+	<string>Al permitir el acceso a tu galerìa podràs cargar o actualizar la foto de perfil,anverso y reverso.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

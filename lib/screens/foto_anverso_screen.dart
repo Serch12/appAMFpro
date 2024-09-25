@@ -55,7 +55,7 @@ class _fotoAnversoScreenState extends State<fotoAnversoScreen> {
         _mostrarAlertDialogAnverso();
       }
     } catch (e) {
-      print('Error al cargar imagen de perfil: $e');
+      print('Error al cargar imagen de anverso: $e');
     }
   }
 
