@@ -8,7 +8,6 @@ import 'package:splash_animated/screens/screens.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-// import 'package:flutter_sms/flutter_sms.dart';
 
 class SolicitudesScreen extends StatefulWidget {
   const SolicitudesScreen({super.key});
