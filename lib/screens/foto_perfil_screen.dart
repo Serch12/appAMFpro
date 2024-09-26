@@ -264,26 +264,6 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
 
   Future<void> _pickImagePerfil(ImageSource source) async {
     try {
-<<<<<<< HEAD
-      // // Solicitar permisos
-      // PermissionStatus cameraStatus = await Permission.camera.status;
-      // PermissionStatus storageStatus = await Permission.storage.status;
-
-      // if (!cameraStatus.isGranted) {
-      //   cameraStatus = await Permission.camera.request();
-      // }
-      // if (!storageStatus.isGranted) {
-      //   storageStatus = await Permission.storage.request();
-      // }
-      // // Si los permisos son otorgados, proceder con la selección de imagen
-      // if (cameraStatus.isGranted && storageStatus.isGranted) {
-      // final picker = ImagePicker();
-      final XFile? archivo =
-          await ImagePicker().pickImage(source: source, imageQuality: 100);
-      if (archivo != null) {
-        _path = archivo.path;
-        List<int> bytes = await File(_path!).readAsBytes();
-=======
       final ImagePicker picker = ImagePicker();
       final XFile? archivo = await picker.pickImage(
         source: source,
@@ -291,7 +271,6 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
       if (archivo != null) {
         _path = archivo.path;
         List<int> bytes = await File(_path!).readAsBytesSync();
->>>>>>> 25f3b87 (cambios desde ios)
         _nuevafoto = base64.encode(bytes);
         // Mueve la lógica de mostrar la imagen aquí
         // En lugar de esperar a que se cierre el AlertDialog
