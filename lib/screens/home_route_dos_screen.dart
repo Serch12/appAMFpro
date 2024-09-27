@@ -10,7 +10,7 @@ class HomeRouteDosScreen extends StatefulWidget {
 }
 
 class _HomeRouteDosScreenState extends State<HomeRouteDosScreen> {
-  int index = 3;
+  int index = 2;
   late NavegadorBar myButtonMain; // Cambiado a late
 
   @override

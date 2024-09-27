@@ -588,6 +588,7 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
                                   maxLength: 200,
                                   keyboardType: TextInputType
                                       .multiline, // Tipo de teclado para entrada de múltiples líneas
+                                  textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                     labelText: '',
                                     counterText:
@@ -676,6 +677,7 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
                                         maxLength: 200,
                                         keyboardType: TextInputType
                                             .multiline, // Tipo de teclado para entrada de múltiples líneas
+                                        textInputAction: TextInputAction.done,
                                         decoration: InputDecoration(
                                           labelText: '',
                                           counterText:

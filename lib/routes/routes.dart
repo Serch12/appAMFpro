@@ -9,7 +9,7 @@ class Routes extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> myList = [
       HomeScreen(),
-      CircularStepperDemo(),
+      //CircularStepperDemo(),
       SolicitudesScreen(),
       // ListaSolicitudesScreen(),
       ProfileScreen(),
