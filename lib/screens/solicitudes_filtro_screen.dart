@@ -134,7 +134,7 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: MediaQuery.of(context).size.width *
-                                      0.03, // Tamaño de fuente
+                                      0.028, // Tamaño de fuente
                                 ),
                               ),
                             )
@@ -144,7 +144,7 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                                 style: TextStyle(
                                   color: Color(0xff2E2A60),
                                   fontSize: MediaQuery.of(context).size.width *
-                                      0.03, // Tamaño de fuente
+                                      0.028, // Tamaño de fuente
                                 ),
                               ),
                             ),
@@ -212,7 +212,7 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: MediaQuery.of(context).size.width *
-                                    0.028, // Tamaño de fuente
+                                    0.026, // Tamaño de fuente
                               ),
                             ))
                           : Center(
@@ -221,7 +221,7 @@ class _SolicitudesFiltroScreenState extends State<SolicitudesFiltroScreen> {
                               style: TextStyle(
                                 color: Color(0xffFF0000),
                                 fontSize: MediaQuery.of(context).size.width *
-                                    0.028, // Tamaño de fuente
+                                    0.026, // Tamaño de fuente
                               ),
                             )),
                     ),
