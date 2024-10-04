@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NotificationsService {
+class NotificationsService2 {
   static GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
@@ -16,7 +16,7 @@ class NotificationsService {
             fontFamily: 'Roboto',
             fontWeight: FontWeight.bold),
       ),
-      duration: Duration(seconds: 4),
+      duration: Duration(seconds: 5),
     );
 
     messengerKey.currentState?..showSnackBar(snackBar);

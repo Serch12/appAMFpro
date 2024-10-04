@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:splash_animated/screens/screens.dart';
+import 'package:splash_animated/services/notification_service.dart';
 //import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   String? pdf2;
   bool boton1Activado = false;
   bool boton2Activado = false;
+  int? edad;
 
   @override
   void initState() {
@@ -119,6 +121,29 @@ class _ProfileScreenState extends State<ProfileScreen>
       foto = jugador['data']['foto'];
       pdf = jugador['data']['pdf'];
       pdf2 = jugador['data']['pdf2'];
+    }
+    print(pdf2);
+    // Convertir la fecha de nacimiento de String a DateTime
+    DateTime fechaNacimiento = DateTime.parse(nacimiento!);
+
+    // Obtener la fecha actual
+    DateTime fechaActual = DateTime.now();
+
+    // Calcular la edad
+    int edad2 = fechaActual.year - fechaNacimiento.year;
+
+    // Ajustar si la fecha de nacimiento aún no ha ocurrido en el año actual
+    if (fechaActual.month < fechaNacimiento.month ||
+        (fechaActual.month == fechaNacimiento.month &&
+            fechaActual.day < fechaNacimiento.day)) {
+      edad2--;
+    }
+    edad = edad2;
+    if (edad! >= 18 && pdf2 == null) {
+      setState(() {
+        NotificationsService.showSnackBar(
+            '¡Debes actualizar tus datos , adjunta tu INE lado Anverso y Reverso ya que eres mayor de edad!');
+      });
     }
   }
 
@@ -1330,10 +1355,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
+                                    // edad! >= 18 && pdf2 == null
+                                    //     ? Container(
+                                    //         padding: EdgeInsets.all(5),
+                                    //         child: Text(
+                                    //             'Debes actualizar tus datos , adjunta tu INE lado Anverso y Reverso ya que eres mayor de edad!'),
+                                    //       )
+                                    //     : Container(),
                                     fotoAnversoScreen(
                                         id: id, nui: nui, pdf: pdf),
-                                    fotoReversoScreen(
-                                        id: id, nui: nui, pdf2: pdf2),
+                                    if (edad! >= 18)
+                                      fotoReversoScreen(
+                                          id: id, nui: nui, pdf2: pdf2),
                                   ],
                                 ),
                               ),

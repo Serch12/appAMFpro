@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:splash_animated/services/notification_service.dart';
 //import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +11,7 @@ import 'dart:convert';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:signature/signature.dart';
 import 'dart:io';
 
 class RegistroAfiliadoScreen extends StatefulWidget {
@@ -26,6 +30,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   final _nameController = TextEditingController();
   final _a_patController = TextEditingController();
   final _a_matController = TextEditingController();
+  final _nombre_tutorController = TextEditingController();
   final _apodoController = TextEditingController();
   DateTime _fechaNacimiento = DateTime.now();
   String _edad = '0';
@@ -33,6 +38,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   // bool _esMexicano = false;
   bool _terminos = false;
   bool _avisoPrivacidad = false;
+  bool _tratamiento_datos_menores = false;
+  bool _uso_imagenes_menores = false;
   final _curpController = TextEditingController();
   String _gradoEstudiosController = 'SELECCIONAR';
   String _paisController = 'SELECCIONAR';
@@ -71,8 +78,12 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   bool _errorperfil = false;
   bool _erroranverso = false;
   bool _errorreverso = false;
+  bool _erroranversotutor = false;
+  bool _errorreversotutor = false;
   bool _errortermino = false;
   bool _erroraviso = false;
+  bool _errortratamiento = false;
+  bool _errorusoimagenes = false;
 
   String? _fotoperfil;
   String? _path;
@@ -80,6 +91,36 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   String? _path2;
   String? _backImage;
   String? _path3;
+
+  String? _front_tutor_image;
+  String? _path4;
+  String? _back_tutor_image;
+  String? _path5;
+
+  String? _fotofirma;
+  // String? _path6;
+
+  String? _fotofirma2;
+  // String? _path7;
+  bool _muestrapadretutor = false;
+
+  SignatureController? controller;
+  SignatureController? controller2;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = SignatureController(penStrokeWidth: 5, penColor: Colors.black);
+    controller2 =
+        SignatureController(penStrokeWidth: 5, penColor: Colors.black);
+  }
+
+  @override
+  void dispose() {
+    controller!.dispose();
+    controller2!.dispose();
+    super.dispose();
+  }
 
   Future<void> _registerUser() async {
     // Mostrar el indicador de carga
@@ -180,7 +221,12 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       "exfut": _exFutbolista,
       'pdf': _frontImage,
       "pdf2": _backImage,
-      "foto": _fotoperfil
+      "foto": _fotoperfil,
+      "fronttutor": _front_tutor_image,
+      "backtutor": _back_tutor_image,
+      "nombre_tutor": _nombre_tutorController.text,
+      "firmatutor": _fotofirma,
+      "firmatutor2": _fotofirma2
     };
 
 // String jsonData = jsonEncode(data);
@@ -311,6 +357,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
         _division = 'Liga MX Femenil';
         _fetchEquiposPorDivision(_division);
       });
+    } else {
+      _division = 'SELECCIONAR';
+      _equipo = '';
     }
   }
 
@@ -584,6 +633,24 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
         _edad = age.toString();
       });
     }
+    setState(() {
+      _fotoperfil = null;
+      _path = null;
+      _frontImage = null;
+      _path2 = null;
+      _backImage = null;
+      _path3 = null;
+      _front_tutor_image = null;
+      _path4 = null;
+      _back_tutor_image = null;
+      _path5 = null;
+      if (int.parse(_edad) < 18) {
+        _muestrapadretutor = true;
+      }
+      if (int.parse(_edad) >= 18) {
+        _muestrapadretutor = false;
+      }
+    });
   }
 
   Future<void> _consultaNUI(String nui) async {
@@ -715,6 +782,122 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     } catch (e) {
       print('Error al cargar imagen: $e');
     }
+  }
+
+  Future<void> _pickImageAnversoTutor(ImageSource source3) async {
+    try {
+      final ImagePicker picker4 = ImagePicker();
+      final XFile? archivo4 = await picker4.pickImage(
+        source: source3,
+      );
+      if (archivo4 != null) {
+        setState(() {
+          _path4 = archivo4.path;
+          _erroranversotutor = false;
+        });
+        // encoding 64
+        List<int> bytes4 = await File(_path4!).readAsBytes();
+        _front_tutor_image = base64.encode(bytes4);
+      }
+    } catch (e) {
+      print('Error al cargar imagen: $e');
+    }
+  }
+
+  Future<void> _pickImageReversoTutor(ImageSource source4) async {
+    try {
+      final ImagePicker picker5 = ImagePicker();
+      final XFile? archivo5 = await picker5.pickImage(
+        source: source4,
+      );
+      if (archivo5 != null) {
+        setState(() {
+          _path5 = archivo5.path;
+          _errorreversotutor = false;
+        });
+        // encoding 64
+        List<int> bytes5 = await File(_path5!).readAsBytes();
+        _back_tutor_image = base64.encode(bytes5);
+      }
+    } catch (e) {
+      print('Error al cargar imagen: $e');
+    }
+  }
+
+  Future<void> muestraModalFirmaImagen(BuildContext context) {
+    return showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: const Text('Firma de aceptación del padre o tutor'),
+            content: Container(
+              width: MediaQuery.of(context).size.width *
+                  0.9, // Define un ancho para el Container
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Firma en el recuadro de manera autógrafa lo más parecido a tu identificación oficial.',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    Signature(
+                      controller: controller2!,
+                      backgroundColor: Colors.white,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width * 0.99,
+                    ),
+                    buildButtons2(context),
+                  ],
+                ),
+              ),
+            ));
+      },
+    );
+  }
+
+  Future<void> muestraModalFirmaAutorizacion(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: const Text('Firma de autorización del padre o tutor'),
+            content: Container(
+              width: MediaQuery.of(context).size.width *
+                  0.9, // Define un ancho para el Container
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Firma en el recuadro de manera autógrafa lo más parecido a tu identificación oficial.',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    Signature(
+                      controller: controller!,
+                      backgroundColor: Colors.white,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width * 0.99,
+                    ),
+                    buildButtons(context)
+                  ],
+                ),
+              ),
+            ));
+      },
+    );
   }
 
   @override
@@ -1052,29 +1235,96 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
 
                           // Valida el formulario
                           if (form!.validate()) {
-                            if (_path == null) {
-                              setState(() {
-                                _errorperfil = true;
-                              });
-                            } else if (_path2 == null) {
-                              setState(() {
-                                _erroranverso = true;
-                              });
-                            } else if (_path3 == null) {
-                              setState(() {
-                                _errorreverso = true;
-                              });
-                            } else if (_terminos == false) {
-                              setState(() {
-                                _errortermino = true;
-                              });
-                            } else if (_avisoPrivacidad == false) {
-                              setState(() {
-                                _erroraviso = true;
-                              });
+                            if (int.parse(_edad) >= 18) {
+                              if (_path == null) {
+                                setState(() {
+                                  _errorperfil = true;
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar fotografía de expediente!');
+                                });
+                              } else if (_path2 == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar identificación oficial (Anverso)!');
+                                  _erroranverso = true;
+                                });
+                              } else if (_path3 == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar identificación oficial (Reverso)!');
+                                  _errorreverso = true;
+                                });
+                              } else if (_terminos == false) {
+                                setState(() {
+                                  _errortermino = true;
+                                });
+                              } else if (_avisoPrivacidad == false) {
+                                setState(() {
+                                  _erroraviso = true;
+                                });
+                              } else {
+                                // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
+                                _registerUser();
+                              }
                             } else {
-                              // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
-                              _registerUser();
+                              if (_path == null) {
+                                setState(() {
+                                  _errorperfil = true;
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar fotografía de expediente!');
+                                });
+                              } else if (_path2 == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar foto de credencial escolar o CURP!');
+                                  _erroranverso = true;
+                                });
+                              } else if (_path4 == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar identificación oficial del padre o tutor (Anverso)!');
+                                  _erroranversotutor = true;
+                                });
+                              } else if (_path5 == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Adjuntar identificación oficial del padre o tutor (Reverso)!');
+                                  _errorreversotutor = true;
+                                });
+                              } else if (_terminos == false) {
+                                setState(() {
+                                  _errortermino = true;
+                                });
+                              } else if (_avisoPrivacidad == false) {
+                                setState(() {
+                                  _erroraviso = true;
+                                });
+                              } else if (_tratamiento_datos_menores == false) {
+                                setState(() {
+                                  _errortratamiento = true;
+                                });
+                              } else if (_fotofirma == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Capturar firma!');
+                                  _errortratamiento = true;
+                                  _tratamiento_datos_menores = false;
+                                });
+                              } else if (_uso_imagenes_menores == false) {
+                                setState(() {
+                                  _errorusoimagenes = true;
+                                });
+                              } else if (_fotofirma2 == null) {
+                                setState(() {
+                                  NotificationsService.showSnackBar(
+                                      '¡Capturar firma!');
+                                  _errorusoimagenes = true;
+                                  _uso_imagenes_menores = false;
+                                });
+                              } else {
+                                // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
+                                _registerUser();
+                              }
                             }
                           }
                         },
@@ -1333,7 +1583,29 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
+            _muestrapadretutor == true ? SizedBox(height: 15) : Container(),
+            _muestrapadretutor == true
+                ? Material(
+                    elevation: 7.0,
+                    color: Colors.transparent,
+                    shadowColor:
+                        Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(16),
+                    child: TextFormField(
+                      controller: _nombre_tutorController,
+                      keyboardType: TextInputType.text,
+                      decoration: buildInputDecoration(
+                          'NOMBRE DEL PADRE O TUTOR RESPONSABLE*'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Ingresa el nombre del padre o tutor responsable';
+                        }
+                        return null;
+                      },
+                    ),
+                  )
+                : Container(),
+            SizedBox(height: 15),
             Material(
               elevation: 7.0,
               color: Colors.transparent,
@@ -1360,7 +1632,14 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 ],
                 onChanged: (value) {
                   setState(() {
-                    _divisionPorSexo(value!);
+                    if (value! == 'Femenino') {
+                      _divisionPorSexo(value!);
+                    }
+                    if (value == 'Masculino') {
+                      _division = 'SELECCIONAR';
+                      _equipo = '';
+                    }
+
                     _sexo = value;
                     _errorMessage = (_sexo == 'SELECCIONAR')
                         ? 'Selecciona una opción'
@@ -1911,46 +2190,52 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 },
               ),
             ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: DropdownButtonFormField<String>(
-                value: _categoria,
-                decoration: InputDecoration(
-                  labelText: 'CATEGORIA',
-                  errorText: _errorMessage5,
-                  labelStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-                ),
-                items: _buildDropdownItems(),
-                onChanged: (value) {
-                  setState(() {
-                    _categoria = value!;
-                    _errorMessage5 = (_categoria == 'SELECCIONAR')
-                        ? 'Selecciona una categoría'
-                        : null;
-                  });
-                },
-              ),
-            ),
+            _division == 'Liga MX' || _division == 'Liga MX Femenil'
+                ? const SizedBox(height: 15)
+                : Container(),
+            _division == 'Liga MX' || _division == 'Liga MX Femenil'
+                ? Material(
+                    elevation: 7.0,
+                    color: Colors.transparent,
+                    shadowColor:
+                        Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(16),
+                    child: DropdownButtonFormField<String>(
+                      value: _categoria,
+                      decoration: InputDecoration(
+                        labelText: 'CATEGORIA',
+                        errorText: _errorMessage5,
+                        labelStyle:
+                            TextStyle(fontFamily: 'Roboto', fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 12.0),
+                      ),
+                      items: _buildDropdownItems(),
+                      onChanged: (value) {
+                        setState(() {
+                          _categoria = value!;
+                          _errorMessage5 = (_categoria == 'SELECCIONAR')
+                              ? 'Selecciona una categoría'
+                              : null;
+                        });
+                      },
+                    ),
+                  )
+                : Container(),
             const SizedBox(height: 15),
             Material(
               elevation: 7.0,
@@ -2218,40 +2503,85 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               ],
             ),
             SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        ver_seccion = 0;
-                      });
-                    },
-                    child: _errorperfil == true
-                        ? Image.asset('assets/icono-foto-perfil-rojo.png')
-                        : Image.asset('assets/icon-foto-perfil.png')),
-                SizedBox(width: 35),
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        ver_seccion = 1;
-                      });
-                    },
-                    child: _erroranverso == true
-                        ? Image.asset('assets/icono-ine-anverso-rojo.png')
-                        : Image.asset('assets/icon-ine-anverso.png')),
-                SizedBox(width: 35),
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        ver_seccion = 2;
-                      });
-                    },
-                    child: _errorreverso == true
-                        ? Image.asset('assets/icono-ine-reverso-rojo.png')
-                        : Image.asset('assets/icon-ine-reverso.png')),
-              ],
-            ),
+            int.parse(_edad) >= 18
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 0;
+                            });
+                          },
+                          child: _errorperfil == true
+                              ? Image.asset('assets/icono-foto-perfil-rojo.png')
+                              : Image.asset('assets/icon-foto-perfil.png')),
+                      SizedBox(width: 35),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 1;
+                            });
+                          },
+                          child: _erroranverso == true
+                              ? Image.asset('assets/icono-ine-anverso-rojo.png')
+                              : Image.asset('assets/icon-ine-anverso.png')),
+                      SizedBox(width: 35),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 2;
+                            });
+                          },
+                          child: _errorreverso == true
+                              ? Image.asset('assets/icono-ine-reverso-rojo.png')
+                              : Image.asset('assets/icon-ine-reverso.png')),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 0;
+                            });
+                          },
+                          child: _errorperfil == true
+                              ? Image.asset('assets/icono-foto-perfil-rojo.png')
+                              : Image.asset('assets/icon-foto-perfil.png')),
+                      SizedBox(width: 35),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 1;
+                            });
+                          },
+                          child: _erroranverso == true
+                              ? Image.asset('assets/icono-ine-anverso-rojo.png')
+                              : Image.asset('assets/icon-ine-anverso.png')),
+                      SizedBox(width: 35),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 3;
+                            });
+                          },
+                          child: _erroranversotutor == true
+                              ? Image.asset('assets/icono-ine-anverso-rojo.png')
+                              : Image.asset('assets/icon-ine-anverso.png')),
+                      SizedBox(width: 35),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              ver_seccion = 4;
+                            });
+                          },
+                          child: _errorreversotutor == true
+                              ? Image.asset('assets/icono-ine-reverso-rojo.png')
+                              : Image.asset('assets/icon-ine-reverso.png')),
+                    ],
+                  ),
             SizedBox(
               height: 20,
             ),
@@ -2267,7 +2597,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   )
                 : (ver_seccion == 1)
                     ? Text(
-                        'Identificación Oficial (anverso)',
+                        int.parse(_edad) >= 18
+                            ? 'Identificación Oficial (anverso)'
+                            : 'Foto de Credencial Escolar (anverso) o CURP',
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 15,
@@ -2276,16 +2608,41 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               _erroranverso == true ? Colors.red : Colors.black,
                         ),
                       )
-                    : Text(
-                        'Identificación Oficial (reverso)',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              _errorreverso == true ? Colors.red : Colors.black,
-                        ),
-                      ),
+                    : (ver_seccion == 2)
+                        ? Text(
+                            'Identificación Oficial (reverso)',
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: _errorreverso == true
+                                  ? Colors.red
+                                  : Colors.black,
+                            ),
+                          )
+                        : (ver_seccion == 3)
+                            ? Text(
+                                'Identificación Oficial del Padre o Tutor (anverso)',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: _erroranversotutor == true
+                                      ? Colors.red
+                                      : Colors.black,
+                                ),
+                              )
+                            : Text(
+                                'Identificación Oficial del Padre o Tutor (reverso)',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: _errorreversotutor == true
+                                      ? Colors.red
+                                      : Colors.black,
+                                ),
+                              ),
             (ver_seccion == 0)
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -2382,40 +2739,114 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                           ),
                         ],
                       )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(height: 20),
-                          _path3 != null
-                              ? Image.file(
-                                  File(_path3!),
-                                  width: 200,
-                                  height: 200,
-                                )
-                              : Image.asset('assets/reverso.png'),
-                          Container(
-                            decoration: BoxDecoration(
-                                color:
-                                    Color(0xFFCFC8C8), // Color de fondo verde
-                                shape: BoxShape
-                                    .rectangle, // Forma del contenedor como un círculo
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: IconButton(
-                              onPressed: () async {
-                                _pickImageReverso(ImageSource.gallery);
-                              },
-                              icon: Image.asset(
-                                'assets/gallery.png', // Ruta de tu imagen
-                              ), // Icono que deseas mostrar
-                              iconSize: 50, // Tamaño del icono
-                              splashRadius: 20, // Radio del efecto splash
-                              tooltip:
-                                  'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                            ),
-                          ),
-                        ],
-                      ),
+                    : (ver_seccion == 2)
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(height: 20),
+                              _path3 != null
+                                  ? Image.file(
+                                      File(_path3!),
+                                      width: 200,
+                                      height: 200,
+                                    )
+                                  : Image.asset('assets/reverso.png'),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(
+                                        0xFFCFC8C8), // Color de fondo verde
+                                    shape: BoxShape
+                                        .rectangle, // Forma del contenedor como un círculo
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    _pickImageReverso(ImageSource.gallery);
+                                  },
+                                  icon: Image.asset(
+                                    'assets/gallery.png', // Ruta de tu imagen
+                                  ), // Icono que deseas mostrar
+                                  iconSize: 50, // Tamaño del icono
+                                  splashRadius: 20, // Radio del efecto splash
+                                  tooltip:
+                                      'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                ),
+                              ),
+                            ],
+                          )
+                        : (ver_seccion == 3)
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(height: 20),
+                                  _path4 != null
+                                      ? Image.file(
+                                          File(_path4!),
+                                          width: 200,
+                                          height: 200,
+                                        )
+                                      : Image.asset('assets/anverso.png'),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                            0xFFCFC8C8), // Color de fondo verde
+                                        shape: BoxShape
+                                            .rectangle, // Forma del contenedor como un círculo
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        _pickImageAnversoTutor(
+                                            ImageSource.gallery);
+                                      },
+                                      icon: Image.asset(
+                                        'assets/gallery.png', // Ruta de tu imagen
+                                      ), // Icono que deseas mostrar
+                                      iconSize: 50, // Tamaño del icono
+                                      splashRadius:
+                                          20, // Radio del efecto splash
+                                      tooltip:
+                                          'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(height: 20),
+                                  _path5 != null
+                                      ? Image.file(
+                                          File(_path5!),
+                                          width: 200,
+                                          height: 200,
+                                        )
+                                      : Image.asset('assets/anverso.png'),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                            0xFFCFC8C8), // Color de fondo verde
+                                        shape: BoxShape
+                                            .rectangle, // Forma del contenedor como un círculo
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        _pickImageReversoTutor(
+                                            ImageSource.gallery);
+                                      },
+                                      icon: Image.asset(
+                                        'assets/gallery.png', // Ruta de tu imagen
+                                      ), // Icono que deseas mostrar
+                                      iconSize: 50, // Tamaño del icono
+                                      splashRadius:
+                                          20, // Radio del efecto splash
+                                      tooltip:
+                                          'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                    ),
+                                  ),
+                                ],
+                              ),
             SizedBox(
               height: 20,
             ),
@@ -2471,12 +2902,149 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: 16.0), // Agrega relleno horizontal
                 tileColor: _erroraviso == true ? Colors.red : null),
+            int.parse(_edad) < 18
+                ? CheckboxListTile(
+                    value: _tratamiento_datos_menores,
+                    activeColor: Color(0xFF211A46),
+                    controlAffinity: ListTileControlAffinity
+                        .leading, // Establece el control (Checkbox) a la izquierda
+                    title: Text(
+                      'Consiento y autorizo la recolección y tratamiento de los datos personales generales de mi hijo o pupilo.',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _tratamiento_datos_menores = value!;
+                        if (_tratamiento_datos_menores == true) {
+                          _errortratamiento = false;
+                          muestraModalFirmaAutorizacion(context);
+                        } else {
+                          _errortratamiento = true;
+                        }
+                      });
+                    },
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.0), // Agrega relleno horizontal
+                    tileColor: _errortratamiento == true ? Colors.red : null)
+                : Text(''),
+            int.parse(_edad) < 18
+                ? CheckboxListTile(
+                    value: _uso_imagenes_menores,
+                    activeColor: Color(0xFF211A46),
+                    controlAffinity: ListTileControlAffinity
+                        .leading, // Establece el control (Checkbox) a la izquierda
+                    title: Text(
+                      'Consiento y autorizo el uso de la imagen de mi hijo o pupilo para las finalidades descritas en el presente aviso de privacidad (fines publicitarios).',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _uso_imagenes_menores = value!;
+                        if (_uso_imagenes_menores == true) {
+                          _errorusoimagenes = false;
+                          muestraModalFirmaImagen(context);
+                        } else {
+                          _errorusoimagenes = true;
+                        }
+                      });
+                    },
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.0), // Agrega relleno horizontal
+                    tileColor: _errorusoimagenes == true ? Colors.red : null)
+                : Text(''),
           ],
         ),
       ),
     );
   }
 
+  Widget buildButtons(BuildContext context) => Container(
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [buildCheck(context), buildClear()],
+        ),
+      );
+
+  Widget buildCheck(BuildContext context) => IconButton(
+        iconSize: 26,
+        icon: Icon(Icons.check, color: Colors.green),
+        onPressed: () async {
+          if (controller!.isNotEmpty) {
+            final signature = await () async {
+              final exportController = SignatureController(
+                penStrokeWidth: 2,
+                penColor: Colors.black,
+                exportBackgroundColor: Colors.white,
+                points: controller?.points,
+              );
+              final signatureBytes = await exportController
+                  .toPngBytes(); // Firma en formato de bytes
+              exportController.dispose();
+              return signatureBytes;
+            }();
+
+            if (signature != null) {
+              // Convertir los bytes a Base64
+              _fotofirma = base64Encode(signature);
+            }
+          }
+          Navigator.of(context).pop();
+        },
+      );
+  Widget buildClear() => IconButton(
+        iconSize: 26,
+        icon: Icon(Icons.clear, color: Colors.red),
+        onPressed: () => controller?.clear(),
+      );
+
+  Widget buildButtons2(BuildContext context) => Container(
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [buildCheck2(context), buildClear2()],
+        ),
+      );
+
+  Widget buildCheck2(BuildContext context) => IconButton(
+        iconSize: 26,
+        icon: Icon(Icons.check, color: Colors.green),
+        onPressed: () async {
+          if (controller2!.isNotEmpty) {
+            final signature2 = await () async {
+              final exportController2 = SignatureController(
+                penStrokeWidth: 2,
+                penColor: Colors.black,
+                exportBackgroundColor: Colors.white,
+                points: controller2?.points,
+              );
+              final signatureBytes2 = await exportController2
+                  .toPngBytes(); // Firma en formato de bytes
+              exportController2.dispose();
+              return signatureBytes2;
+            }();
+
+            if (signature2 != null) {
+              // Convertir los bytes a Base64
+              _fotofirma2 = base64Encode(signature2);
+            }
+          }
+          Navigator.of(context).pop();
+        },
+      );
+  Widget buildClear2() => IconButton(
+        iconSize: 26,
+        icon: Icon(Icons.clear, color: Colors.red),
+        onPressed: () => controller2?.clear(),
+      );
   // @override
   // void dispose() {
   //   _nameController.dispose();
