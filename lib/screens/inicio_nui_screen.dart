@@ -43,6 +43,8 @@ class _contenidoState extends State<contenido> {
   String username = 'intranet@amfpro.mx';
   String password = 'A1b2c3d4.';
   bool isLoading = false;
+  bool isLoading2 = false;
+  bool botonverde = false;
 
   @override
   void dispose() {
@@ -260,9 +262,18 @@ class _contenidoState extends State<contenido> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         onChanged: ((value) async {
+                          setState(() {
+                            isLoading2 = false; // Mostrar loading
+                          });
                           if (value.length == selectedLength) {
+                            setState(() {
+                              isLoading2 = true; // Mostrar loading
+                            });
                             await myProvider.sendData(value, ver, jugador);
-                            setState(() {});
+                            setState(() {
+                              botonverde = true;
+                              isLoading2 = false;
+                            });
                             if (myProvider2._vizualiza == false) {
                               showDialog(
                                 context: context,
@@ -291,6 +302,7 @@ class _contenidoState extends State<contenido> {
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                             pinController.text = "";
+                                            isLoading2 = false;
                                           },
                                           child: Icon(
                                             Icons.clear,
@@ -312,76 +324,107 @@ class _contenidoState extends State<contenido> {
                           }
                         }),
                       )),
-
+                  isLoading2
+                      ? Center(
+                          child: CircularProgressIndicator(
+                              color: Colors
+                                  .white), // Indicador de carga en el centro
+                        )
+                      : Column(
+                          children: [
+                            botonverde == true
+                                ? Visibility(
+                                    visible: myProvider2._vizualiza,
+                                    child: TextButton(
+                                      onPressed: isLoading
+                                          ? null
+                                          : _enviaCodigoVerificacion,
+                                      child: isLoading
+                                          ? SizedBox(
+                                              width: 20.0,
+                                              height: 20.0,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 3.0,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(Colors.white),
+                                              ),
+                                            )
+                                          : Text(
+                                              'ENVIAR CÓDIGO DE VERIFICACIÓN',
+                                              style: TextStyle(
+                                                color: Colors
+                                                    .white, // Color del texto del botón
+                                                fontSize:
+                                                    15.0, // Tamaño de fuente del texto del botón
+                                                overflow: TextOverflow
+                                                    .visible, // Permite que el texto se desborde
+                                              ),
+                                              softWrap:
+                                                  false, // Evitar que el texto se divida en varias líneas
+                                            ),
+                                      // child: const Text('Enviar código de verificacón.',
+                                      //     style: TextStyle(color: Colors.green, fontSize: 14)),
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.09,
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02,
+                                        ),
+                                        backgroundColor: Color(0xFF4FC028),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          side: BorderSide(color: Colors.green),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            botonverde == true
+                                ? Visibility(
+                                    visible: !myProvider2._vizualiza,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, 'registro_afiliado');
+                                      },
+                                      child: Text(
+                                        'Regístrate',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          vertical: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02,
+                                        ),
+                                        backgroundColor: Color(0xFF4FC028),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                          side: BorderSide(color: Colors.green),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                          ],
+                        )
                   // const SizedBox(height: 15),
-                  Visibility(
-                    visible: myProvider2._vizualiza,
-                    child: TextButton(
-                      onPressed: isLoading ? null : _enviaCodigoVerificacion,
-                      child: isLoading
-                          ? SizedBox(
-                              width: 20.0,
-                              height: 20.0,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3.0,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
-                              ),
-                            )
-                          : Text(
-                              'ENVIAR CÓDIGO DE VERIFICACIÓN',
-                              style: TextStyle(
-                                color:
-                                    Colors.white, // Color del texto del botón
-                                fontSize:
-                                    15.0, // Tamaño de fuente del texto del botón
-                                overflow: TextOverflow
-                                    .visible, // Permite que el texto se desborde
-                              ),
-                              softWrap:
-                                  false, // Evitar que el texto se divida en varias líneas
-                            ),
-                      // child: const Text('Enviar código de verificacón.',
-                      //     style: TextStyle(color: Colors.green, fontSize: 14)),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.09,
-                          vertical: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        backgroundColor: Color(0xFF4FC028),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          side: BorderSide(color: Colors.green),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: !myProvider2._vizualiza,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'registro_afiliado');
-                      },
-                      child: Text(
-                        'Regístrate',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.3,
-                          vertical: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        backgroundColor: Color(0xFF4FC028),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          side: BorderSide(color: Colors.green),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
