@@ -1,13 +1,15 @@
 import 'dart:typed_data';
-
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:splash_animated/services/notification_service.dart';
 //import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:intl/intl.dart';
-import 'dart:convert';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -899,6 +901,8 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       },
     );
   }
+
+  // Función que descarga el archivo y luego muestra el PDF
 
   @override
   Widget build(BuildContext context) {
@@ -2881,12 +2885,19 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 activeColor: Color(0xFF211A46),
                 controlAffinity: ListTileControlAffinity
                     .leading, // Establece el control (Checkbox) a la izquierda
-                title: Text(
-                  'Acepto Aviso de Privacidad y Política de Protección de Datos Personales.',
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
+                title: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _downloadAndShowPdf(context);
+                    });
+                  },
+                  child: Text(
+                    'Acepto Aviso de Privacidad y Política de Protección de Datos Personales.',
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.underline),
                   ),
                 ),
                 onChanged: (value) {
@@ -3053,4 +3064,103 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   //   _phoneController.dispose();
   //   super.dispose();
   // }
+}
+
+Future<void> _downloadAndShowPdf(BuildContext context) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // Evita que el usuario pueda cerrar el diálogo
+    builder: (BuildContext context) {
+      return Center(
+        child: CircularProgressIndicator(), // Indicador de carga circular
+      );
+    },
+  );
+  try {
+    // URL completa del archivo PDF
+    final url =
+        'https://amfpro.mx/intranet/public/pdf/AVISO-DE-PRIVACIDAD-INTEGRAL-2024.pdf';
+
+    // Obtén el directorio temporal para guardar el archivo
+    var dir = await getTemporaryDirectory();
+    String filePath =
+        '${dir.path}/AVISO-DE-PRIVACIDAD-INTEGRAL-2024.pdf'; // Ruta local donde se guardará el archivo
+
+    // Descarga el archivo
+    await Dio().download(url, filePath);
+    Navigator.of(context).pop(); // Cerrar la alerta al presionar el botón
+    // Muestra el PDF en el modal
+    muestraAvisoPrivacidad(context, filePath); // Pasa la ruta local del archivo
+  } catch (e) {
+    print('Error al descargar el archivo: $e');
+    // Muestra un mensaje de error si ocurre algún problema
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Error al abrir el archivo PDF')));
+  }
+}
+
+void muestraAvisoPrivacidad(BuildContext context, String localPdfPath) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      int _totalPages = 0;
+      int _currentPage = 0;
+      bool _showCloseButton = false;
+
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Dialog(
+            insetPadding: EdgeInsets
+                .zero, // Elimina el padding para que ocupe todo el espacio
+            child: Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context)
+                      .size
+                      .width, // Todo el ancho de la pantalla
+                  height: MediaQuery.of(context)
+                      .size
+                      .height, // Todo el alto de la pantalla
+                  child: PDFView(
+                    filePath: localPdfPath, // Usa la ruta local del archivo PDF
+                    enableSwipe: true,
+                    swipeHorizontal: false, // Desliza hacia abajo
+                    autoSpacing: false,
+                    pageFling: false,
+                    onError: (error) {
+                      print('Error al abrir el PDF: $error');
+                    },
+                    onRender: (_pages) {
+                      setState(() {
+                        _totalPages = _pages!;
+                      });
+                    },
+                    onPageChanged: (currentPage, totalPages) {
+                      setState(() {
+                        _currentPage = currentPage!;
+                        // Si el usuario está en la última página, mostramos el botón de cerrar
+                        _showCloseButton = _currentPage == _totalPages - 1;
+                      });
+                    },
+                    onViewCreated: (PDFViewController pdfViewController) {},
+                  ),
+                ),
+                if (_showCloseButton) // Si el botón debe mostrarse, lo añadimos sobre el PDF
+                  Positioned(
+                    bottom: 20,
+                    right: 20,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Cierra el modal
+                      },
+                      child: Text('Cerrar'),
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }
