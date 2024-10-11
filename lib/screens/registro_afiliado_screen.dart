@@ -730,8 +730,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? archivo = await picker.pickImage(
-        source: source,
-      );
+          source: source, preferredCameraDevice: CameraDevice.rear);
       if (archivo != null) {
         setState(() {
           _path = archivo.path;
@@ -750,8 +749,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     try {
       final ImagePicker picker2 = ImagePicker();
       final XFile? archivo2 = await picker2.pickImage(
-        source: source1,
-      );
+          source: source1, preferredCameraDevice: CameraDevice.rear);
       if (archivo2 != null) {
         setState(() {
           _path2 = archivo2.path;
@@ -770,8 +768,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     try {
       final ImagePicker picker3 = ImagePicker();
       final XFile? archivo3 = await picker3.pickImage(
-        source: source2,
-      );
+          source: source2, preferredCameraDevice: CameraDevice.rear);
       if (archivo3 != null) {
         setState(() {
           _path3 = archivo3.path;
@@ -790,8 +787,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     try {
       final ImagePicker picker4 = ImagePicker();
       final XFile? archivo4 = await picker4.pickImage(
-        source: source3,
-      );
+          source: source3, preferredCameraDevice: CameraDevice.rear);
       if (archivo4 != null) {
         setState(() {
           _path4 = archivo4.path;
@@ -810,8 +806,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     try {
       final ImagePicker picker5 = ImagePicker();
       final XFile? archivo5 = await picker5.pickImage(
-        source: source4,
-      );
+          source: source4, preferredCameraDevice: CameraDevice.rear);
       if (archivo5 != null) {
         setState(() {
           _path5 = archivo5.path;
@@ -2684,7 +2679,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               tooltip: 'Cargar imagen desde galería',
                             ),
                           ),
-                          /* SizedBox(width: 30),
+                          SizedBox(width: 30),
                           Container(
                             decoration: BoxDecoration(
                               color: Color(0xFFCFC8C8),
@@ -2694,7 +2689,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                             ),
                             child: IconButton(
                               onPressed: () async {
-                                _pickImageExpediente(ImageSource.camera);
+                                await _pickImageExpediente(ImageSource.camera);
                               },
                               icon: Image.asset(
                                 'assets/camara.png',
@@ -2703,7 +2698,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               splashRadius: 20,
                               tooltip: 'Cargar imagen desde cámara',
                             ),
-                          ), */
+                          ),
                         ],
                       ),
                     ],
@@ -2720,26 +2715,51 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                   height: 200,
                                 )
                               : Image.asset('assets/anverso.png'),
-                          Container(
-                            decoration: BoxDecoration(
-                                color:
-                                    Color(0xFFCFC8C8), // Color de fondo verde
-                                shape: BoxShape
-                                    .rectangle, // Forma del contenedor como un círculo
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: IconButton(
-                              onPressed: () async {
-                                _pickImageAnverso(ImageSource.gallery);
-                              },
-                              icon: Image.asset(
-                                'assets/gallery.png', // Ruta de tu imagen
-                              ), // Icono que deseas mostrar
-                              iconSize: 50, // Tamaño del icono
-                              splashRadius: 20, // Radio del efecto splash
-                              tooltip:
-                                  'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(
+                                        0xFF6EBC44), // Color de fondo verde
+                                    shape: BoxShape
+                                        .rectangle, // Forma del contenedor como un círculo
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    _pickImageAnverso(ImageSource.gallery);
+                                  },
+                                  icon: Image.asset(
+                                    'assets/gallery.png', // Ruta de tu imagen
+                                  ), // Icono que deseas mostrar
+                                  iconSize: 50, // Tamaño del icono
+                                  splashRadius: 20, // Radio del efecto splash
+                                  tooltip:
+                                      'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                ),
+                              ),
+                              SizedBox(width: 30),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFCFC8C8),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await _pickImageAnverso(ImageSource.camera);
+                                  },
+                                  icon: Image.asset(
+                                    'assets/camara.png',
+                                  ),
+                                  iconSize: 50,
+                                  splashRadius: 20,
+                                  tooltip: 'Cargar imagen desde cámara',
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       )
@@ -2755,26 +2775,53 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                       height: 200,
                                     )
                                   : Image.asset('assets/reverso.png'),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Color(
-                                        0xFFCFC8C8), // Color de fondo verde
-                                    shape: BoxShape
-                                        .rectangle, // Forma del contenedor como un círculo
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    _pickImageReverso(ImageSource.gallery);
-                                  },
-                                  icon: Image.asset(
-                                    'assets/gallery.png', // Ruta de tu imagen
-                                  ), // Icono que deseas mostrar
-                                  iconSize: 50, // Tamaño del icono
-                                  splashRadius: 20, // Radio del efecto splash
-                                  tooltip:
-                                      'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Color(
+                                            0xFF6EBC44), // Color de fondo verde
+                                        shape: BoxShape
+                                            .rectangle, // Forma del contenedor como un círculo
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        _pickImageReverso(ImageSource.gallery);
+                                      },
+                                      icon: Image.asset(
+                                        'assets/gallery.png', // Ruta de tu imagen
+                                      ), // Icono que deseas mostrar
+                                      iconSize: 50, // Tamaño del icono
+                                      splashRadius:
+                                          20, // Radio del efecto splash
+                                      tooltip:
+                                          'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFCFC8C8),
+                                      shape: BoxShape.rectangle,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        await _pickImageReverso(
+                                            ImageSource.camera);
+                                      },
+                                      icon: Image.asset(
+                                        'assets/camara.png',
+                                      ),
+                                      iconSize: 50,
+                                      splashRadius: 20,
+                                      tooltip: 'Cargar imagen desde cámara',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           )
@@ -2790,28 +2837,54 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                           height: 200,
                                         )
                                       : Image.asset('assets/anverso.png'),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Color(
-                                            0xFFCFC8C8), // Color de fondo verde
-                                        shape: BoxShape
-                                            .rectangle, // Forma del contenedor como un círculo
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        _pickImageAnversoTutor(
-                                            ImageSource.gallery);
-                                      },
-                                      icon: Image.asset(
-                                        'assets/gallery.png', // Ruta de tu imagen
-                                      ), // Icono que deseas mostrar
-                                      iconSize: 50, // Tamaño del icono
-                                      splashRadius:
-                                          20, // Radio del efecto splash
-                                      tooltip:
-                                          'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(
+                                                0xFF6EBC44), // Color de fondo verde
+                                            shape: BoxShape
+                                                .rectangle, // Forma del contenedor como un círculo
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            _pickImageAnversoTutor(
+                                                ImageSource.gallery);
+                                          },
+                                          icon: Image.asset(
+                                            'assets/gallery.png', // Ruta de tu imagen
+                                          ), // Icono que deseas mostrar
+                                          iconSize: 50, // Tamaño del icono
+                                          splashRadius:
+                                              20, // Radio del efecto splash
+                                          tooltip:
+                                              'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                        ),
+                                      ),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFCFC8C8),
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            await _pickImageAnversoTutor(
+                                                ImageSource.camera);
+                                          },
+                                          icon: Image.asset(
+                                            'assets/camara.png',
+                                          ),
+                                          iconSize: 50,
+                                          splashRadius: 20,
+                                          tooltip: 'Cargar imagen desde cámara',
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               )
@@ -2826,28 +2899,54 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                           height: 200,
                                         )
                                       : Image.asset('assets/anverso.png'),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Color(
-                                            0xFFCFC8C8), // Color de fondo verde
-                                        shape: BoxShape
-                                            .rectangle, // Forma del contenedor como un círculo
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        _pickImageReversoTutor(
-                                            ImageSource.gallery);
-                                      },
-                                      icon: Image.asset(
-                                        'assets/gallery.png', // Ruta de tu imagen
-                                      ), // Icono que deseas mostrar
-                                      iconSize: 50, // Tamaño del icono
-                                      splashRadius:
-                                          20, // Radio del efecto splash
-                                      tooltip:
-                                          'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(
+                                                0xFF6EBC44), // Color de fondo verde
+                                            shape: BoxShape
+                                                .rectangle, // Forma del contenedor como un círculo
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            _pickImageReversoTutor(
+                                                ImageSource.gallery);
+                                          },
+                                          icon: Image.asset(
+                                            'assets/gallery.png', // Ruta de tu imagen
+                                          ), // Icono que deseas mostrar
+                                          iconSize: 50, // Tamaño del icono
+                                          splashRadius:
+                                              20, // Radio del efecto splash
+                                          tooltip:
+                                              'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                        ),
+                                      ),
+                                      SizedBox(width: 30),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFFCFC8C8),
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            await _pickImageReversoTutor(
+                                                ImageSource.camera);
+                                          },
+                                          icon: Image.asset(
+                                            'assets/camara.png',
+                                          ),
+                                          iconSize: 50,
+                                          splashRadius: 20,
+                                          tooltip: 'Cargar imagen desde cámara',
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

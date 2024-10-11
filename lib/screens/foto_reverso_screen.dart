@@ -39,8 +39,7 @@ class _fotoReversoScreenState extends State<fotoReversoScreen> {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? archivo = await picker.pickImage(
-        source: source,
-      );
+          source: source, preferredCameraDevice: CameraDevice.rear);
       if (archivo != null) {
         _path = archivo.path;
         List<int> bytes = File(_path!).readAsBytesSync();
@@ -203,17 +202,17 @@ class _fotoReversoScreenState extends State<fotoReversoScreen> {
                       ),
                       value: 1000,
                     ),
-                    // PopupMenuItem(
-                    //   // padding: EdgeInsets.all(5),
-                    //   child: Text(
-                    //     "Hacer una foto nueva",
-                    //     style: TextStyle(fontFamily: 'Roboto', fontSize: 10),
-                    //   ),
-                    //   value: 1001,
-                    //   onTap: () async {
-                    //     _pickImageAnverso(ImageSource.camera);
-                    //   },
-                    // ),
+                    PopupMenuItem(
+                      // padding: EdgeInsets.all(5),
+                      child: Text(
+                        "Hacer una foto nueva",
+                        style: TextStyle(fontFamily: 'Roboto', fontSize: 10),
+                      ),
+                      value: 1001,
+                      onTap: () async {
+                        await _pickImageAnverso(ImageSource.camera);
+                      },
+                    ),
                     PopupMenuItem(
                       // padding: EdgeInsets.all(5),
                       child: Text(

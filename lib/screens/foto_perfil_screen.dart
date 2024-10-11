@@ -158,25 +158,25 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
                 tooltip: 'Cargar imagen desde galería',
               ),
             ),
-            // SizedBox(width: 30),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: Color(0xFF6D6F70),
-            //     shape: BoxShape.rectangle,
-            //     borderRadius: BorderRadius.all(Radius.circular(10)),
-            //   ),
-            //   child: IconButton(
-            //     onPressed: () async {
-            //       _pickImagePerfil(ImageSource.camera);
-            //     },
-            //     icon: Image.asset(
-            //       'assets/camara1.png',
-            //     ),
-            //     iconSize: 50,
-            //     splashRadius: 20,
-            //     tooltip: 'Cargar imagen desde cámara',
-            //   ),
-            // ),
+            SizedBox(width: 30),
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xFF6D6F70),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: IconButton(
+                onPressed: () async {
+                  await _pickImagePerfil(ImageSource.camera);
+                },
+                icon: Image.asset(
+                  'assets/camara1.png',
+                ),
+                iconSize: 50,
+                splashRadius: 20,
+                tooltip: 'Cargar imagen desde cámara',
+              ),
+            ),
           ],
         ),
       ],
@@ -266,8 +266,7 @@ class _fotoPerfilScreenState extends State<fotoPerfilScreen> {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? archivo = await picker.pickImage(
-        source: source,
-      );
+          source: source, preferredCameraDevice: CameraDevice.rear);
       if (archivo != null) {
         _path = archivo.path;
         List<int> bytes = await File(_path!).readAsBytesSync();
