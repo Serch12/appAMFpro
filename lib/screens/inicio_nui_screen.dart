@@ -165,11 +165,19 @@ class _contenidoState extends State<contenido> {
                     height: MediaQuery.of(context).size.height * 0.0,
                     child: Text(''),
                   ),
-                  const SizedBox(
+                  SizedBox(
                       // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
                       child: Text(
-                    'SELECCIONA LA CANTIDAD DE DÍGITOS DE TU NUI.',
+                    'SELECCIONA LA CANTIDAD',
                     style: TextStyle(fontSize: 14, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  )),
+                  SizedBox(
+                      // width: MediaQuery.of(context).size.width,//le decimmos que ocupe todo el ancho
+                      child: Text(
+                    'DE DÍGITOS DE TU NUI.',
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    textAlign: TextAlign.center,
                   )),
                   const SizedBox(height: 15),
                   Container(
