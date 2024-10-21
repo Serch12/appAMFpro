@@ -16,6 +16,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:signature/signature.dart';
 import 'dart:io';
 
+import 'package:flutter_country_state/flutter_country_state.dart';
+import 'package:flutter_country_state/state_screen.dart';
+import 'package:flutter_country_state/city_screen.dart';
+
+String selectedState = "";
+String selectedCity = "";
+String selectedCountry = "";
+
 class RegistroAfiliadoScreen extends StatefulWidget {
   @override
   _RegistroAfiliadoScreenState createState() => _RegistroAfiliadoScreenState();
@@ -25,7 +33,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   ScrollController _scrollController = ScrollController();
   final String _urlBase = 'test-intranet.amfpro.mx';
   bool existe_nui = false;
-  int _currentStep = 0;
+  int _currentStep = 1;
   int ver_seccion = 0;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -44,7 +52,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   bool _uso_imagenes_menores = false;
   final _curpController = TextEditingController();
   String _gradoEstudiosController = 'SELECCIONAR';
-  String _paisController = 'SELECCIONAR';
+  final _paisController = TextEditingController();
   final _estadoOrigenController = TextEditingController();
   final _estadoController = TextEditingController();
   final _ciudadController = TextEditingController();
@@ -196,7 +204,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       "apodo": _apodoController.text,
       "sexo": _sexo,
       "email": _emailController.text,
-      "nacionalidad": _paisController, // Obtener el texto del controlador
+      "nacionalidad": _paisController.text, // Obtener el texto del controlador
       "origen":
           _estadoOrigenController.text, // Obtener el texto del controlador
       "escolaridad":
@@ -1675,59 +1683,112 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               ),
             ),
             const SizedBox(height: 15),
+            // Material(
+            //   elevation: 7.0,
+            //   color: Colors.transparent,
+            //   shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+            //   borderRadius: BorderRadius.circular(16),
+            //   child: DropdownButtonFormField<String>(
+            //     value: _paisController,
+            //     items: countries.map((String country) {
+            //       return DropdownMenuItem<String>(
+            //         value: country,
+            //         child: Text(
+            //           country,
+            //           style: TextStyle(
+            //               fontFamily: 'Roboto',
+            //               fontSize: MediaQuery.of(context).size.width * 0.03),
+            //         ),
+            //       );
+            //     }).toList(),
+            //     onChanged: (value) {
+            //       setState(() {
+            //         _paisController = value!;
+            //         _errorMessage2 = (_paisController == 'SELECCIONAR')
+            //             ? 'Selecciona una país'
+            //             : null;
+            //       });
+            //     },
+            //     decoration: InputDecoration(
+            //       labelText: 'PAÍS*',
+            //       errorText: _errorMessage2,
+            //       labelStyle: TextStyle(
+            //           fontFamily: 'Roboto',
+            //           fontSize: MediaQuery.of(context).size.width * 0.04),
+            //       border: OutlineInputBorder(
+            //         borderSide: BorderSide(color: Colors.transparent),
+            //         borderRadius: BorderRadius.circular(14.0),
+            //       ),
+            //       enabledBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: Colors.transparent),
+            //         borderRadius: BorderRadius.circular(14.0),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: Colors.transparent),
+            //         borderRadius: BorderRadius.circular(14.0),
+            //       ),
+            //       filled: true,
+            //       fillColor: Colors.white,
+            //       contentPadding: EdgeInsets.symmetric(
+            //         vertical: MediaQuery.of(context).size.height *
+            //             0.018, // Ajusta el espaciado vertical según el ancho del dispositivo
+            //         horizontal: MediaQuery.of(context).size.width *
+            //             0.03, // Ajusta el espaciado horizontal según el ancho del dispositivo
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Material(
               elevation: 7.0,
               color: Colors.transparent,
               shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
               borderRadius: BorderRadius.circular(16),
-              child: DropdownButtonFormField<String>(
-                value: _paisController,
-                items: countries.map((String country) {
-                  return DropdownMenuItem<String>(
-                    value: country,
-                    child: Text(
-                      country,
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: MediaQuery.of(context).size.width * 0.03),
+              child: TextFormField(
+                readOnly: true, // Evita que el usuario escriba directamente
+                controller: _paisController,
+                decoration: buildInputDecoration('PAÍS*'),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Selecciona país de origen';
+                  }
+                  return null;
+                },
+                onTap: () {
+                  // Abrir el ShowCountryDialog cuando el campo es tocado
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    isDismissible: false,
+                    builder: (context) => SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.95,
+                      child: ShowCountryDialog(
+                        countryListTitle: 'Todos los países',
+                        searchHint:
+                            'Buscar país de origen', // Texto del campo de búsqueda
+                        substringBackground: Colors.green,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        countryHeaderStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                        searchStyle: const TextStyle(color: Colors.black),
+                        subStringStyle: const TextStyle(color: Colors.white),
+                        selectedCountryBackgroundColor: Colors.pink,
+                        notSelectedCountryBackgroundColor: Colors.white,
+                        onSelectCountry: () {
+                          _estadoOrigenController.text = '';
+                          setState(() {
+                            selectedCountry = Selected.country;
+                            if (selectedCountry == 'Mexico') {
+                              _paisController.text = 'México';
+                            } else {
+                              _paisController.text = selectedCountry;
+                            }
+                          });
+                        },
+                      ),
                     ),
                   );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _paisController = value!;
-                    _errorMessage2 = (_paisController == 'SELECCIONAR')
-                        ? 'Selecciona una país'
-                        : null;
-                  });
                 },
-                decoration: InputDecoration(
-                  labelText: 'PAÍS*',
-                  errorText: _errorMessage2,
-                  labelStyle: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: MediaQuery.of(context).size.width * 0.04),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(14.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(14.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(14.0),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height *
-                        0.018, // Ajusta el espaciado vertical según el ancho del dispositivo
-                    horizontal: MediaQuery.of(context).size.width *
-                        0.03, // Ajusta el espaciado horizontal según el ancho del dispositivo
-                  ),
-                ),
               ),
             ),
             const SizedBox(height: 15),
@@ -1737,19 +1798,45 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
               borderRadius: BorderRadius.circular(16),
               child: TextFormField(
+                readOnly: true, // Evita que el usuario escriba directamente
                 controller: _estadoOrigenController,
-                keyboardType: TextInputType.text,
                 decoration: buildInputDecoration('ESTADO DE ORIGEN*'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Ingresa tu Estado de origen';
+                    return 'Selecciona tu Estado de origen';
                   }
                   return null;
+                },
+                onTap: () {
+                  // Abrir el ShowCountryDialog cuando el campo es tocado
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    isDismissible: false,
+                    builder: (context) => SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.95,
+                      child: ShowStateDialog(
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w500),
+                        stateHeaderStyle: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                        subStringStyle: const TextStyle(color: Colors.white),
+                        substringBackground: Colors.green,
+                        selectedStateBackgroundColor: Colors.orange,
+                        notSelectedStateBackgroundColor: Colors.white,
+                        onSelectedState: () {
+                          setState(() {
+                            _estadoOrigenController.text = Selected.state;
+                          });
+                        },
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
             const SizedBox(height: 15),
-            if (_paisController == 'México')
+            if (_paisController.text == 'México')
               Material(
                 elevation: 7.0,
                 color: Colors.transparent,

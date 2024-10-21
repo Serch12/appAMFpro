@@ -478,6 +478,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.2"
+  flutter_country_state:
+    dependency: "direct main"
+    description:
+      name: flutter_country_state
+      sha256: "9b7661251ca6cf5a1f6f13c59ca55c9b9e48c806257d98a2c26b2c9c7f74cdad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_custom_clippers:
     dependency: "direct main"
     description:
