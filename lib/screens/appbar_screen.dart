@@ -3,6 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_animated/main.dart';
 import 'package:splash_animated/screens/screens.dart';
+import 'package:badges/badges.dart' as badges;
 
 // import '../main.dart';
 
@@ -21,12 +22,21 @@ class _MyAppBarState extends State<MyAppBar> {
       },
       child: Stack(
         children: [
-          IconButton(
-            icon: Icon(
+          badges.Badge(
+            badgeAnimation: badges.BadgeAnimation.size(),
+            badgeContent: Text(
+              '${provider.numeroNotificaciones.toString()}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            child: Icon(
               LineIcons.bell,
               color: Colors.white,
             ),
-            onPressed: () {
+            onTap: () {
               if (provider.notificaciones.isNotEmpty) {
                 // Al presionar el icono, muestra el menú desplegable
                 showMenu(
@@ -161,32 +171,6 @@ class _MyAppBarState extends State<MyAppBar> {
               }
             },
           ),
-          if (provider.numeroNotificaciones > 0)
-            Positioned(
-              right: 10.5,
-              top: 1,
-              height: 20,
-              child: Container(
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                constraints: BoxConstraints(
-                  minWidth: 16,
-                  minHeight: 16,
-                ),
-                child: Text(
-                  provider.numeroNotificaciones.toString(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
         ],
       ),
     );

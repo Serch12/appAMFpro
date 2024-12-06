@@ -1133,8 +1133,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                 _errorMessage = 'Selecciona una opción';
                               });
                             }
-
+                            print(_paisController);
                             if (_paisController == 'SELECCIONAR') {
+                              print(_paisController);
                               setState(() {
                                 _errorMessage2 = 'Selecciona una país';
                               });
@@ -1146,7 +1147,10 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               });
                             }
                             // Validar el formulario actual
-                            if (form != null && form.validate()) {
+                            if (form != null &&
+                                form.validate() &&
+                                _paisController != 'SELECCIONAR' &&
+                                _gradoEstudiosController != 'SELECCIONAR') {
                               // Si el formulario es válido, avanzar al siguiente paso
                               setState(() {
                                 _currentStep++;
@@ -1207,7 +1211,15 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                               });
                             }
                             // Validar el formulario actual
-                            if (form != null && form.validate()) {
+                            if (form != null &&
+                                form.validate() &&
+                                _division != 'SELECCIONAR' &&
+                                _equipo != 'SELECCIONAR' &&
+                                _categoria != 'SELECCIONAR' &&
+                                _posicion != 'SELECCIONAR' &&
+                                _seleccion != 'SELECCIONAR' &&
+                                _estatusDeportivo != 'SELECCIONAR' &&
+                                _exFutbolista != 'SELECCIONAR') {
                               // Si el formulario es válido, avanzar al siguiente paso
                               setState(() {
                                 _currentStep++;
@@ -1637,7 +1649,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                         style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
                   ),
                 ],
-                onChanged: (value) {
+                onChanged: (value) async {
                   setState(() {
                     if (value! == 'Femenino') {
                       _divisionPorSexo(value!);
@@ -1648,9 +1660,11 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                     }
 
                     _sexo = value;
+                    print(_sexo);
                     _errorMessage = (_sexo == 'SELECCIONAR')
                         ? 'Selecciona una opción'
                         : null;
+                    print("esto es sexo despues de validar: ${_sexo}");
                   });
                 },
                 decoration: InputDecoration(
