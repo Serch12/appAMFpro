@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:splash_animated/providers/push_notifications_provider.dart';
 import 'package:splash_animated/providers/twitter_provider.dart';
 import 'package:splash_animated/screens/screens.dart';
+import 'package:splash_animated/screens/validacion_informacion_screen.dart';
 import 'package:splash_animated/screens/verification_code_password_screen.dart';
 import 'package:splash_animated/screens/verification_code_screen.dart';
 import 'package:splash_animated/services/notification_service.dart';
@@ -181,6 +182,7 @@ class _MyAppState extends State<MyApp> {
               estatus: '',
               celular: '',
               telCasa: ''),
+          'validacion_gif': (_) => validacionGifScreen(),
           'foto_perfil': (_) => fotoPerfilScreen(id: '', nui: '', foto: ''),
           'foto_anverso': (_) => fotoAnversoScreen(id: '', nui: '', pdf: ''),
           'foto_reverso': (_) => fotoReversoScreen(id: '', nui: '', pdf2: ''),

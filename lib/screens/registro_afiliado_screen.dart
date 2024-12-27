@@ -147,7 +147,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     //validar si el login es correcto
     final String? mensajeError = await _auth.createAcount(
         _emailController.text, _passwordController.text);
-    print("Este es el mensaje al entrar del login: ${mensajeError}");
     if (mensajeError != null) {
       // Simula una espera de 3 segundos para demostración
       await Future.delayed(Duration(seconds: 3));
@@ -246,7 +245,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       'Accept': 'application/json',
       'Charset': 'utf-8'
     });
-
+    print("esto es resppuesta: ${response}");
     if (response.statusCode == 200) {
       // El usuario se registró exitosamente
       // ocultar el teclado
@@ -264,7 +263,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 SizedBox(width: 10.0), // Espacio entre el icono y el texto
                 Expanded(
                   child: Text(
-                    'Usuario registrado exitosamente',
+                    'Datos de afiliación registrados para validación',
                     style: TextStyle(color: Color(0xFF1AD598)),
                     overflow: TextOverflow.visible,
                     softWrap:
@@ -274,7 +273,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.pushReplacementNamed(context, 'homeroute');
+                      Navigator.pushReplacementNamed(context, 'validacion_gif');
                     },
                     child: Icon(
                       Icons.clear,
@@ -1182,11 +1181,13 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                 _errorMessage4 = 'Selecciona un equipo';
                               });
                             }
-
-                            if (_categoria == 'SELECCIONAR') {
-                              setState(() {
-                                _errorMessage5 = 'Selecciona una categoría';
-                              });
+                            if (_division == 'Liga MX' ||
+                                _division == 'Liga MX Femenil') {
+                              if (_categoria == 'SELECCIONAR') {
+                                setState(() {
+                                  _errorMessage5 = 'Selecciona una categoría';
+                                });
+                              }
                             }
 
                             if (_posicion == 'SELECCIONAR') {
@@ -1215,7 +1216,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                                 form.validate() &&
                                 _division != 'SELECCIONAR' &&
                                 _equipo != 'SELECCIONAR' &&
-                                _categoria != 'SELECCIONAR' &&
                                 _posicion != 'SELECCIONAR' &&
                                 _seleccion != 'SELECCIONAR' &&
                                 _estatusDeportivo != 'SELECCIONAR' &&
@@ -2283,6 +2283,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 onChanged: (value) {
                   setState(() {
                     _equipo = value!;
+                    print('esto vale equipo: ${_equipo}');
                     _errorMessage4 = (_equipo == 'SELECCIONAR')
                         ? 'Selecciona un equipo'
                         : null;
@@ -2327,6 +2328,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                       items: _buildDropdownItems(),
                       onChanged: (value) {
                         setState(() {
+                          print(_categoria);
                           _categoria = value!;
                           _errorMessage5 = (_categoria == 'SELECCIONAR')
                               ? 'Selecciona una categoría'
