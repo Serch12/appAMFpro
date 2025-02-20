@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'package:splash_animated/services/notification_service.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class InicioNuiScreen extends StatefulWidget {
   const InicioNuiScreen({Key? key}) : super(key: key);
@@ -124,8 +125,8 @@ class _contenidoState extends State<contenido> {
         if (_aceptartext == true) {
           try {
             final twilio = TwilioFlutter(
-              accountSid: 'AC4b5fea5f68d38c49c1ebeabbaca75795',
-              authToken: 'c5967971fcecaeca2cdc9508f01f5311',
+              accountSid: dotenv.env['TWILIO_ACCOUNT_SID'] ?? '',
+              authToken: dotenv.env['TWILIO_AUTH_TOKEN'] ?? '',
               twilioNumber: '+525596616798',
             );
 
