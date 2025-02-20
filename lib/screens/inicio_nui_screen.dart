@@ -11,6 +11,8 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
+import 'package:splash_animated/services/notification_service.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
 
 class InicioNuiScreen extends StatefulWidget {
   const InicioNuiScreen({Key? key}) : super(key: key);
@@ -45,6 +47,8 @@ class _contenidoState extends State<contenido> {
   bool isLoading = false;
   bool isLoading2 = false;
   bool botonverde = false;
+  bool? _aceptarmail = false;
+  bool? _aceptartext = false;
 
   @override
   void dispose() {
@@ -65,34 +69,38 @@ class _contenidoState extends State<contenido> {
     dynamic jugador = [];
 
     Future<void> _enviaCodigoVerificacion() async {
-      setState(() {
-        isLoading = true; // Activar el indicador de carga
-      });
-      // Navigator.pushReplacementNamed(
-      //     context, 'verification_code_screen');
+      if (_aceptarmail == false && _aceptartext == false) {
+        NotificationsService.showSnackBar('¡Debes seleccionar una opción!');
+      } else {
+        setState(() {
+          isLoading = true; // Activar el indicador de carga
+        });
+        // Navigator.pushReplacementNamed(
+        //     context, 'verification_code_screen');
 
-      Random random = Random();
-      int code1 = random.nextInt(900000) +
-          100000; // Generar un número aleatorio de 6 dígitos
-      final code = code1.toString();
-      // String cuerpo = 'Tu código de verificación es: $code';
-      // List<String> recipients = ['+527293641178'];
-      // sendSMS(message: cuerpo, recipients: recipients);
-      // print('SMS enviado exitosamente');
+        Random random = Random();
+        int code1 = random.nextInt(900000) +
+            100000; // Generar un número aleatorio de 6 dígitos
+        final code = code1.toString();
+        // String cuerpo = 'Tu código de verificación es: $code';
+        // List<String> recipients = ['+527293641178'];
+        // sendSMS(message: cuerpo, recipients: recipients);
+        // print('SMS enviado exitosamente');
 
-      final smtpServer = SmtpServer('smtp.hostinger.com',
-          username: username,
-          password: password,
-          port: 465,
-          ssl:
-              true // Puerto del servidor SMTP (puede variar según el proveedor)
-          ); // Utiliza SSL/TLS si es necesario (puede variar según el proveedor)
+        if (_aceptarmail == true) {
+          final smtpServer = SmtpServer('smtp.hostinger.com',
+              username: username,
+              password: password,
+              port: 465,
+              ssl:
+                  true // Puerto del servidor SMTP (puede variar según el proveedor)
+              ); // Utiliza SSL/TLS si es necesario (puede variar según el proveedor)
 
-      final message = Message()
-        ..from = Address(username)
-        ..recipients.add(myProvider2._jugador["data"]["mail"])
-        ..subject = 'Código de verificación'
-        ..html = '''
+          final message = Message()
+            ..from = Address(username)
+            ..recipients.add(myProvider2._jugador["data"]["mail"])
+            ..subject = 'Código de verificación'
+            ..html = '''
                 <html>
                   <body>
                     <p>Tu código de verificación es:</p>
@@ -100,21 +108,48 @@ class _contenidoState extends State<contenido> {
                   </body>
                 </html>
               ''';
-      try {
-        final sendReport = await send(message, smtpServer);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VerificationCodeScreen(
-                value: myProvider2._jugador, codigo: code1),
-          ),
-        );
-      } catch (e) {
-        print('Error al enviar el correo electrónico: $e');
+          try {
+            final sendReport = await send(message, smtpServer);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VerificationCodeScreen(
+                    value: myProvider2._jugador, codigo: code1),
+              ),
+            );
+          } catch (e) {
+            print('Error al enviar el correo electrónico: $e');
+          }
+        }
+        if (_aceptartext == true) {
+          try {
+            final twilio = TwilioFlutter(
+              accountSid: 'AC4b5fea5f68d38c49c1ebeabbaca75795',
+              authToken: 'c5967971fcecaeca2cdc9508f01f5311',
+              twilioNumber: '+525596616798',
+            );
+
+            await twilio.sendSMS(
+              toNumber:
+                  '+52${myProvider2._jugador["data"]["celular"]}', // Número de destino
+              messageBody: 'Tu codigo de verificación es: ${code}',
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VerificationCodeScreen(
+                    value: myProvider2._jugador, codigo: code1),
+              ),
+            );
+          } catch (e) {
+            print('Error al enviar el mensaje: $e');
+          }
+        }
+
+        setState(() {
+          isLoading = false; // Activar el indicador de carga
+        });
       }
-      setState(() {
-        isLoading = false; // Activar el indicador de carga
-      });
     }
 
     Future<void> actualizaLongitud(int? value) async {
@@ -272,6 +307,8 @@ class _contenidoState extends State<contenido> {
                         onChanged: ((value) async {
                           setState(() {
                             isLoading2 = false; // Mostrar loading
+                            _aceptarmail = false;
+                            _aceptartext = false;
                           });
                           if (value.length == selectedLength) {
                             setState(() {
@@ -283,51 +320,56 @@ class _contenidoState extends State<contenido> {
                               isLoading2 = false;
                             });
                             if (myProvider2._vizualiza == false) {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.cancel,
-                                          color: Colors.red,
-                                        ),
-                                        SizedBox(width: 10.0),
-                                        Flexible(
-                                          child: Text(
-                                            'NUI no registrado en AMFpro.',
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                            ),
-                                            overflow: TextOverflow.visible,
-                                            softWrap:
-                                                true, // Permite que el texto se desborde
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            pinController.text = "";
-                                            isLoading2 = false;
-                                          },
-                                          child: Icon(
-                                            Icons.clear,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        15.0, 10.0, 0.0, 0.0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    actions: [],
-                                  );
-                                },
-                              );
+                              NotificationsService.showSnackBar(
+                                  'NUI no registrado en AMFpro. ¡Registrate!');
+                              // Navigator.of(context).pop();
+                              pinController.text = "";
+                              isLoading2 = false;
+                              // showDialog(
+                              //   context: context,
+                              //   barrierDismissible: false,
+                              //   builder: (BuildContext context) {
+                              //     return AlertDialog(
+                              //       content: Row(
+                              //         children: [
+                              //           Icon(
+                              //             Icons.cancel,
+                              //             color: Colors.red,
+                              //           ),
+                              //           SizedBox(width: 10.0),
+                              //           Flexible(
+                              //             child: Text(
+                              //               'NUI no registrado en AMFpro.',
+                              //               style: TextStyle(
+                              //                 color: Colors.red,
+                              //               ),
+                              //               overflow: TextOverflow.visible,
+                              //               softWrap:
+                              //                   true, // Permite que el texto se desborde
+                              //             ),
+                              //           ),
+                              //           TextButton(
+                              //             onPressed: () {
+                              //               Navigator.of(context).pop();
+                              //               pinController.text = "";
+                              //               isLoading2 = false;
+                              //             },
+                              //             child: Icon(
+                              //               Icons.clear,
+                              //               color: Colors.black,
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //       contentPadding: EdgeInsets.fromLTRB(
+                              //           15.0, 10.0, 0.0, 0.0),
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius: BorderRadius.circular(10.0),
+                              //       ),
+                              //       actions: [],
+                              //     );
+                              //   },
+                              // );
                             }
                           }
                         }),
@@ -343,54 +385,151 @@ class _contenidoState extends State<contenido> {
                             botonverde == true
                                 ? Visibility(
                                     visible: myProvider2._vizualiza,
-                                    child: TextButton(
-                                      onPressed: isLoading
-                                          ? null
-                                          : _enviaCodigoVerificacion,
-                                      child: isLoading
-                                          ? SizedBox(
-                                              width: 20.0,
-                                              height: 20.0,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 3.0,
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(Colors.white),
-                                              ),
-                                            )
-                                          : Text(
-                                              'ENVIAR CÓDIGO DE VERIFICACIÓN',
-                                              style: TextStyle(
-                                                color: Colors
-                                                    .white, // Color del texto del botón
-                                                fontSize:
-                                                    15.0, // Tamaño de fuente del texto del botón
-                                                overflow: TextOverflow
-                                                    .visible, // Permite que el texto se desborde
-                                              ),
-                                              softWrap:
-                                                  false, // Evitar que el texto se divida en varias líneas
-                                            ),
-                                      // child: const Text('Enviar código de verificacón.',
-                                      //     style: TextStyle(color: Colors.green, fontSize: 14)),
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.09,
-                                          vertical: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.02,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                  'assets/message_mail.png'),
+                                              SizedBox(width: 50),
+                                              Image.asset(
+                                                  'assets/message_text.png'),
+                                            ],
+                                          ),
                                         ),
-                                        backgroundColor: Color(0xFF4FC028),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          side: BorderSide(color: Colors.green),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                child: CheckboxListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                          left: 117),
+                                                  value: _aceptarmail,
+                                                  activeColor:
+                                                      Color(0xFF211A46),
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .leading, // Establece el control (Checkbox) a la izquierda
+
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      _aceptarmail = value!;
+                                                      _aceptartext = false;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                              // SizedBox(width: 50),
+                                              Expanded(
+                                                child: CheckboxListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.only(left: 37),
+                                                  value: _aceptartext,
+                                                  activeColor:
+                                                      Color(0xFF211A46),
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .leading, // Establece el control (Checkbox) a la izquierda
+
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      _aceptartext = value!;
+                                                      _aceptarmail = false;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
+                                        Container(
+                                          child: Center(
+                                            child: _aceptarmail == true
+                                                ? Text(
+                                                    formatEmail(myProvider2
+                                                            ._jugador["data"]
+                                                        ["mail"]),
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  )
+                                                : _aceptartext == true
+                                                    ? Text(
+                                                        '...${myProvider2._jugador["data"]["celular"].toString().substring(myProvider2._jugador["data"]["celular"].toString().length - 4)}',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white))
+                                                    : Text(''),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        _aceptarmail == true ||
+                                                _aceptartext == true
+                                            ? TextButton(
+                                                onPressed: isLoading
+                                                    ? null
+                                                    : _enviaCodigoVerificacion,
+                                                child: isLoading
+                                                    ? SizedBox(
+                                                        width: 20.0,
+                                                        height: 20.0,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          strokeWidth: 3.0,
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  Colors.white),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        'ENVIAR CÓDIGO DE VERIFICACIÓN',
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .white, // Color del texto del botón
+                                                          fontSize:
+                                                              15.0, // Tamaño de fuente del texto del botón
+                                                          overflow: TextOverflow
+                                                              .visible, // Permite que el texto se desborde
+                                                        ),
+                                                        softWrap:
+                                                            false, // Evitar que el texto se divida en varias líneas
+                                                      ),
+                                                // child: const Text('Enviar código de verificacón.',
+                                                //     style: TextStyle(color: Colors.green, fontSize: 14)),
+                                                style: TextButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.09,
+                                                    vertical:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.02,
+                                                  ),
+                                                  backgroundColor:
+                                                      Color(0xFF4FC028),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                    side: BorderSide(
+                                                        color: Colors.green),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(),
+                                      ],
                                     ),
                                   )
                                 : Container(),
@@ -472,4 +611,18 @@ class MyProvider with ChangeNotifier {
   }
 
   // }
+}
+
+String formatEmail(String email) {
+  if (!email.contains('@')) return email; // Verifica si es un email válido.
+
+  final splitEmail = email.split('@');
+  final username = splitEmail[0];
+  final domain = splitEmail[1];
+
+  // Asegúrate de que el nombre de usuario tenga al menos 2 caracteres.
+  final formattedUsername =
+      username.length > 4 ? '${username.substring(0, 4)}...' : '$username...';
+
+  return '$formattedUsername@$domain';
 }
