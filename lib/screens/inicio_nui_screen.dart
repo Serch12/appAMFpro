@@ -407,43 +407,60 @@ class _contenidoState extends State<contenido> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Expanded(
-                                                child: CheckboxListTile(
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                          left: 117),
-                                                  value: _aceptarmail,
-                                                  activeColor:
-                                                      Color(0xFF211A46),
-                                                  controlAffinity:
-                                                      ListTileControlAffinity
-                                                          .leading, // Establece el control (Checkbox) a la izquierda
+                                                child: Theme(
+                                                  data: ThemeData(
+                                                      checkboxTheme:
+                                                          CheckboxThemeData(
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .white))),
+                                                  child: CheckboxListTile(
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 135),
+                                                    value: _aceptarmail,
+                                                    activeColor:
+                                                        Color(0xFF4FC028),
+                                                    controlAffinity:
+                                                        ListTileControlAffinity
+                                                            .leading, // Establece el control (Checkbox) a la izquierda
 
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      _aceptarmail = value!;
-                                                      _aceptartext = false;
-                                                    });
-                                                  },
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _aceptarmail = value!;
+                                                        _aceptartext = false;
+                                                      });
+                                                    },
+                                                  ),
                                                 ),
                                               ),
                                               // SizedBox(width: 50),
                                               Expanded(
-                                                child: CheckboxListTile(
-                                                  contentPadding:
-                                                      EdgeInsets.only(left: 37),
-                                                  value: _aceptartext,
-                                                  activeColor:
-                                                      Color(0xFF211A46),
-                                                  controlAffinity:
-                                                      ListTileControlAffinity
-                                                          .leading, // Establece el control (Checkbox) a la izquierda
+                                                child: Theme(
+                                                  data: ThemeData(
+                                                      checkboxTheme:
+                                                          CheckboxThemeData(
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .white))),
+                                                  child: CheckboxListTile(
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            left: 37),
+                                                    value: _aceptartext,
+                                                    activeColor:
+                                                        Color(0xFF4FC028),
+                                                    controlAffinity:
+                                                        ListTileControlAffinity
+                                                            .leading, // Establece el control (Checkbox) a la izquierda
 
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      _aceptartext = value!;
-                                                      _aceptarmail = false;
-                                                    });
-                                                  },
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _aceptartext = value!;
+                                                        _aceptarmail = false;
+                                                      });
+                                                    },
+                                                  ),
                                                 ),
                                               ),
                                             ],

@@ -2099,13 +2099,13 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               child: TextFormField(
                 controller: _telCasaController,
                 keyboardType: TextInputType.phone,
-                decoration: buildInputDecoration('TELÉFONO CASA*'),
+                decoration: buildInputDecoration('TELÉFONO CASA'),
                 validator: (value) {
-                  if (value?.length != 10) {
-                    return 'Debe contener 10 dígitos';
-                  }
-                  if (value!.isEmpty) {
-                    return 'Ingresa tu número de casa';
+                  if (value != null && value.isNotEmpty) {
+                    // Solo valida si hay contenido
+                    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                      return 'Debe contener 10 dígitos';
+                    }
                   }
                   return null;
                 },
