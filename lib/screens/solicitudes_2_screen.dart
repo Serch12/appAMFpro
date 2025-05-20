@@ -237,7 +237,7 @@ class _Solicitudes2ScreenState extends State<Solicitudes2Screen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.value['tipo_solicitud'],
+                              Text(widget.value['tipo_solicitud'] ?? '',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize:

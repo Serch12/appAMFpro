@@ -36,3 +36,4 @@ export 'package:splash_animated/screens/circular_stepper_screen.dart';
 export 'package:splash_animated/screens/circular_dos_screen.dart';
 export 'package:splash_animated/screens/detalle_lesiones_screen.dart';
 export 'package:splash_animated/screens/validacion_informacion_screen.dart';
+export 'package:splash_animated/screens/chatbot_screen.dart';

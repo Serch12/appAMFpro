@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:splash_animated/event.dart';
 import 'package:splash_animated/screens/appbar_screen.dart';
 import 'package:splash_animated/screens/screens.dart';
+import 'package:splash_animated/services/dialogflow_service.dart';
 // import 'package:splash_animated/providers/twitter_provider.dart';
 // import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
@@ -13,6 +14,8 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../services/dialogflow_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> lista_eventos = [];
   dynamic jugador = [];
   int? id_afi;
+  String? nombre;
+  String? division;
+  String? club;
+  int? foto_perfil;
   String? _token = '';
   Map<DateTime, List<CleanCalendarEvent>> _events2 = {};
 
@@ -46,7 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
       _token = value;
     });
     _selectedDay = _focusedDay;
-    obtenerEventos();
+
+    // obtenerEventos();
+
     // _events2 = {
     //   DateTime.utc(2024, 9, 18): [
     //     CleanCalendarEvent(
@@ -94,41 +103,41 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void obtenerEventos() async {
-    final url5 = Uri.http(_urlBase, '/api/lista-eventos');
-    final respuesta5 = await http.get(url5);
-    if (mounted) {
-      setState(() {
-        lista_eventos =
-            List<Map<String, dynamic>>.from(json.decode(respuesta5.body));
-      });
-    }
-    for (var event in lista_eventos) {
-      // Parsear la fecha del evento
-      DateTime eventDate = DateTime.parse(event['fecha']);
+  // void obtenerEventos() async {
+  //   final url5 = Uri.http(_urlBase, '/api/lista-eventos');
+  //   final respuesta5 = await http.get(url5);
+  //   if (mounted) {
+  //     setState(() {
+  //       lista_eventos =
+  //           List<Map<String, dynamic>>.from(json.decode(respuesta5.body));
+  //     });
+  //   }
+  //   for (var event in lista_eventos) {
+  //     // Parsear la fecha del evento
+  //     DateTime eventDate = DateTime.parse(event['fecha']);
 
-      // Extraer solo el año, mes y día y convertir a UTC para que todas las fechas sean iguales
-      DateTime eventDateUtc =
-          DateTime.utc(eventDate.year, eventDate.month, eventDate.day);
+  //     // Extraer solo el año, mes y día y convertir a UTC para que todas las fechas sean iguales
+  //     DateTime eventDateUtc =
+  //         DateTime.utc(eventDate.year, eventDate.month, eventDate.day);
 
-      // Crear el CleanCalendarEvent
-      CleanCalendarEvent calendarEvent = CleanCalendarEvent(
-        title: event['titulo'],
-        startTime:
-            eventDate, // Puedes ajustar el startTime si tienes información de la hora
-        endTime: eventDate, // Igual aquí para el endTime
-        description: event['descripcion'],
-        color: Color(0xFF6EBC44),
-        // Asignar color basado en el estatus
-      );
+  //     // Crear el CleanCalendarEvent
+  //     CleanCalendarEvent calendarEvent = CleanCalendarEvent(
+  //       title: event['titulo'],
+  //       startTime:
+  //           eventDate, // Puedes ajustar el startTime si tienes información de la hora
+  //       endTime: eventDate, // Igual aquí para el endTime
+  //       description: event['descripcion'],
+  //       color: Color(0xFF6EBC44),
+  //       // Asignar color basado en el estatus
+  //     );
 
-      // Agregar el evento al mapa usando solo la fecha sin la hora como clave
-      if (_events2[eventDateUtc] == null) {
-        _events2[eventDateUtc] = [];
-      }
-      _events2[eventDateUtc]!.add(calendarEvent);
-    }
-  }
+  //     // Agregar el evento al mapa usando solo la fecha sin la hora como clave
+  //     if (_events2[eventDateUtc] == null) {
+  //       _events2[eventDateUtc] = [];
+  //     }
+  //     _events2[eventDateUtc]!.add(calendarEvent);
+  //   }
+  // }
 
   void obtenerDatosDeAPI(String userEmail) async {
     final url = Uri.http(_urlBase, '/api/datos-afiliados/correo/$userEmail');
@@ -137,6 +146,9 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         jugador = json.decode(respuesta.body);
         id_afi = jugador['data']['id'];
+        nombre = jugador['data']['nombre'];
+        division = jugador['data']['division'];
+        club = jugador['data']['club'];
         consultarTokenExiste(id_afi);
       });
     }
@@ -157,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
             List<Map<String, dynamic>>.from(json.decode(respuesta.body));
       });
     }
+    print(lista_publicaciones);
   }
 
   void obtenerDatosDeAPIComunicados() async {
@@ -183,9 +196,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future<DialogflowService> iniciaDialog() async {
+      DialogflowAuth auth = DialogflowAuth();
+      await auth.loadCredentials();
+      String accessToken = await auth.getAccessToken();
+      return DialogflowService(
+          projectId: auth.projectId,
+          accessToken: accessToken,
+          idAfiliado: id_afi.toString());
+    }
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     DialogflowService? dialogflow = await iniciaDialog();
+      //     if (dialogflow != null) {
+      //       Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => chatBotScreen(
+      //               dialogflow: dialogflow,
+      //               nombre: nombre,
+      //               division: division,
+      //               club: club,
+      //               id_afiliado: id_afi),
+      //         ),
+      //       );
+      //     } else {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         SnackBar(content: Text('Error al inicializar el chatbot')),
+      //       );
+      //     }
+      //   },
+      //   child: Image.asset('assets/avatar_bot5.png'),
+      //   backgroundColor: Color(0xFF4FC028),
+      // ),
       appBar: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
@@ -259,6 +306,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: NetworkImage(
                             'http://amfpro.mx/intranet/public/ArchivosSistema/PostApp/${lista_publicaciones[index]['archivo']}'),
                         // AssetImage("assets/Mask.png"),
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image.asset('assets/no-image.jpg',
+                              fit: BoxFit.cover);
+                        },
                         fit: BoxFit.fill,
                       ),
                     );
@@ -386,89 +437,89 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 15,
           ),
-          Container(
-            width: double.infinity,
-            height: size.height * 0.35,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                    child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: lista.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        // Aquí manejas la navegación a la otra pantalla
-                        // Puedes usar Navigator para navegar a la nueva ruta
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                detallePostScreen(value: lista[index]),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: size.width *
-                            0.65, // El 80% del ancho de la pantalla
-                        height: size.height *
-                            0.7, // El 60% de la altura de la pantalla
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Hero(
-                              tag: lista[index]['id_p'],
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: FadeInImage(
-                                    placeholder:
-                                        AssetImage('assets/no-image.jpg'),
-                                    image: NetworkImage(
-                                      'http://amfpro.mx/intranet/public/ArchivosSistema/Post/${lista[index]['imagen_p']}',
-                                    ),
-                                    width: MediaQuery.of(context).size.width *
-                                        0.9, // Ancho deseado
-                                    height: 150, // Altura deseada
-                                    fit: BoxFit.fill
-                                    // AssetImage('assets/ejemplo2.jpg'),
-                                    ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 2,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width *
-                                  0.9, // Ancho deseado
-                              child: Text(
-                                lista[index]['titulo'],
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.03),
-                              ),
-                            ),
-                            Text(
-                              lista[index]['fecha'],
-                              style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.03),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ))
-              ],
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   height: size.height * 0.35,
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Expanded(
+          //           child: ListView.builder(
+          //         scrollDirection: Axis.horizontal,
+          //         itemCount: lista.length,
+          //         itemBuilder: (context, index) {
+          //           return GestureDetector(
+          //             onTap: () {
+          //               // Aquí manejas la navegación a la otra pantalla
+          //               // Puedes usar Navigator para navegar a la nueva ruta
+          //               Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                   builder: (context) =>
+          //                       detallePostScreen(value: lista[index]),
+          //                 ),
+          //               );
+          //             },
+          //             child: Container(
+          //               width: size.width *
+          //                   0.65, // El 80% del ancho de la pantalla
+          //               height: size.height *
+          //                   0.7, // El 60% de la altura de la pantalla
+          //               margin:
+          //                   EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          //               child: Column(
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 children: [
+          //                   Hero(
+          //                     tag: lista[index]['id_p'],
+          //                     child: ClipRRect(
+          //                       borderRadius: BorderRadius.circular(20),
+          //                       child: FadeInImage(
+          //                           placeholder:
+          //                               AssetImage('assets/no-image.jpg'),
+          //                           image: NetworkImage(
+          //                             'http://amfpro.mx/intranet/public/ArchivosSistema/Post/${lista[index]['imagen_p']}',
+          //                           ),
+          //                           width: MediaQuery.of(context).size.width *
+          //                               0.9, // Ancho deseado
+          //                           height: 150, // Altura deseada
+          //                           fit: BoxFit.fill
+          //                           // AssetImage('assets/ejemplo2.jpg'),
+          //                           ),
+          //                     ),
+          //                   ),
+          //                   SizedBox(
+          //                     height: 2,
+          //                   ),
+          //                   Container(
+          //                     width: MediaQuery.of(context).size.width *
+          //                         0.9, // Ancho deseado
+          //                     child: Text(
+          //                       lista[index]['titulo'],
+          //                       style: TextStyle(
+          //                           fontFamily: 'Roboto',
+          //                           fontWeight: FontWeight.bold,
+          //                           fontSize:
+          //                               MediaQuery.of(context).size.width *
+          //                                   0.03),
+          //                     ),
+          //                   ),
+          //                   Text(
+          //                     lista[index]['fecha'],
+          //                     style: TextStyle(
+          //                         fontFamily: 'Roboto',
+          //                         fontSize:
+          //                             MediaQuery.of(context).size.width * 0.03),
+          //                   )
+          //                 ],
+          //               ),
+          //             ),
+          //           );
+          //         },
+          //       ))
+          //     ],
+          //   ),
+          // ),
         ],
       )),
     );

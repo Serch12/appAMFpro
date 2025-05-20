@@ -43,7 +43,7 @@ class _NavegadorBarState extends State<NavegadorBar> {
       child: SafeArea(
         child: CurvedNavigationBar(
           index: _index, // Establece el índice inicial aquí
-          height: MediaQuery.of(context).size.height * 0.07,
+          height: MediaQuery.of(context).size.height * 0.06,
           items: <Widget>[
             _buildIcon(LineIcons.home, 0),
             //_buildIcon(LineIcons.running, 1),
@@ -81,7 +81,7 @@ class _NavegadorBarState extends State<NavegadorBar> {
       padding: EdgeInsets.all(10),
       child: Icon(
         iconData,
-        size: 30,
+        size: 25,
         color: _index == index ? Color(0xFF6EBC44) : Colors.black,
       ),
     );

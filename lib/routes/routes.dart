@@ -10,8 +10,8 @@ class Routes extends StatelessWidget {
     List<Widget> myList = [
       HomeScreen(),
       //CircularStepperDemo(),
+
       SolicitudesScreen(),
-      // ListaSolicitudesScreen(),
       ProfileScreen(),
       // SolicitudesScreen(),
       // const Solicitudes2Screen(),

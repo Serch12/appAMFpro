@@ -83,6 +83,13 @@ class _SolicitudesScreenState extends State<SolicitudesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.pushReplacementNamed(context, 'chatbot');
+        //   },
+        //   child: Image.asset('assets/avatar_bot5.png'),
+        //   backgroundColor: Color(0xFF4FC028),
+        // ),
         appBar: AppBar(
             automaticallyImplyLeading: false,
             elevation: 0,

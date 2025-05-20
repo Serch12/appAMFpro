@@ -34,6 +34,9 @@ class editProfileScreen extends StatefulWidget {
   final cp;
   final celular;
   final telCasa;
+  final seleccion;
+  final tipo_seleccion;
+  final categoria;
   const editProfileScreen(
       {super.key,
       this.id,
@@ -57,7 +60,10 @@ class editProfileScreen extends StatefulWidget {
       this.ciudad,
       this.cp,
       this.celular,
-      this.telCasa});
+      this.telCasa,
+      this.seleccion,
+      this.tipo_seleccion,
+      this.categoria});
 
   @override
   State<editProfileScreen> createState() => _editProfileScreenState();
@@ -87,12 +93,13 @@ class _editProfileScreenState extends State<editProfileScreen> {
   late TextEditingController editcp;
   late TextEditingController editcelular;
   late TextEditingController edittelCasa;
+  late String? seleccion;
+  late String? tipo_seleccion;
+  late String? categoria;
   // Define las etiquetas de las pestañas
   final List<Tab> tabs = <Tab>[
     const Tab(text: 'Inf. Personal'),
-    const Tab(text: 'Domicilio'),
-    const Tab(text: 'Inf. Deportiva'),
-    const Tab(text: 'Contacto'),
+    const Tab(text: 'Inf. Deportiva')
     // Agrega más pestañas si es necesario
   ];
 
@@ -121,6 +128,22 @@ class _editProfileScreenState extends State<editProfileScreen> {
     editcp = TextEditingController(text: widget.cp.toString());
     editcelular = TextEditingController(text: widget.celular.toString());
     edittelCasa = TextEditingController(text: widget.telCasa.toString());
+    seleccion = widget.seleccion.toString();
+    tipo_seleccion = widget.tipo_seleccion.toString();
+    categoria = widget.categoria.toString();
+
+    if (editescolaridad == "Educación primaria") {
+      editescolaridad = "Básico";
+    }
+    if (editescolaridad == "Educación secundaria") {
+      editescolaridad = "Media Superior";
+    }
+    if (editescolaridad == "Educación media superior") {
+      editescolaridad = "Media Superior";
+    }
+    if (editescolaridad == "Educación superior") {
+      editescolaridad = "Superior";
+    }
   }
 
   void _eliminarPerfil() async {
@@ -389,7 +412,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.30,
                           child: TabBarView(
                             children: [
                               Padding(
@@ -404,8 +427,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                       children: [
                                         TableRow(
                                           decoration: const BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  33, 26, 70, 0.04)),
+                                              color: Color(0xffF6FEF2)),
                                           children: [
                                             TableCell(
                                               child: Align(
@@ -728,10 +750,9 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                         value: editescolaridad,
                                                         items: [
                                                           DropdownMenuItem(
-                                                            value:
-                                                                'Educacion Primaria',
+                                                            value: 'Básico',
                                                             child: Text(
-                                                                'Educacion Primaria',
+                                                                'Básico',
                                                                 style: TextStyle(
                                                                     fontFamily:
                                                                         'Roboto',
@@ -742,9 +763,9 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                           ),
                                                           DropdownMenuItem(
                                                             value:
-                                                                'Educación secundaria',
+                                                                'Media Superior',
                                                             child: Text(
-                                                                'Educación secundaria',
+                                                                'Media Superior',
                                                                 style: TextStyle(
                                                                     fontFamily:
                                                                         'Roboto',
@@ -754,30 +775,16 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                                         .black)),
                                                           ),
                                                           DropdownMenuItem(
-                                                            value:
-                                                                'Educación media superior',
+                                                            value: 'Superior',
                                                             child: Text(
-                                                                'Educación media superior',
+                                                                'Superior',
                                                                 style: TextStyle(
                                                                     fontFamily:
                                                                         'Roboto',
                                                                     fontSize: 8,
                                                                     color: Colors
                                                                         .black)),
-                                                          ),
-                                                          DropdownMenuItem(
-                                                            value:
-                                                                'Educación superior',
-                                                            child: Text(
-                                                                'Educación superior',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Roboto',
-                                                                    fontSize:
-                                                                        10,
-                                                                    color: Colors
-                                                                        .black)),
-                                                          ),
+                                                          )
                                                         ],
                                                         onChanged: (value) {
                                                           setState(() {
@@ -822,8 +829,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                         ),
                                         TableRow(
                                           decoration: const BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  33, 26, 70, 0.04)),
+                                              color: Color(0xffF6FEF2)),
                                           children: [
                                             TableCell(
                                               child: Align(
@@ -868,359 +874,84 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                             )
                                           ],
                                         ),
+                                        TableRow(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffD8F2CA)),
+                                          children: [
+                                            TableCell(
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text('Domicilio:',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'Roboto')),
+                                                ),
+                                              ),
+                                            ),
+                                            TableCell(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.025,
+                                                    child: TextFormField(
+                                                      controller: editcalle,
+                                                      keyboardType:
+                                                          TextInputType
+                                                              .streetAddress,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintText:
+                                                            'Ingresa la calle',
+                                                        // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
+                                                        hintStyle: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.02), // Tamaño de la fuente
+                                                        contentPadding:
+                                                            EdgeInsets.symmetric(
+                                                                horizontal:
+                                                                    10.0), // Ajuste del padding interior
+                                                        border:
+                                                            OutlineInputBorder(), // Borde del campo de texto
+                                                      ),
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.025), // Tamaño de la fuente del texto ingresado
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
 
-                              // Contenido de la segunda pestaña
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Table(
-                                  columnWidths: const {
-                                    0: FlexColumnWidth(1.0),
-                                    1: FlexColumnWidth(1.0),
-                                  },
-                                  children: [
-                                    TableRow(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF6FEF2)),
-                                      children: [
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text('Calle:',
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'Roboto')),
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: editcalle,
-                                                  keyboardType: TextInputType
-                                                      .streetAddress,
-                                                  decoration: InputDecoration(
-                                                    hintText:
-                                                        'Ingresa la calle',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    TableRow(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffD8F2CA)),
-                                      children: [
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text('Colonia:',
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'Roboto')),
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: editcolonia,
-                                                  keyboardType: TextInputType
-                                                      .streetAddress,
-                                                  decoration: InputDecoration(
-                                                    hintText:
-                                                        'Ingresa la colonia',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    TableRow(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF6FEF2)),
-                                      children: [
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text('Estado:',
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'Roboto')),
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: editestado,
-                                                  keyboardType: TextInputType
-                                                      .streetAddress,
-                                                  decoration: InputDecoration(
-                                                    hintText:
-                                                        'Ingresa el Estado',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    TableRow(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffD8F2CA)),
-                                      children: [
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text('Ciudad:',
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'Roboto')),
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: editciudad,
-                                                  keyboardType: TextInputType
-                                                      .streetAddress,
-                                                  decoration: InputDecoration(
-                                                    hintText:
-                                                        'Ingresa la ciudad',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    TableRow(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF6FEF2)),
-                                      children: [
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text('Código postal:',
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'Roboto')),
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: editcp,
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    hintText:
-                                                        'Ingresa el código postal',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
                               // Contenido de la tercera pestaña
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
@@ -1231,6 +962,8 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                   },
                                   children: [
                                     TableRow(
+                                      decoration: const BoxDecoration(
+                                          color: Color(0xffF6FEF2)),
                                       children: [
                                         TableCell(
                                           child: Align(
@@ -1272,9 +1005,8 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                       ],
                                     ),
                                     TableRow(
-                                      decoration: const BoxDecoration(
-                                          color: Color.fromRGBO(
-                                              33, 26, 70, 0.04)), // Fila blanca
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffD8F2CA)),
                                       children: [
                                         TableCell(
                                           child: Align(
@@ -1316,13 +1048,15 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                       ],
                                     ),
                                     TableRow(
+                                      decoration: const BoxDecoration(
+                                          color: Color(0xffF6FEF2)),
                                       children: [
                                         TableCell(
                                           child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
                                               padding: EdgeInsets.all(8.0),
-                                              child: Text('Posición en cancha:',
+                                              child: Text('Categoria:',
                                                   style: TextStyle(
                                                       fontSize: MediaQuery.of(
                                                                   context)
@@ -1341,7 +1075,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text('${posicion ?? ''}',
+                                              child: Text('${categoria ?? ''}',
                                                   style: TextStyle(
                                                       fontSize: MediaQuery.of(
                                                                   context)
@@ -1365,7 +1099,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
                                               padding: EdgeInsets.all(8.0),
-                                              child: Text('Apodo deportivo:',
+                                              child: Text('Selección:',
                                                   style: TextStyle(
                                                       fontSize: MediaQuery.of(
                                                                   context)
@@ -1384,46 +1118,19 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: editapodo,
-                                                  // Aquí puedes agregar la lógica para guardar el valor del TextFormField en la variable nacimiento
-                                                  // onChanged: (value) {
-                                                  //   setState(() {
-                                                  //     nacimiento = value;
-                                                  //   });
-                                                  // },
-                                                  decoration: InputDecoration(
-                                                    hintText: 'Ingresa apodo',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
+                                              child: Text('${seleccion ?? ''}',
                                                   style: TextStyle(
                                                       fontSize: MediaQuery.of(
                                                                   context)
                                                               .size
                                                               .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
+                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontFamily: 'Roboto')),
                                             ),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                     TableRow(
@@ -1435,7 +1142,7 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                             alignment: Alignment.centerLeft,
                                             child: Padding(
                                               padding: EdgeInsets.all(8.0),
-                                              child: Text('Estatus:',
+                                              child: Text('Tipo de selección:',
                                                   style: TextStyle(
                                                       fontSize: MediaQuery.of(
                                                                   context)
@@ -1454,92 +1161,25 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: Material(
-                                                  child:
-                                                      DropdownButtonFormField<
-                                                          String>(
-                                                    value: editestatus,
-                                                    items: [
-                                                      DropdownMenuItem(
-                                                        value: 'Activo',
-                                                        child: Text('Activo',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                fontSize: 10,
-                                                                color: Colors
-                                                                    .black)),
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        value: 'Inactivo',
-                                                        child: Text('Inactivo',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Roboto',
-                                                                fontSize: 10,
-                                                                color: Colors
-                                                                    .black)),
-                                                      ),
-                                                    ],
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        editestatus = value!;
-                                                        // _errorMessage3 = (_gradoEstudiosController == 'SELECCIONAR')
-                                                        //     ? 'Selecciona una opción'
-                                                        //     : null;
-                                                      });
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      hintText:
-                                                          'Eststus deportivo',
-                                                      // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                      hintStyle: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.02), // Tamaño de la fuente
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  1.0), // Ajuste del padding interior
-                                                      border:
-                                                          OutlineInputBorder(), // Borde del campo de texto
-                                                    ),
-                                                    style: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.025), // Tamaño de la fuente del texto ingresado
-                                                  ),
-                                                ),
-                                              ),
+                                              child: Text(
+                                                  '${tipo_seleccion ?? ''}',
+                                                  style: TextStyle(
+                                                      fontSize: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width *
+                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontFamily: 'Roboto')),
                                             ),
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              // Contenido de la cuarta pestaña
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Table(
-                                  columnWidths: const {
-                                    0: FlexColumnWidth(1.0),
-                                    1: FlexColumnWidth(1.0),
-                                  },
-                                  children: [
                                     TableRow(
                                       decoration: BoxDecoration(
-                                          color: Color(0xffF6FEF2)),
+                                          color: Color(0xffD8F2CA)),
                                       children: [
                                         TableCell(
                                           child: Align(
@@ -1572,73 +1212,6 @@ class _editProfileScreenState extends State<editProfileScreen> {
                                                     0.025,
                                                 child: TextFormField(
                                                   controller: editcelular,
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    hintText:
-                                                        'Ingresa tu número de celular',
-                                                    // Aquí puedes personalizar el estilo del campo de texto, como el color del texto, el color del borde, etc.
-                                                    hintStyle: TextStyle(
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.02), // Tamaño de la fuente
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                10.0), // Ajuste del padding interior
-                                                    border:
-                                                        OutlineInputBorder(), // Borde del campo de texto
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025), // Tamaño de la fuente del texto ingresado
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    TableRow(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffD8F2CA)),
-                                      children: [
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text('Teléfono fijo:',
-                                                  style: TextStyle(
-                                                      fontSize: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width *
-                                                          0.025, // Ajusta el tamaño del texto según el ancho de la pantalla
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: 'Roboto')),
-                                            ),
-                                          ),
-                                        ),
-                                        TableCell(
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.025,
-                                                child: TextFormField(
-                                                  controller: edittelCasa,
                                                   keyboardType:
                                                       TextInputType.number,
                                                   decoration: InputDecoration(

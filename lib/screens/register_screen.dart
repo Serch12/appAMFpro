@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splash_animated/providers/login_form_provider.dart';
 import 'package:splash_animated/services/notification_service.dart';
 import 'package:splash_animated/utils/auth.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatelessWidget {
   @override
@@ -266,6 +269,28 @@ class _LoginFormState extends State<_LoginForm> {
                                   NotificationsService.showSnackBar(
                                       'Email ya está en uso');
                                 } else if (result != null) {
+                                  // ✅ Enviar el correo a la API
+                                  try {
+                                    final response = await http.post(
+                                      Uri.parse(
+                                          'https://test-intranet.amfpro.mx/api/registro-solo-app'), // Cambia por tu URL
+                                      headers: {
+                                        "Content-Type": "application/json"
+                                      },
+                                      body: jsonEncode(
+                                          {"email": loginForm.email}),
+                                    );
+
+                                    if (response.statusCode == 200) {
+                                      print(
+                                          "Correo enviado exitosamente a la API");
+                                    } else {
+                                      print(
+                                          "Error al enviar el correo: ${response.body}");
+                                    }
+                                  } catch (e) {
+                                    print("Error en la solicitud HTTP: $e");
+                                  }
                                   Navigator.pushReplacementNamed(
                                       context, 'homeroute');
                                 }

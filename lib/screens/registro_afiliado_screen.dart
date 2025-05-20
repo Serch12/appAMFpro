@@ -1,24 +1,19 @@
-import 'dart:typed_data';
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:splash_animated/services/notification_service.dart';
 //import 'package:splash_animated/services/services.dart';
 import 'package:splash_animated/utils/auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:easy_stepper/easy_stepper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:signature/signature.dart';
-import 'dart:io';
 
 import 'package:flutter_country_state/flutter_country_state.dart';
-import 'package:flutter_country_state/state_screen.dart';
-import 'package:flutter_country_state/city_screen.dart';
 
 String selectedState = "";
 String selectedCity = "";
@@ -33,57 +28,41 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   ScrollController _scrollController = ScrollController();
   final String _urlBase = 'test-intranet.amfpro.mx';
   bool existe_nui = false;
-  int _currentStep = 0;
-  int ver_seccion = 0;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
   final _a_patController = TextEditingController();
   final _a_matController = TextEditingController();
   final _nombre_tutorController = TextEditingController();
-  final _apodoController = TextEditingController();
   DateTime _fechaNacimiento = DateTime.now();
   String _edad = '0';
   String _sexo = 'SELECCIONAR';
-  // bool _esMexicano = false;
-  bool _terminos = false;
-  bool _avisoPrivacidad = false;
-  bool _tratamiento_datos_menores = false;
-  bool _uso_imagenes_menores = false;
   final _curpController = TextEditingController();
   String _gradoEstudiosController = 'SELECCIONAR';
   final _paisController = TextEditingController();
-  final _estadoOrigenController = TextEditingController();
-  final _estadoController = TextEditingController();
-  final _ciudadController = TextEditingController();
-  final _coloniaController = TextEditingController();
   final _calleController = TextEditingController();
-  final _cpController = TextEditingController();
-  final _telCasaController = TextEditingController();
   final _celularController = TextEditingController();
   final _nuiController = TextEditingController();
   String _division = 'SELECCIONAR';
   List<String> _equipos = [];
   String _equipo = '';
   String _categoria = 'SELECCIONAR';
-  String _posicion = 'SELECCIONAR';
   String _seleccion = 'SELECCIONAR';
-  String _estatusDeportivo = 'SELECCIONAR';
-  String _exFutbolista = 'SELECCIONAR';
+  String _tipo_seleccion = 'SELECCIONAR';
+  // bool _esMexicano = false;
+  bool _terminos = false;
+  bool _avisoPrivacidad = false;
+  bool _tratamiento_datos_menores = false;
+  bool _uso_imagenes_menores = false;
   final _formKey = GlobalKey<FormState>();
-  final _formKey2 = GlobalKey<FormState>();
-  final _formKey3 = GlobalKey<FormState>();
-  final _formKey4 = GlobalKey<FormState>();
-  final _formKey5 = GlobalKey<FormState>();
+  int ver_seccion = 0;
   String? _errorMessage;
   String? _errorMessage2;
   String? _errorMessage3;
   String? _errorMessage4;
   String? _errorMessage5;
-  String? _errorMessage6;
   String? _errorMessage7;
   String? _errorMessage8;
-  String? _errorMessage9;
   String? _errorMessage10;
   bool _errorperfil = false;
   bool _erroranverso = false;
@@ -94,7 +73,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   bool _erroraviso = false;
   bool _errortratamiento = false;
   bool _errorusoimagenes = false;
-
   String? _fotoperfil;
   String? _path;
   String? _frontImage;
@@ -113,6 +91,7 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   String? _fotofirma2;
   // String? _path7;
   bool _muestrapadretutor = false;
+  bool _muestratiposeleccion = false;
 
   SignatureController? controller;
   SignatureController? controller2;
@@ -200,12 +179,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       "name": _nameController.text,
       "a_pat": _a_patController.text,
       "a_mat": _a_matController.text,
-      "apodo": _apodoController.text,
       "sexo": _sexo,
       "email": _emailController.text,
       "nacionalidad": _paisController.text, // Obtener el texto del controlador
-      "origen":
-          _estadoOrigenController.text, // Obtener el texto del controlador
       "escolaridad":
           _gradoEstudiosController, // Obtener el texto del controlador
       "edad": _edad,
@@ -213,29 +189,22 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       "nacimiento": DateFormat('yyyy-MM-dd').format(_fechaNacimiento),
       // Campos domicilio
       "calle": _calleController.text, // Obtener el texto del controlador
-      'colonia': _coloniaController.text, // Obtener el texto del controlador
-      "estado": _estadoController.text, // Obtener el texto del controlador
-      "ciudad": _ciudadController.text, // Obtener el texto del controlador
-      "cp": _cpController.text, // Obtener el texto del controlador
       "celular": _celularController.text,
-      "telCasa": _telCasaController.text,
       // Campos datos deportivos
       "division": _division,
       "club": _equipo,
       "categoria": _categoria,
       "nui": _nuiController.text,
-      "posicion": _posicion,
       "seleccion": _seleccion,
-      "estatus": _estatusDeportivo,
-      "exfut": _exFutbolista,
-      'pdf': _frontImage,
+      "tipo_seleccion": _tipo_seleccion,
+      "nombre_tutor": _nombre_tutorController.text,
+      "firmatutor": _fotofirma,
+      "firmatutor2": _fotofirma2,
+      "pdf": _frontImage,
       "pdf2": _backImage,
       "foto": _fotoperfil,
       "fronttutor": _front_tutor_image,
       "backtutor": _back_tutor_image,
-      "nombre_tutor": _nombre_tutorController.text,
-      "firmatutor": _fotofirma,
-      "firmatutor2": _fotofirma2
     };
 
 // String jsonData = jsonEncode(data);
@@ -245,7 +214,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       'Accept': 'application/json',
       'Charset': 'utf-8'
     });
-    print("esto es resppuesta: ${response}");
     if (response.statusCode == 200) {
       // El usuario se registró exitosamente
       // ocultar el teclado
@@ -336,29 +304,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     }
   }
 
-  // Future getImage(ImageSource source, int isFront) async {
-  //   final XFile? pickedFile = await picker.pickImage(source: source);
-
-  //     if (pickedFile != null) {
-  //       setState(() async {
-  //       if (isFront == 0) {
-  //         _fotoperfil = pickedFile.path;
-  //          // encoding 64
-  //                         List<int> bytes =
-  //                             await File(_fotoperfil.path!).readAsBytesSync();
-  //                         _imagen64 = base64.encode(bytes);
-  //       }
-  //       if (isFront == 1) {
-  //         _frontImage = File(pickedFile.path);
-  //       }
-  //       if (isFront == 2) {
-  //         _backImage = File(pickedFile.path);
-  //       }
-  //       });
-  //     }
-
-  // }
-
   Future<void> _divisionPorSexo(String se) async {
     if (se == 'Femenino') {
       setState(() {
@@ -373,9 +318,20 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
   }
 
   Future<List<String>> _fetchEquiposPorDivision(String division) async {
-    String apiUrl = 'https://test-intranet.amfpro.mx/api/clubes/$division';
-    final response =
-        await http.get(Uri.parse(apiUrl)).timeout(Duration(seconds: 10));
+    String apiUrl =
+        'https://test-intranet.amfpro.mx/api/clubes/lista'; // Ya NO mandes el division en la URL
+    final response = await http
+        .post(
+          Uri.parse(apiUrl),
+          headers: {
+            'Content-Type': 'application/json', // 👈 Importante mandar JSON
+          },
+          body: jsonEncode({
+            'division': division, // 👈 Mandas el valor como JSON en el body
+          }),
+        )
+        .timeout(Duration(seconds: 10));
+
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       List<String> equipos = [];
@@ -643,16 +599,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
       });
     }
     setState(() {
-      _fotoperfil = null;
-      _path = null;
-      _frontImage = null;
-      _path2 = null;
-      _backImage = null;
-      _path3 = null;
-      _front_tutor_image = null;
-      _path4 = null;
-      _back_tutor_image = null;
-      _path5 = null;
       if (int.parse(_edad) < 18) {
         _muestrapadretutor = true;
       }
@@ -730,6 +676,44 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
           offset: Offset(0, 6),
         ),
       ],
+    );
+  }
+
+  Future<void> muestraModalFirmaImagen(BuildContext context) {
+    return showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: const Text('Firma de aceptación del padre o tutor'),
+            content: Container(
+              width: MediaQuery.of(context).size.width *
+                  0.9, // Define un ancho para el Container
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Firma en el recuadro de manera autógrafa lo más parecido a tu identificación oficial.',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    Signature(
+                      controller: controller2!,
+                      backgroundColor: Colors.white,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width * 0.99,
+                    ),
+                    buildButtons2(context),
+                  ],
+                ),
+              ),
+            ));
+      },
     );
   }
 
@@ -826,44 +810,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     } catch (e) {
       print('Error al cargar imagen: $e');
     }
-  }
-
-  Future<void> muestraModalFirmaImagen(BuildContext context) {
-    return showDialog<void>(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            title: const Text('Firma de aceptación del padre o tutor'),
-            content: Container(
-              width: MediaQuery.of(context).size.width *
-                  0.9, // Define un ancho para el Container
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Firma en el recuadro de manera autógrafa lo más parecido a tu identificación oficial.',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    Signature(
-                      controller: controller2!,
-                      backgroundColor: Colors.white,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      width: MediaQuery.of(context).size.width * 0.99,
-                    ),
-                    buildButtons2(context),
-                  ],
-                ),
-              ),
-            ));
-      },
-    );
   }
 
   Future<void> muestraModalFirmaAutorizacion(BuildContext context) {
@@ -994,373 +940,168 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   child: Center(),
                 ),
               ),
-              EasyStepper(
-                activeStep: _currentStep,
-                lineStyle: LineStyle(lineLength: 35),
-
-                stepShape: StepShape.circle,
-                stepBorderRadius: 15,
-                borderThickness: 2,
-                stepRadius: 22,
-                finishedStepBorderColor: Color(0xFFDADADA),
-                finishedStepTextColor: Color(0xFFDADADA),
-                finishedStepBackgroundColor: Color(0xFFDADADA),
-                activeStepIconColor: Colors.white,
-                showLoadingAnimation: false,
-                steps: [
-                  EasyStep(
-                    customStep: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Opacity(
-                        opacity: _currentStep >= 0 ? 1 : 0.3,
-                        child: Image.asset('assets/icono-usuario.png'),
-                      ),
-                    ),
-                    customTitle: const Text(
-                      'Registro de usuario',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  EasyStep(
-                    customStep: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Opacity(
-                        opacity: _currentStep >= 1 ? 1 : 0.3,
-                        child: Image.asset('assets/icono-datos.png'),
-                      ),
-                    ),
-                    customTitle: const Text(
-                      'Datos personales',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  EasyStep(
-                    customStep: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Opacity(
-                        opacity: _currentStep >= 2 ? 1 : 0.3,
-                        child: Image.asset('assets/icono-domicilio.png'),
-                      ),
-                    ),
-                    customTitle: const Text(
-                      'Domicilio',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  EasyStep(
-                    customStep: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Opacity(
-                        opacity: _currentStep >= 3 ? 1 : 0.3,
-                        child: Image.asset('assets/icono-balon.png'),
-                      ),
-                    ),
-                    customTitle: const Text(
-                      'Datos deportivos',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  EasyStep(
-                    customStep: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Opacity(
-                        opacity: _currentStep >= 4 ? 1 : 0.3,
-                        child: Image.asset('assets/icono-documentacion.png'),
-                      ),
-                    ),
-                    customTitle: const Text(
-                      'Documentos',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ],
-                // onStepReached: (index) => setState(() => _currentStep = index),
-              ),
-              _buildFormSection(_currentStep),
+              _buildRegistroUsuarioSection(),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    if (_currentStep > 0)
-                      ElevatedButton(
-                        onPressed: () {
+                    ElevatedButton(
+                      onPressed: () {
+                        // Obtener el formulario actual
+
+                        final form = _formKey.currentState;
+                        if (_sexo == 'SELECCIONAR') {
                           setState(() {
-                            _currentStep--;
+                            _errorMessage = 'Selecciona una opción';
                           });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25.0), // Ajusta el radio según tus necesidades
-                          ),
-                          minimumSize: const Size(
-                              150, 50), // Ajusta el tamaño mínimo del botón
-                        ),
-                        child: Text(
-                          'Anterior',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    if (_currentStep < 4)
-                      ElevatedButton(
-                        onPressed: () {
-                          // Obtener el formulario actual
-                          if (_currentStep == 0) {
-                            final form = _formKey5.currentState;
-                            // Validar el formulario actual
-                            if (form != null && form.validate()) {
-                              // Si el formulario es válido, avanzar al siguiente paso
-                              setState(() {
-                                _currentStep++;
-                              });
-                            }
+                        }
+                        if (_paisController == 'SELECCIONAR') {
+                          setState(() {
+                            _errorMessage2 = 'Selecciona una país';
+                          });
+                        }
+
+                        if (_gradoEstudiosController == 'SELECCIONAR') {
+                          setState(() {
+                            _errorMessage3 = 'Selecciona una opción';
+                          });
+                        }
+                        if (_division == 'SELECCIONAR') {
+                          setState(() {
+                            _errorMessage10 = 'Selecciona una división';
+                          });
+                        }
+
+                        if (_equipo == 'SELECCIONAR') {
+                          setState(() {
+                            _errorMessage4 = 'Selecciona un equipo';
+                          });
+                        }
+                        if (_division == 'Liga MX' ||
+                            _division == 'Liga MX Femenil') {
+                          if (_categoria == 'SELECCIONAR') {
+                            setState(() {
+                              _errorMessage5 = 'Selecciona una categoría';
+                            });
                           }
-                          if (_currentStep == 1) {
-                            final form = _formKey.currentState;
-                            if (_sexo == 'SELECCIONAR') {
-                              setState(() {
-                                _errorMessage = 'Selecciona una opción';
-                              });
-                            }
-                            print(_paisController);
-                            if (_paisController == 'SELECCIONAR') {
-                              print(_paisController);
-                              setState(() {
-                                _errorMessage2 = 'Selecciona una país';
-                              });
-                            }
+                        }
 
-                            if (_gradoEstudiosController == 'SELECCIONAR') {
+                        // Validar el formulario actual
+                        if (form != null &&
+                            form.validate() &&
+                            _paisController != 'SELECCIONAR' &&
+                            _gradoEstudiosController != 'SELECCIONAR' &&
+                            _division != 'SELECCIONAR' &&
+                            _equipo != 'SELECCIONAR' &&
+                            _seleccion != 'SELECCIONAR') {
+                          if (int.parse(_edad) >= 18) {
+                            if (_path == null) {
                               setState(() {
-                                _errorMessage3 = 'Selecciona una opción';
+                                _errorperfil = true;
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar fotografía de expediente!');
                               });
-                            }
-                            // Validar el formulario actual
-                            if (form != null &&
-                                form.validate() &&
-                                _paisController != 'SELECCIONAR' &&
-                                _gradoEstudiosController != 'SELECCIONAR') {
-                              // Si el formulario es válido, avanzar al siguiente paso
+                            } else if (_path2 == null) {
                               setState(() {
-                                _currentStep++;
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar identificación oficial (Anverso)!');
+                                _erroranverso = true;
                               });
-                            }
-                          }
-                          if (_currentStep == 2) {
-                            final form = _formKey2.currentState;
-
-                            // Validar el formulario actual
-                            if (form != null && form.validate()) {
-                              // Si el formulario es válido, avanzar al siguiente paso
+                            } else if (_path3 == null) {
                               setState(() {
-                                _currentStep++;
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar identificación oficial (Reverso)!');
+                                _errorreverso = true;
                               });
-                            }
-                          }
-                          if (_currentStep == 3) {
-                            final form = _formKey3.currentState;
-
-                            if (_division == 'SELECCIONAR') {
+                            } else if (_terminos == false) {
                               setState(() {
-                                _errorMessage10 = 'Selecciona una división';
+                                _errortermino = true;
                               });
-                            }
-
-                            if (_equipo == 'SELECCIONAR') {
+                            } else if (_avisoPrivacidad == false) {
                               setState(() {
-                                _errorMessage4 = 'Selecciona un equipo';
+                                _erroraviso = true;
                               });
-                            }
-                            if (_division == 'Liga MX' ||
-                                _division == 'Liga MX Femenil') {
-                              if (_categoria == 'SELECCIONAR') {
-                                setState(() {
-                                  _errorMessage5 = 'Selecciona una categoría';
-                                });
-                              }
-                            }
-
-                            if (_posicion == 'SELECCIONAR') {
-                              setState(() {
-                                _errorMessage6 = 'Selecciona una posición';
-                              });
-                            }
-
-                            if (_seleccion == 'SELECCIONAR') {
-                              setState(() {
-                                _errorMessage7 = 'Selecciona una opción';
-                              });
-                            }
-                            if (_estatusDeportivo == 'SELECCIONAR') {
-                              setState(() {
-                                _errorMessage8 = 'Selecciona una opción';
-                              });
-                            }
-                            if (_exFutbolista == 'SELECCIONAR') {
-                              setState(() {
-                                _errorMessage9 = 'Selecciona una opción';
-                              });
-                            }
-                            // Validar el formulario actual
-                            if (form != null &&
-                                form.validate() &&
-                                _division != 'SELECCIONAR' &&
-                                _equipo != 'SELECCIONAR' &&
-                                _posicion != 'SELECCIONAR' &&
-                                _seleccion != 'SELECCIONAR' &&
-                                _estatusDeportivo != 'SELECCIONAR' &&
-                                _exFutbolista != 'SELECCIONAR') {
-                              // Si el formulario es válido, avanzar al siguiente paso
-                              setState(() {
-                                _currentStep++;
-                              });
-                              // Desplazarse al principio
-                              _scrollController.animateTo(
-                                0,
-                                duration: Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF4FC028),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25.0), // Ajusta el radio según tus necesidades
-                          ),
-                          minimumSize: const Size(
-                              150, 50), // Ajusta el tamaño mínimo del botón
-                        ),
-                        child: Text(
-                          'Siguiente',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    if (_currentStep == 4)
-                      ElevatedButton(
-                        onPressed: () {
-                          final form = _formKey4.currentState;
-
-                          // Valida el formulario
-                          if (form!.validate()) {
-                            if (int.parse(_edad) >= 18) {
-                              if (_path == null) {
-                                setState(() {
-                                  _errorperfil = true;
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar fotografía de expediente!');
-                                });
-                              } else if (_path2 == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar identificación oficial (Anverso)!');
-                                  _erroranverso = true;
-                                });
-                              } else if (_path3 == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar identificación oficial (Reverso)!');
-                                  _errorreverso = true;
-                                });
-                              } else if (_terminos == false) {
-                                setState(() {
-                                  _errortermino = true;
-                                });
-                              } else if (_avisoPrivacidad == false) {
-                                setState(() {
-                                  _erroraviso = true;
-                                });
-                              } else {
-                                // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
-                                _registerUser();
-                              }
                             } else {
-                              if (_path == null) {
-                                setState(() {
-                                  _errorperfil = true;
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar fotografía de expediente!');
-                                });
-                              } else if (_path2 == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar foto de credencial escolar o CURP!');
-                                  _erroranverso = true;
-                                });
-                              } else if (_path4 == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar identificación oficial del padre o tutor (Anverso)!');
-                                  _erroranversotutor = true;
-                                });
-                              } else if (_path5 == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Adjuntar identificación oficial del padre o tutor (Reverso)!');
-                                  _errorreversotutor = true;
-                                });
-                              } else if (_terminos == false) {
-                                setState(() {
-                                  _errortermino = true;
-                                });
-                              } else if (_avisoPrivacidad == false) {
-                                setState(() {
-                                  _erroraviso = true;
-                                });
-                              } else if (_tratamiento_datos_menores == false) {
-                                setState(() {
-                                  _errortratamiento = true;
-                                });
-                              } else if (_fotofirma == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Capturar firma!');
-                                  _errortratamiento = true;
-                                  _tratamiento_datos_menores = false;
-                                });
-                              } else if (_uso_imagenes_menores == false) {
-                                setState(() {
-                                  _errorusoimagenes = true;
-                                });
-                              } else if (_fotofirma2 == null) {
-                                setState(() {
-                                  NotificationsService.showSnackBar(
-                                      '¡Capturar firma!');
-                                  _errorusoimagenes = true;
-                                  _uso_imagenes_menores = false;
-                                });
-                              } else {
-                                // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
-                                _registerUser();
-                              }
+                              // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
+                              _registerUser();
+                            }
+                          } else {
+                            if (_path == null) {
+                              setState(() {
+                                _errorperfil = true;
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar fotografía de expediente!');
+                              });
+                            } else if (_path2 == null) {
+                              setState(() {
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar foto de credencial escolar o CURP!');
+                                _erroranverso = true;
+                              });
+                            } else if (_path4 == null) {
+                              setState(() {
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar identificación oficial del padre o tutor (Anverso)!');
+                                _erroranversotutor = true;
+                              });
+                            } else if (_path5 == null) {
+                              setState(() {
+                                NotificationsService.showSnackBar(
+                                    '¡Adjuntar identificación oficial del padre o tutor (Reverso)!');
+                                _errorreversotutor = true;
+                              });
+                            } else if (_terminos == false) {
+                              setState(() {
+                                _errortermino = true;
+                              });
+                            } else if (_avisoPrivacidad == false) {
+                              setState(() {
+                                _erroraviso = true;
+                              });
+                            } else if (_tratamiento_datos_menores == false) {
+                              setState(() {
+                                _errortratamiento = true;
+                              });
+                            } else if (_fotofirma == null) {
+                              setState(() {
+                                NotificationsService.showSnackBar(
+                                    '¡Capturar firma!');
+                                _errortratamiento = true;
+                                _tratamiento_datos_menores = false;
+                              });
+                            } else if (_uso_imagenes_menores == false) {
+                              setState(() {
+                                _errorusoimagenes = true;
+                              });
+                            } else if (_fotofirma2 == null) {
+                              setState(() {
+                                NotificationsService.showSnackBar(
+                                    '¡Capturar firma!');
+                                _errorusoimagenes = true;
+                                _uso_imagenes_menores = false;
+                              });
+                            } else {
+                              // Si el formulario es válido y el campo _path no es nulo, procede con el registro del usuario
+                              _registerUser();
                             }
                           }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF4FC028),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25.0), // Ajusta el radio según tus necesidades
-                          ),
-                          minimumSize: const Size(
-                              150, 50), // Ajusta el tamaño mínimo del botón
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF4FC028),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              25.0), // Ajusta el radio según tus necesidades
                         ),
-                        child: Text(
-                          'Registrarse',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        minimumSize: const Size(
+                            150, 50), // Ajusta el tamaño mínimo del botón
                       ),
+                      child: Text(
+                        'Registrarse',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                     SizedBox(
                       width: 15,
                     ),
@@ -1374,28 +1115,11 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
     );
   }
 
-  Widget _buildFormSection(int step) {
-    switch (step) {
-      case 0:
-        return _buildRegistroUsuarioSection();
-      case 1:
-        return _buildDatosPersonalesSection();
-      case 2:
-        return _buildDomicilioSection();
-      case 3:
-        return _buildDatosDeportivosSection();
-      case 4:
-        return _buildDocumentacionSection();
-      default:
-        return Container();
-    }
-  }
-
   Widget _buildRegistroUsuarioSection() {
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Form(
-        key: _formKey5,
+        key: _formKey,
         child: Column(
           children: [
             Row(
@@ -1407,71 +1131,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 ),
                 Text(
                   'REGISTRO DE USUARIO',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: buildInputDecoration('CORREO ELECTRÓNICO*'),
-                validator: (value) {
-                  if (value!.isEmpty || !value.contains('@')) {
-                    return 'Ingresa un correo electrónico válido';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _passwordController,
-                decoration: buildInputDecoration('CONTRASEÑA*'),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 6) {
-                    return 'Ingresa una contraseña válida (mínimo 6 caracteres)';
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDatosPersonalesSection() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/icono-datos.png'),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'DATOS PERSONALES',
                   style: TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 16,
@@ -1531,18 +1190,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   }
                   return null;
                 },
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _apodoController,
-                keyboardType: TextInputType.text,
-                decoration: buildInputDecoration('APODO DEPORTIVO'),
               ),
             ),
             const SizedBox(height: 15),
@@ -1697,61 +1344,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               ),
             ),
             const SizedBox(height: 15),
-            // Material(
-            //   elevation: 7.0,
-            //   color: Colors.transparent,
-            //   shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-            //   borderRadius: BorderRadius.circular(16),
-            //   child: DropdownButtonFormField<String>(
-            //     value: _paisController,
-            //     items: countries.map((String country) {
-            //       return DropdownMenuItem<String>(
-            //         value: country,
-            //         child: Text(
-            //           country,
-            //           style: TextStyle(
-            //               fontFamily: 'Roboto',
-            //               fontSize: MediaQuery.of(context).size.width * 0.03),
-            //         ),
-            //       );
-            //     }).toList(),
-            //     onChanged: (value) {
-            //       setState(() {
-            //         _paisController = value!;
-            //         _errorMessage2 = (_paisController == 'SELECCIONAR')
-            //             ? 'Selecciona una país'
-            //             : null;
-            //       });
-            //     },
-            //     decoration: InputDecoration(
-            //       labelText: 'PAÍS*',
-            //       errorText: _errorMessage2,
-            //       labelStyle: TextStyle(
-            //           fontFamily: 'Roboto',
-            //           fontSize: MediaQuery.of(context).size.width * 0.04),
-            //       border: OutlineInputBorder(
-            //         borderSide: BorderSide(color: Colors.transparent),
-            //         borderRadius: BorderRadius.circular(14.0),
-            //       ),
-            //       enabledBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(color: Colors.transparent),
-            //         borderRadius: BorderRadius.circular(14.0),
-            //       ),
-            //       focusedBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(color: Colors.transparent),
-            //         borderRadius: BorderRadius.circular(14.0),
-            //       ),
-            //       filled: true,
-            //       fillColor: Colors.white,
-            //       contentPadding: EdgeInsets.symmetric(
-            //         vertical: MediaQuery.of(context).size.height *
-            //             0.018, // Ajusta el espaciado vertical según el ancho del dispositivo
-            //         horizontal: MediaQuery.of(context).size.width *
-            //             0.03, // Ajusta el espaciado horizontal según el ancho del dispositivo
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Material(
               elevation: 7.0,
               color: Colors.transparent,
@@ -1789,7 +1381,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                         selectedCountryBackgroundColor: Colors.pink,
                         notSelectedCountryBackgroundColor: Colors.white,
                         onSelectCountry: () {
-                          _estadoOrigenController.text = '';
                           setState(() {
                             selectedCountry = Selected.country;
                             if (selectedCountry == 'Mexico') {
@@ -1797,50 +1388,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                             } else {
                               _paisController.text = selectedCountry;
                             }
-                          });
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                readOnly: true, // Evita que el usuario escriba directamente
-                controller: _estadoOrigenController,
-                decoration: buildInputDecoration('ESTADO DE ORIGEN*'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Selecciona tu Estado de origen';
-                  }
-                  return null;
-                },
-                onTap: () {
-                  // Abrir el ShowCountryDialog cuando el campo es tocado
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    isDismissible: false,
-                    builder: (context) => SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.95,
-                      child: ShowStateDialog(
-                        style: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w500),
-                        stateHeaderStyle: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                        subStringStyle: const TextStyle(color: Colors.white),
-                        substringBackground: Colors.green,
-                        selectedStateBackgroundColor: Colors.orange,
-                        notSelectedStateBackgroundColor: Colors.white,
-                        onSelectedState: () {
-                          setState(() {
-                            _estadoOrigenController.text = Selected.state;
                           });
                         },
                       ),
@@ -1896,25 +1443,20 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                         style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
                   ),
                   DropdownMenuItem(
-                    value: 'Educacion Primaria',
-                    child: Text('Educacion Primaria',
+                    value: 'Básico',
+                    child: Text('Básico',
                         style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
                   ),
                   DropdownMenuItem(
-                    value: 'Educación secundaria',
-                    child: Text('Educación secundaria',
+                    value: 'Media Superior',
+                    child: Text('Media Superior',
                         style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
                   ),
                   DropdownMenuItem(
-                    value: 'Educación media superior',
-                    child: Text('Educación media superior',
+                    value: 'Superior',
+                    child: Text('Superior',
                         style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Educación superior',
-                    child: Text('Educación superior',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
+                  )
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -1947,89 +1489,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDomicilioSection() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey2,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/icono-domicilio.png'),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'DOMICILIO',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _estadoController,
-                keyboardType: TextInputType.text,
-                decoration: buildInputDecoration('ESTADO*'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Ingresa un Estado';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _ciudadController,
-                keyboardType: TextInputType.text,
-                decoration: buildInputDecoration('CIUDAD*'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Ingresa una Ciudad';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _coloniaController,
-                keyboardType: TextInputType.text,
-                decoration: buildInputDecoration('COLONIA*'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Ingresa una Colonia';
-                  }
-                  return null;
-                },
-              ),
-            ),
             const SizedBox(height: 15),
             Material(
               elevation: 7.0,
@@ -2039,31 +1498,11 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               child: TextFormField(
                 controller: _calleController,
                 keyboardType: TextInputType.streetAddress,
-                decoration: buildInputDecoration('CALLE Y NÚMERO*'),
+                decoration: buildInputDecoration(
+                    'DOMICILIO (Calle,número,municipo,estado,C.P)*'),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Ingresa tu calle y número';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _cpController,
-                keyboardType: TextInputType.number,
-                decoration: buildInputDecoration('CÓDIGO POSTAL*'),
-                validator: (value) {
-                  if (value?.length != 5) {
-                    return 'Debe contener 5 números';
-                  }
-                  if (value!.isEmpty) {
-                    return 'Ingresa tu código postal';
+                    return 'Ingresa tu domicilio';
                   }
                   return null;
                 },
@@ -2089,56 +1528,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                   return null;
                 },
               ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: TextFormField(
-                controller: _telCasaController,
-                keyboardType: TextInputType.phone,
-                decoration: buildInputDecoration('TELÉFONO CASA'),
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    // Solo valida si hay contenido
-                    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                      return 'Debe contener 10 dígitos';
-                    }
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDatosDeportivosSection() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey3,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/icono-balon.png'),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'DATOS DEPORTIVOS',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
             ),
             const SizedBox(height: 15),
             Material(
@@ -2345,72 +1734,6 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
               shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
               borderRadius: BorderRadius.circular(16),
               child: DropdownButtonFormField<String>(
-                value: _posicion,
-                items: [
-                  DropdownMenuItem(
-                    value: 'SELECCIONAR',
-                    child: Text('SELECCIONAR',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Portero',
-                    child: Text('Portero',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Defensa',
-                    child: Text('Defensa',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Medio',
-                    child: Text('Medio',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Delantero',
-                    child: Text('Delantero',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  )
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _posicion = value!;
-                    _errorMessage6 = (_posicion == 'SELECCIONAR')
-                        ? 'Selecciona una posición'
-                        : null;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'POSICIÓN*',
-                  errorText: _errorMessage6,
-                  labelStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: DropdownButtonFormField<String>(
                 value: _seleccion,
                 items: [
                   DropdownMenuItem(
@@ -2435,6 +1758,9 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                     _errorMessage7 = (_seleccion == 'SELECCIONAR')
                         ? 'Selecciona una opción'
                         : null;
+                    _seleccion == 'Si'
+                        ? _muestratiposeleccion = true
+                        : _muestratiposeleccion = false;
                   });
                 },
                 decoration: InputDecoration(
@@ -2460,719 +1786,749 @@ class _RegistroAfiliadoScreenState extends State<RegistroAfiliadoScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: DropdownButtonFormField<String>(
-                value: _estatusDeportivo,
-                items: [
-                  DropdownMenuItem(
-                    value: 'SELECCIONAR',
-                    child: Text('SELECCIONAR',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Activo',
-                    child: Text('Activo',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Inactivo',
-                    child: Text('Inactivo',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _estatusDeportivo = value!;
-                    _estatusDeportivo == 'Activo'
-                        ? _exFutbolista = 'No'
-                        : _exFutbolista = 'Si';
-                    _errorMessage8 = (_estatusDeportivo == 'SELECCIONAR')
-                        ? 'Selecciona una opción'
-                        : null;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'ESTATUS DEPORTIVO*',
-                  errorText: _errorMessage8,
-                  labelStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            Material(
-              elevation: 7.0,
-              color: Colors.transparent,
-              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(16),
-              child: DropdownButtonFormField<String>(
-                value: _exFutbolista,
-                items: [
-                  DropdownMenuItem(
-                    value: 'SELECCIONAR',
-                    child: Text('SELECCIONAR',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'Si',
-                    child: Text('Si',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                  DropdownMenuItem(
-                    value: 'No',
-                    child: Text('No',
-                        style: TextStyle(fontFamily: 'Roboto', fontSize: 14)),
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _exFutbolista = value!;
-                    _errorMessage9 = (_exFutbolista == 'SELECCIONAR')
-                        ? 'Selecciona una opción'
-                        : null;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'EX-FUTBOLISTA*',
-                  errorText: _errorMessage9,
-                  labelStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDocumentacionSection() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey4,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/icono-documentacion.png'),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'DOCUMENTACIÓN',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 25),
-            int.parse(_edad) >= 18
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 0;
-                            });
-                          },
-                          child: _errorperfil == true
-                              ? Image.asset('assets/icono-foto-perfil-rojo.png')
-                              : Image.asset('assets/icon-foto-perfil.png')),
-                      SizedBox(width: 35),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 1;
-                            });
-                          },
-                          child: _erroranverso == true
-                              ? Image.asset('assets/icono-ine-anverso-rojo.png')
-                              : Image.asset('assets/icon-ine-anverso.png')),
-                      SizedBox(width: 35),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 2;
-                            });
-                          },
-                          child: _errorreverso == true
-                              ? Image.asset('assets/icono-ine-reverso-rojo.png')
-                              : Image.asset('assets/icon-ine-reverso.png')),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 0;
-                            });
-                          },
-                          child: _errorperfil == true
-                              ? Image.asset('assets/icono-foto-perfil-rojo.png')
-                              : Image.asset('assets/icon-foto-perfil.png')),
-                      SizedBox(width: 35),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 1;
-                            });
-                          },
-                          child: _erroranverso == true
-                              ? Image.asset('assets/icono-ine-anverso-rojo.png')
-                              : Image.asset('assets/icon-ine-anverso.png')),
-                      SizedBox(width: 35),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 3;
-                            });
-                          },
-                          child: _erroranversotutor == true
-                              ? Image.asset('assets/icono-ine-anverso-rojo.png')
-                              : Image.asset('assets/icon-ine-anverso.png')),
-                      SizedBox(width: 35),
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              ver_seccion = 4;
-                            });
-                          },
-                          child: _errorreversotutor == true
-                              ? Image.asset('assets/icono-ine-reverso-rojo.png')
-                              : Image.asset('assets/icon-ine-reverso.png')),
-                    ],
-                  ),
-            SizedBox(
-              height: 20,
-            ),
-            (ver_seccion == 0)
-                ? Text(
-                    'Fotografía de expediente',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: _errorperfil == true ? Colors.red : Colors.black,
+            _muestratiposeleccion == true ? SizedBox(height: 15) : Container(),
+            _muestratiposeleccion == true
+                ? Material(
+                    elevation: 7.0,
+                    color: Colors.transparent,
+                    shadowColor:
+                        Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(16),
+                    child: DropdownButtonFormField<String>(
+                      value: _tipo_seleccion,
+                      items: [
+                        DropdownMenuItem(
+                          value: 'SELECCIONAR',
+                          child: Text('SELECCIONAR',
+                              style: TextStyle(
+                                  fontFamily: 'Roboto', fontSize: 14)),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Mayor',
+                          child: Text('Mayor',
+                              style: TextStyle(
+                                  fontFamily: 'Roboto', fontSize: 14)),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Inferiores',
+                          child: Text('Inferiores',
+                              style: TextStyle(
+                                  fontFamily: 'Roboto', fontSize: 14)),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _tipo_seleccion = value!;
+                          _errorMessage8 = (_seleccion == 'SELECCIONAR')
+                              ? 'Selecciona una opción'
+                              : null;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'TIPO DE SELECCIÓN*',
+                        errorText: _errorMessage8,
+                        labelStyle:
+                            TextStyle(fontFamily: 'Roboto', fontSize: 14),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 12.0),
+                      ),
                     ),
                   )
-                : (ver_seccion == 1)
-                    ? Text(
-                        int.parse(_edad) >= 18
-                            ? 'Identificación Oficial (anverso)'
-                            : 'Foto de Credencial Escolar (anverso) o CURP',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              _erroranverso == true ? Colors.red : Colors.black,
-                        ),
-                      )
-                    : (ver_seccion == 2)
-                        ? Text(
-                            'Identificación Oficial (reverso)',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: _errorreverso == true
-                                  ? Colors.red
-                                  : Colors.black,
-                            ),
-                          )
-                        : (ver_seccion == 3)
-                            ? Text(
-                                'Identificación Oficial del Padre o Tutor (anverso)',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: _erroranversotutor == true
-                                      ? Colors.red
-                                      : Colors.black,
-                                ),
-                              )
-                            : Text(
-                                'Identificación Oficial del Padre o Tutor (reverso)',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: _errorreversotutor == true
-                                      ? Colors.red
-                                      : Colors.black,
-                                ),
-                              ),
-            (ver_seccion == 0)
+                : Container(),
+            const SizedBox(height: 15),
+            Material(
+              elevation: 7.0,
+              color: Colors.transparent,
+              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+              borderRadius: BorderRadius.circular(16),
+              child: TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: buildInputDecoration('CORREO ELECTRÓNICO*'),
+                validator: (value) {
+                  if (value!.isEmpty || !value.contains('@')) {
+                    return 'Ingresa un correo electrónico válido';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(height: 15),
+            Material(
+              elevation: 7.0,
+              color: Colors.transparent,
+              shadowColor: Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+              borderRadius: BorderRadius.circular(16),
+              child: TextFormField(
+                controller: _passwordController,
+                decoration: buildInputDecoration('CONTRASEÑA*'),
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty || value.length < 6) {
+                    return 'Ingresa una contraseña válida (mínimo 6 caracteres)';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            SizedBox(height: 15),
+            _edad != '0'
                 ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: 20),
-                      _path != null
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.file(
-                                File(_path!),
-                                width: 200,
-                                height: 200,
-                              ),
-                            )
-                          : Image.asset('assets/Vector.png'),
+                    children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xFF6EBC44),
-                              shape: BoxShape.rectangle,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: IconButton(
-                              onPressed: () async {
-                                _pickImageExpediente(ImageSource.gallery);
-                              },
-                              icon: Image.asset(
-                                'assets/gallery.png',
-                              ),
-                              iconSize: 50,
-                              splashRadius: 20,
-                              tooltip: 'Cargar imagen desde galería',
-                            ),
+                          Image.asset('assets/icono-documentacion.png'),
+                          SizedBox(
+                            width: 10,
                           ),
-                          SizedBox(width: 30),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xFFCFC8C8),
-                              shape: BoxShape.rectangle,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: IconButton(
-                              onPressed: () async {
-                                await _pickImageExpediente(ImageSource.camera);
-                              },
-                              icon: Image.asset(
-                                'assets/camara.png',
-                              ),
-                              iconSize: 50,
-                              splashRadius: 20,
-                              tooltip: 'Cargar imagen desde cámara',
-                            ),
+                          Text(
+                            'DOCUMENTACIÓN',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
+                      SizedBox(height: 25),
+                      int.parse(_edad) >= 18
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 0;
+                                      });
+                                    },
+                                    child: _errorperfil == true
+                                        ? Image.asset(
+                                            'assets/icono-foto-perfil-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-foto-perfil.png')),
+                                SizedBox(width: 35),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 1;
+                                      });
+                                    },
+                                    child: _erroranverso == true
+                                        ? Image.asset(
+                                            'assets/icono-ine-anverso-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-ine-anverso.png')),
+                                SizedBox(width: 35),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 2;
+                                      });
+                                    },
+                                    child: _errorreverso == true
+                                        ? Image.asset(
+                                            'assets/icono-ine-reverso-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-ine-reverso.png')),
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 0;
+                                      });
+                                    },
+                                    child: _errorperfil == true
+                                        ? Image.asset(
+                                            'assets/icono-foto-perfil-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-foto-perfil.png')),
+                                SizedBox(width: 35),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 1;
+                                      });
+                                    },
+                                    child: _erroranverso == true
+                                        ? Image.asset(
+                                            'assets/icono-ine-anverso-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-ine-anverso.png')),
+                                SizedBox(width: 35),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 3;
+                                      });
+                                    },
+                                    child: _erroranversotutor == true
+                                        ? Image.asset(
+                                            'assets/icono-ine-anverso-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-ine-anverso.png')),
+                                SizedBox(width: 35),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        ver_seccion = 4;
+                                      });
+                                    },
+                                    child: _errorreversotutor == true
+                                        ? Image.asset(
+                                            'assets/icono-ine-reverso-rojo.png')
+                                        : Image.asset(
+                                            'assets/icon-ine-reverso.png')),
+                              ],
+                            ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      (ver_seccion == 0)
+                          ? Text(
+                              'Fotografía de expediente',
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: _errorperfil == true
+                                    ? Colors.red
+                                    : Colors.black,
+                              ),
+                            )
+                          : (ver_seccion == 1)
+                              ? Text(
+                                  int.parse(_edad) >= 18
+                                      ? 'Identificación Oficial (anverso)'
+                                      : 'Foto de Credencial Escolar (anverso) o CURP',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: _erroranverso == true
+                                        ? Colors.red
+                                        : Colors.black,
+                                  ),
+                                )
+                              : (ver_seccion == 2)
+                                  ? Text(
+                                      'Identificación Oficial (reverso)',
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: _errorreverso == true
+                                            ? Colors.red
+                                            : Colors.black,
+                                      ),
+                                    )
+                                  : (ver_seccion == 3)
+                                      ? Text(
+                                          'Identificación Oficial del Padre o Tutor (anverso)',
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: _erroranversotutor == true
+                                                ? Colors.red
+                                                : Colors.black,
+                                          ),
+                                        )
+                                      : Text(
+                                          'Identificación Oficial del Padre o Tutor (reverso)',
+                                          style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: _errorreversotutor == true
+                                                ? Colors.red
+                                                : Colors.black,
+                                          ),
+                                        ),
+                      (ver_seccion == 0)
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(height: 20),
+                                _path != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.file(
+                                          File(_path!),
+                                          width: 200,
+                                          height: 200,
+                                        ),
+                                      )
+                                    : Image.asset('assets/Vector.png'),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF6EBC44),
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () async {
+                                          _pickImageExpediente(
+                                              ImageSource.gallery);
+                                        },
+                                        icon: Image.asset(
+                                          'assets/gallery.png',
+                                        ),
+                                        iconSize: 50,
+                                        splashRadius: 20,
+                                        tooltip: 'Cargar imagen desde galería',
+                                      ),
+                                    ),
+                                    SizedBox(width: 30),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFCFC8C8),
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () async {
+                                          await _pickImageExpediente(
+                                              ImageSource.camera);
+                                        },
+                                        icon: Image.asset(
+                                          'assets/camara.png',
+                                        ),
+                                        iconSize: 50,
+                                        splashRadius: 20,
+                                        tooltip: 'Cargar imagen desde cámara',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : (ver_seccion == 1)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    SizedBox(height: 20),
+                                    _path2 != null
+                                        ? Image.file(
+                                            File(_path2!),
+                                            width: 200,
+                                            height: 200,
+                                          )
+                                        : Image.asset('assets/anverso.png'),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(
+                                                  0xFF6EBC44), // Color de fondo verde
+                                              shape: BoxShape
+                                                  .rectangle, // Forma del contenedor como un círculo
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: IconButton(
+                                            onPressed: () async {
+                                              _pickImageAnverso(
+                                                  ImageSource.gallery);
+                                            },
+                                            icon: Image.asset(
+                                              'assets/gallery.png', // Ruta de tu imagen
+                                            ), // Icono que deseas mostrar
+                                            iconSize: 50, // Tamaño del icono
+                                            splashRadius:
+                                                20, // Radio del efecto splash
+                                            tooltip:
+                                                'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                          ),
+                                        ),
+                                        SizedBox(width: 30),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFCFC8C8),
+                                            shape: BoxShape.rectangle,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () async {
+                                              await _pickImageAnverso(
+                                                  ImageSource.camera);
+                                            },
+                                            icon: Image.asset(
+                                              'assets/camara.png',
+                                            ),
+                                            iconSize: 50,
+                                            splashRadius: 20,
+                                            tooltip:
+                                                'Cargar imagen desde cámara',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : (ver_seccion == 2)
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        SizedBox(height: 20),
+                                        _path3 != null
+                                            ? Image.file(
+                                                File(_path3!),
+                                                width: 200,
+                                                height: 200,
+                                              )
+                                            : Image.asset('assets/reverso.png'),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: Color(
+                                                      0xFF6EBC44), // Color de fondo verde
+                                                  shape: BoxShape
+                                                      .rectangle, // Forma del contenedor como un círculo
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                              child: IconButton(
+                                                onPressed: () async {
+                                                  _pickImageReverso(
+                                                      ImageSource.gallery);
+                                                },
+                                                icon: Image.asset(
+                                                  'assets/gallery.png', // Ruta de tu imagen
+                                                ), // Icono que deseas mostrar
+                                                iconSize:
+                                                    50, // Tamaño del icono
+                                                splashRadius:
+                                                    20, // Radio del efecto splash
+                                                tooltip:
+                                                    'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                              ),
+                                            ),
+                                            SizedBox(width: 30),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFCFC8C8),
+                                                shape: BoxShape.rectangle,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                              ),
+                                              child: IconButton(
+                                                onPressed: () async {
+                                                  await _pickImageReverso(
+                                                      ImageSource.camera);
+                                                },
+                                                icon: Image.asset(
+                                                  'assets/camara.png',
+                                                ),
+                                                iconSize: 50,
+                                                splashRadius: 20,
+                                                tooltip:
+                                                    'Cargar imagen desde cámara',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  : (ver_seccion == 3)
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            SizedBox(height: 20),
+                                            _path4 != null
+                                                ? Image.file(
+                                                    File(_path4!),
+                                                    width: 200,
+                                                    height: 200,
+                                                  )
+                                                : Image.asset(
+                                                    'assets/anverso.png'),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Color(
+                                                          0xFF6EBC44), // Color de fondo verde
+                                                      shape: BoxShape
+                                                          .rectangle, // Forma del contenedor como un círculo
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      _pickImageAnversoTutor(
+                                                          ImageSource.gallery);
+                                                    },
+                                                    icon: Image.asset(
+                                                      'assets/gallery.png', // Ruta de tu imagen
+                                                    ), // Icono que deseas mostrar
+                                                    iconSize:
+                                                        50, // Tamaño del icono
+                                                    splashRadius:
+                                                        20, // Radio del efecto splash
+                                                    tooltip:
+                                                        'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                                  ),
+                                                ),
+                                                SizedBox(width: 30),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFCFC8C8),
+                                                    shape: BoxShape.rectangle,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                  ),
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      await _pickImageAnversoTutor(
+                                                          ImageSource.camera);
+                                                    },
+                                                    icon: Image.asset(
+                                                      'assets/camara.png',
+                                                    ),
+                                                    iconSize: 50,
+                                                    splashRadius: 20,
+                                                    tooltip:
+                                                        'Cargar imagen desde cámara',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            SizedBox(height: 20),
+                                            _path5 != null
+                                                ? Image.file(
+                                                    File(_path5!),
+                                                    width: 200,
+                                                    height: 200,
+                                                  )
+                                                : Image.asset(
+                                                    'assets/anverso.png'),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Color(
+                                                          0xFF6EBC44), // Color de fondo verde
+                                                      shape: BoxShape
+                                                          .rectangle, // Forma del contenedor como un círculo
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      _pickImageReversoTutor(
+                                                          ImageSource.gallery);
+                                                    },
+                                                    icon: Image.asset(
+                                                      'assets/gallery.png', // Ruta de tu imagen
+                                                    ), // Icono que deseas mostrar
+                                                    iconSize:
+                                                        50, // Tamaño del icono
+                                                    splashRadius:
+                                                        20, // Radio del efecto splash
+                                                    tooltip:
+                                                        'Cargar imagen desde galería', // Texto que aparece al mantener presionado
+                                                  ),
+                                                ),
+                                                SizedBox(width: 30),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFCFC8C8),
+                                                    shape: BoxShape.rectangle,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                  ),
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      await _pickImageReversoTutor(
+                                                          ImageSource.camera);
+                                                    },
+                                                    icon: Image.asset(
+                                                      'assets/camara.png',
+                                                    ),
+                                                    iconSize: 50,
+                                                    splashRadius: 20,
+                                                    tooltip:
+                                                        'Cargar imagen desde cámara',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CheckboxListTile(
+                          value: _terminos,
+                          activeColor: Color(0xFF211A46),
+                          controlAffinity: ListTileControlAffinity
+                              .leading, // Establece el control (Checkbox) a la izquierda
+                          title: Text(
+                            '¿ACEPTAS expresamente que es tu libre voluntad afiliarte a la AM FUT PRO A.C. (AMFpro) y, permitir que se envíe información comercial a tu domicilio, teléfono móvil y dirección de correo electrónico?',
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _terminos = value!;
+                              if (_terminos == true) {
+                                _errortermino = false;
+                              } else {
+                                _errortermino = true;
+                              }
+                            });
+                          },
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.0), // Agrega relleno horizontal
+                          tileColor: _errortermino == true ? Colors.red : null),
+                      CheckboxListTile(
+                          value: _avisoPrivacidad,
+                          activeColor: Color(0xFF211A46),
+                          controlAffinity: ListTileControlAffinity
+                              .leading, // Establece el control (Checkbox) a la izquierda
+                          title: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _downloadAndShowPdf(context);
+                              });
+                            },
+                            child: Text(
+                              'Acepto Aviso de Privacidad y Política de Protección de Datos Personales.',
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _avisoPrivacidad = value!;
+                              if (_avisoPrivacidad == true) {
+                                _erroraviso = false;
+                              } else {
+                                _erroraviso = true;
+                              }
+                            });
+                          },
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.0), // Agrega relleno horizontal
+                          tileColor: _erroraviso == true ? Colors.red : null),
+                      int.parse(_edad) < 18
+                          ? CheckboxListTile(
+                              value: _tratamiento_datos_menores,
+                              activeColor: Color(0xFF211A46),
+                              controlAffinity: ListTileControlAffinity
+                                  .leading, // Establece el control (Checkbox) a la izquierda
+                              title: Text(
+                                'Consiento y autorizo la recolección y tratamiento de los datos personales generales de mi hijo o pupilo.',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _tratamiento_datos_menores = value!;
+                                  if (_tratamiento_datos_menores == true) {
+                                    _errortratamiento = false;
+                                    muestraModalFirmaAutorizacion(context);
+                                  } else {
+                                    _errortratamiento = true;
+                                  }
+                                });
+                              },
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      16.0), // Agrega relleno horizontal
+                              tileColor:
+                                  _errortratamiento == true ? Colors.red : null)
+                          : Text(''),
+                      int.parse(_edad) < 18
+                          ? CheckboxListTile(
+                              value: _uso_imagenes_menores,
+                              activeColor: Color(0xFF211A46),
+                              controlAffinity: ListTileControlAffinity
+                                  .leading, // Establece el control (Checkbox) a la izquierda
+                              title: Text(
+                                'Consiento y autorizo el uso de la imagen de mi hijo o pupilo para las finalidades descritas en el presente aviso de privacidad (fines publicitarios).',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _uso_imagenes_menores = value!;
+                                  if (_uso_imagenes_menores == true) {
+                                    _errorusoimagenes = false;
+                                    muestraModalFirmaImagen(context);
+                                  } else {
+                                    _errorusoimagenes = true;
+                                  }
+                                });
+                              },
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      16.0), // Agrega relleno horizontal
+                              tileColor:
+                                  _errorusoimagenes == true ? Colors.red : null)
+                          : Text(''),
                     ],
                   )
-                : (ver_seccion == 1)
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(height: 20),
-                          _path2 != null
-                              ? Image.file(
-                                  File(_path2!),
-                                  width: 200,
-                                  height: 200,
-                                )
-                              : Image.asset('assets/anverso.png'),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Color(
-                                        0xFF6EBC44), // Color de fondo verde
-                                    shape: BoxShape
-                                        .rectangle, // Forma del contenedor como un círculo
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    _pickImageAnverso(ImageSource.gallery);
-                                  },
-                                  icon: Image.asset(
-                                    'assets/gallery.png', // Ruta de tu imagen
-                                  ), // Icono que deseas mostrar
-                                  iconSize: 50, // Tamaño del icono
-                                  splashRadius: 20, // Radio del efecto splash
-                                  tooltip:
-                                      'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                ),
-                              ),
-                              SizedBox(width: 30),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFCFC8C8),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                ),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    await _pickImageAnverso(ImageSource.camera);
-                                  },
-                                  icon: Image.asset(
-                                    'assets/camara.png',
-                                  ),
-                                  iconSize: 50,
-                                  splashRadius: 20,
-                                  tooltip: 'Cargar imagen desde cámara',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    : (ver_seccion == 2)
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(height: 20),
-                              _path3 != null
-                                  ? Image.file(
-                                      File(_path3!),
-                                      width: 200,
-                                      height: 200,
-                                    )
-                                  : Image.asset('assets/reverso.png'),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Color(
-                                            0xFF6EBC44), // Color de fondo verde
-                                        shape: BoxShape
-                                            .rectangle, // Forma del contenedor como un círculo
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        _pickImageReverso(ImageSource.gallery);
-                                      },
-                                      icon: Image.asset(
-                                        'assets/gallery.png', // Ruta de tu imagen
-                                      ), // Icono que deseas mostrar
-                                      iconSize: 50, // Tamaño del icono
-                                      splashRadius:
-                                          20, // Radio del efecto splash
-                                      tooltip:
-                                          'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                    ),
-                                  ),
-                                  SizedBox(width: 30),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFCFC8C8),
-                                      shape: BoxShape.rectangle,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                    ),
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        await _pickImageReverso(
-                                            ImageSource.camera);
-                                      },
-                                      icon: Image.asset(
-                                        'assets/camara.png',
-                                      ),
-                                      iconSize: 50,
-                                      splashRadius: 20,
-                                      tooltip: 'Cargar imagen desde cámara',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        : (ver_seccion == 3)
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SizedBox(height: 20),
-                                  _path4 != null
-                                      ? Image.file(
-                                          File(_path4!),
-                                          width: 200,
-                                          height: 200,
-                                        )
-                                      : Image.asset('assets/anverso.png'),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Color(
-                                                0xFF6EBC44), // Color de fondo verde
-                                            shape: BoxShape
-                                                .rectangle, // Forma del contenedor como un círculo
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            _pickImageAnversoTutor(
-                                                ImageSource.gallery);
-                                          },
-                                          icon: Image.asset(
-                                            'assets/gallery.png', // Ruta de tu imagen
-                                          ), // Icono que deseas mostrar
-                                          iconSize: 50, // Tamaño del icono
-                                          splashRadius:
-                                              20, // Radio del efecto splash
-                                          tooltip:
-                                              'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                        ),
-                                      ),
-                                      SizedBox(width: 30),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFCFC8C8),
-                                          shape: BoxShape.rectangle,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            await _pickImageAnversoTutor(
-                                                ImageSource.camera);
-                                          },
-                                          icon: Image.asset(
-                                            'assets/camara.png',
-                                          ),
-                                          iconSize: 50,
-                                          splashRadius: 20,
-                                          tooltip: 'Cargar imagen desde cámara',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SizedBox(height: 20),
-                                  _path5 != null
-                                      ? Image.file(
-                                          File(_path5!),
-                                          width: 200,
-                                          height: 200,
-                                        )
-                                      : Image.asset('assets/anverso.png'),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Color(
-                                                0xFF6EBC44), // Color de fondo verde
-                                            shape: BoxShape
-                                                .rectangle, // Forma del contenedor como un círculo
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            _pickImageReversoTutor(
-                                                ImageSource.gallery);
-                                          },
-                                          icon: Image.asset(
-                                            'assets/gallery.png', // Ruta de tu imagen
-                                          ), // Icono que deseas mostrar
-                                          iconSize: 50, // Tamaño del icono
-                                          splashRadius:
-                                              20, // Radio del efecto splash
-                                          tooltip:
-                                              'Cargar imagen desde galería', // Texto que aparece al mantener presionado
-                                        ),
-                                      ),
-                                      SizedBox(width: 30),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFCFC8C8),
-                                          shape: BoxShape.rectangle,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            await _pickImageReversoTutor(
-                                                ImageSource.camera);
-                                          },
-                                          icon: Image.asset(
-                                            'assets/camara.png',
-                                          ),
-                                          iconSize: 50,
-                                          splashRadius: 20,
-                                          tooltip: 'Cargar imagen desde cámara',
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-            SizedBox(
-              height: 20,
-            ),
-            CheckboxListTile(
-                value: _terminos,
-                activeColor: Color(0xFF211A46),
-                controlAffinity: ListTileControlAffinity
-                    .leading, // Establece el control (Checkbox) a la izquierda
-                title: Text(
-                  '¿ACEPTAS expresamente que es tu libre voluntad afiliarte a la AM FUT PRO A.C. (AMFpro) y, permitir que se envíe información comercial a tu domicilio, teléfono móvil y dirección de correo electrónico?',
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _terminos = value!;
-                    if (_terminos == true) {
-                      _errortermino = false;
-                    } else {
-                      _errortermino = true;
-                    }
-                  });
-                },
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16.0), // Agrega relleno horizontal
-                tileColor: _errortermino == true ? Colors.red : null),
-            CheckboxListTile(
-                value: _avisoPrivacidad,
-                activeColor: Color(0xFF211A46),
-                controlAffinity: ListTileControlAffinity
-                    .leading, // Establece el control (Checkbox) a la izquierda
-                title: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _downloadAndShowPdf(context);
-                    });
-                  },
-                  child: Text(
-                    'Acepto Aviso de Privacidad y Política de Protección de Datos Personales.',
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _avisoPrivacidad = value!;
-                    if (_avisoPrivacidad == true) {
-                      _erroraviso = false;
-                    } else {
-                      _erroraviso = true;
-                    }
-                  });
-                },
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16.0), // Agrega relleno horizontal
-                tileColor: _erroraviso == true ? Colors.red : null),
-            int.parse(_edad) < 18
-                ? CheckboxListTile(
-                    value: _tratamiento_datos_menores,
-                    activeColor: Color(0xFF211A46),
-                    controlAffinity: ListTileControlAffinity
-                        .leading, // Establece el control (Checkbox) a la izquierda
-                    title: Text(
-                      'Consiento y autorizo la recolección y tratamiento de los datos personales generales de mi hijo o pupilo.',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _tratamiento_datos_menores = value!;
-                        if (_tratamiento_datos_menores == true) {
-                          _errortratamiento = false;
-                          muestraModalFirmaAutorizacion(context);
-                        } else {
-                          _errortratamiento = true;
-                        }
-                      });
-                    },
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16.0), // Agrega relleno horizontal
-                    tileColor: _errortratamiento == true ? Colors.red : null)
-                : Text(''),
-            int.parse(_edad) < 18
-                ? CheckboxListTile(
-                    value: _uso_imagenes_menores,
-                    activeColor: Color(0xFF211A46),
-                    controlAffinity: ListTileControlAffinity
-                        .leading, // Establece el control (Checkbox) a la izquierda
-                    title: Text(
-                      'Consiento y autorizo el uso de la imagen de mi hijo o pupilo para las finalidades descritas en el presente aviso de privacidad (fines publicitarios).',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _uso_imagenes_menores = value!;
-                        if (_uso_imagenes_menores == true) {
-                          _errorusoimagenes = false;
-                          muestraModalFirmaImagen(context);
-                        } else {
-                          _errorusoimagenes = true;
-                        }
-                      });
-                    },
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16.0), // Agrega relleno horizontal
-                    tileColor: _errorusoimagenes == true ? Colors.red : null)
-                : Text(''),
+                : Row(),
           ],
         ),
       ),

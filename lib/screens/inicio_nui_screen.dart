@@ -417,7 +417,7 @@ class _contenidoState extends State<contenido> {
                                                   child: CheckboxListTile(
                                                     contentPadding:
                                                         EdgeInsets.only(
-                                                            left: 135),
+                                                            left: 117),
                                                     value: _aceptarmail,
                                                     activeColor:
                                                         Color(0xFF4FC028),

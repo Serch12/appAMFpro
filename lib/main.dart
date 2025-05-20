@@ -17,12 +17,24 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'models/notificaciones_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:splash_animated/services/dialogflow_service.dart';
+import 'package:splash_animated/services/dialogflow_auth.dart';
 
 final GlobalKey<NavigatorState> llavenavegador =
     new GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  DialogflowAuth auth = DialogflowAuth();
+  await auth.loadCredentials();
+
+  String accessToken = await auth.getAccessToken();
+  final String idAfiliado = "";
+  DialogflowService dialogflow = DialogflowService(
+      projectId: auth.projectId,
+      accessToken: accessToken,
+      idAfiliado: idAfiliado);
+
   await Firebase.initializeApp();
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     print('====== On Launch seguro======');
@@ -37,14 +49,15 @@ void main() async {
           ChangeNotifierProvider(
               create: (_) => NotificacionesProvider()), // Agrega esta línea
         ],
-        child: const MyApp(),
+        child: MyApp(dialogflow: dialogflow),
       ),
     );
   });
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final DialogflowService dialogflow;
+  const MyApp({super.key, required this.dialogflow});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -53,13 +66,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _textFieldFocusNode = FocusNode();
   final pushProvider = new NotificacionesPush();
+  late DialogflowService dialogflow;
 
   @override
   void initState() {
     super.initState();
     pushProvider.initNotifications();
+    dialogflow = widget.dialogflow; // 🔹 Inicializar aquí
     pushProvider.mensajes.listen((argumentos) {
-      print(argumentos);
       if (mounted) {
         final provider =
             Provider.of<NotificacionesProvider>(context, listen: false);
@@ -137,6 +151,8 @@ class _MyAppState extends State<MyApp> {
         initialRoute: 'checkauth',
         routes: {
           'circular': (_) => CircularStepperDemo(),
+          'chatbot': (_) => chatBotScreen(
+              dialogflow: dialogflow, nombre: '', division: '', club: ''),
           'detalle_lesiones': (_) => DetalleLesionesScreen(id_afiliado: 0),
           'login': (_) => LoginScreen(),
           'biometricos': (_) => LoginBiometricsScreen(),
@@ -183,7 +199,10 @@ class _MyAppState extends State<MyApp> {
               apodo: '',
               estatus: '',
               celular: '',
-              telCasa: ''),
+              telCasa: '',
+              seleccion: '',
+              tipo_seleccion: '',
+              categoria: ''),
           'validacion_gif': (_) => validacionGifScreen(),
           'foto_perfil': (_) => fotoPerfilScreen(id: '', nui: '', foto: ''),
           'foto_anverso': (_) => fotoAnversoScreen(id: '', nui: '', pdf: ''),

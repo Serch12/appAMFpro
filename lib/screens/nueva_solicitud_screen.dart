@@ -118,9 +118,20 @@ class _nuevaSolicitudScreenState extends State<nuevaSolicitudScreen> {
         division == 'Sub 13') {
       division = 'Liga MX';
     }
-    String apiUrl = 'https://test-intranet.amfpro.mx/api/clubes/$division';
-    final response =
-        await http.get(Uri.parse(apiUrl)).timeout(Duration(seconds: 10));
+    String apiUrl =
+        'https://test-intranet.amfpro.mx/api/clubes/lista'; // Ya NO mandes el division en la URL
+    final response = await http
+        .post(
+          Uri.parse(apiUrl),
+          headers: {
+            'Content-Type': 'application/json', // 👈 Importante mandar JSON
+          },
+          body: jsonEncode({
+            'division': division, // 👈 Mandas el valor como JSON en el body
+          }),
+        )
+        .timeout(Duration(seconds: 10));
+
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       List<String> equipos = [];
